@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Check for various OS openers. Quit as soon as we find one that works.
+for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
+	if command -v $opener >/dev/null 2>&1; then
+		if [[ "$opener" == "cmd.exe" ]]; then
+			# shellcheck disable=SC2139
+			alias open="$opener /c start";
+		else
+			# shellcheck disable=SC2139
+			alias open="$opener";
+		fi
+		break;
+	fi
+done
+
+alias console='remote-viewer ~/Downloads/console.vv &'
+alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
+alias foff='kill -9'
+alias grep='grep --color'
+
+# Detect which `ls` flavor is in use
+if ls --color > /dev/null 2>&1; then # GNU `ls`
+	colorflag="--color"
+else # OS X `ls`
+	colorflag="-G"
+fi
+alias la='ls -laF ${colorflag}'
+alias ll='ls -lF ${colorflag}'
+alias ls='ls -F ${colorflag}'
+
+# Pipe my public key to my clipboard.
+alias pubkey="more ~/.ssh/id_ed25519.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"
+# Pipe my private key to my clipboard.
+alias prikey="more ~/.ssh/id_ed25519 | xclip -selection clipboard | echo '=> Private key copied to pasteboard.'"
