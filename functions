@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 # Function File for commonly used Functions
 
 2mount() {

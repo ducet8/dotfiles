@@ -1,5 +1,4 @@
 # .bash_profile
-SHELL=/usr/local/Cellar/bash/4.4.19/bin/bash
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
@@ -24,3 +23,6 @@ shopt -s histappend
 	-W "$(grep "^Host" ~/.ssh/config | \
 	grep -v "[?*]" | cut -d " " -f2 | \
 	tr ' ' '\n')" scp sftp ssh
+
+#iTerm2 Shell Integration
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
