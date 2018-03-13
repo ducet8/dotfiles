@@ -14,6 +14,15 @@ EOF
    fi
 }
 
+2umount() {
+   if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
+      umount /Volumes/midrangehw
+      unlink /Users/b14869/Documents/work
+   elif [[ $1 == "home" || $1 == "Home" ]]; then
+      umount /Volumes/share
+   fi
+}
+
 brew_upgrade_all() {
    for i in `brew list`; do brew upgrade $i; done
    for i in `brew cask list`; do brew cask upgrade $i; done
@@ -22,6 +31,12 @@ brew_upgrade_all() {
 # Run `dig` and display the most useful info
 digga() {
 	dig +nocmd "$1" any +multiline +noall +answer
+}
+
+getback() {
+   sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml
+   sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/
+   sudo reboot
 }
 
 # git config --global alias.magic '!f() { git add -A && git commit -m "$@" && git push; }; f'
@@ -43,6 +58,12 @@ gone() {
 goto() {
    tabname $1
    ssh $1
+}
+
+handback() {
+   sudo rm /opt/cisco/anyconnect/profile/anyconnect_bcbsal_engineering_client_profile.xml
+   sudo cp /Users/b14869/Documents/tmp/profiles/handback/acp_emp_bc_mac_ao.xml /opt/cisco/anyconnect/profile/
+   sudo reboot
 }
 
 # Syntax-highlight JSON strings or files
