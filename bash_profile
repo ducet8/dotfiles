@@ -24,5 +24,8 @@ shopt -s histappend
 	grep -v "[?*]" | cut -d " " -f2 | \
 	tr ' ' '\n')" scp sftp ssh
 
-#iTerm2 Shell Integration
+# iTerm2 Shell Integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# Setup thefuck
+eval $(thefuck --alias)
