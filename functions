@@ -26,17 +26,35 @@ EOF
 brew_upgrade_all() {
    for i in `brew list`; do brew upgrade $i; done
    for i in `brew cask list`; do brew cask upgrade $i; done
+   cowsay Brew Upgrades are Complete
+}
+
+clean_house() {
+  sudo /Applications/Confer.app/uninstall
 }
 
 # Run `dig` and display the most useful info
 digga() {
-	dig +nocmd "$1" any +multiline +noall +answer
+  dig +nocmd "$1" any +multiline +noall +answer
+}
+
+docker_destroy() {
+  container=`docker ps | grep $1 | awk '{print $1}'`
+  docker stop $container
+  docker rm $container
+  cowsay $container is stopped and removed
+}
+
+docker_standup() {
+  docker build --tag $1 . && docker run -d --name $1 -p $2:$2 $1
+  cowsay $1 is built and exposed on $2
 }
 
 getback() {
    sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml
    sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/
    sudo reboot
+   cowsay This mug is Pwned
 }
 
 # git config --global alias.magic '!f() { git add -A && git commit -m "$@" && git push; }; f'
@@ -47,12 +65,18 @@ gmagic() {
 }
 
 gone() {
-   quit outlook
-   quit skype
+   for i in teams onenote outlook; do
+      quit $i
+   done
+   kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`
    #quit X11
    cd ~
    unlink /Users/b14869/Documents/work
    umount /Volumes/midrangehw
+   if [ -f /Users/b14869/Desktop/password ]; then
+      rm /Users/b14869/Desktop/password
+   fi
+   cowsay Have a Great Evening!
 }
 
 goto() {
@@ -80,6 +104,14 @@ list_functions() {
    grep \( ~/.functions | grep \{ | grep -v ^# | grep -v ^" " | awk -F\( '{print $1}'
 }
 
+list_running_apps() {
+   osascript <<EOF
+tell application "Finder"
+get the name of every process whose visible is true
+end tell
+EOF
+}
+
 # Get colors in manual pages
 man() {
 	env \
@@ -91,6 +123,11 @@ man() {
 		LESS_TERMCAP_ue="$(printf '\e[0m')" \
 		LESS_TERMCAP_us="$(printf '\e[1;32m')" \
 		man "$@"
+}
+
+mkprj() {
+   mkdir /Users/b14869/projects/$1
+   cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore
 }
 
 propagate() {
@@ -106,6 +143,10 @@ propagate() {
 quit() {
    if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
       osascript -e 'quit app "Microsoft Outlook"'
+   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
+      osascript -e 'quit app "Microsoft OneNote"'
+   elif [[ $1 == "teams" || $1 == "Teams" ]]; then
+      osascript -e 'quit app "Webex Teams"'
    elif [[ $1 == "skype" || $1 == "Skype" ]]; then
       osascript -e 'quit app "Skype for Business"'
    else
@@ -190,6 +231,10 @@ unshow_hidden() {
 use() {
    if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
       osascript -e 'tell app "Microsoft Outlook" to activate'
+   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
+      osascript -e 'tell app "Microsoft OneNote" to activate'
+   elif [[ $1 == "teams" || $1 == "Teams" ]]; then
+      osascript -e 'tell app "Webex Teams" to activate'
    elif [[ $1 == "skype" || $1 == "Skype" ]]; then
       osascript -e 'tell app "Skype for Business" to activate'
    else
@@ -198,8 +243,10 @@ use() {
 }
 
 work() {
-   use outlook
-   use skype
+   for i in teams onenote outlook; do
+      use $i
+   done
    #use X11
    2mount midrangehw
+   cowsay GET TO IT!
 }

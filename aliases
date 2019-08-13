@@ -14,10 +14,21 @@ for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
 	fi
 done
 
+alias adquery='python3 /Users/b14869/projects/local_scripts/active_directory.py'
+alias catpwd='cat /Users/b14869/Desktop/password'
 alias console='remote-viewer ~/Downloads/console.vv &'
 alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
+alias d='docker'
+alias docker-swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
+alias docker-kub='export DOCKER_ORCHESTRATOR=kubernetes'
 alias foff='kill -9'
+alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
 alias grep='grep --color'
+alias password_cleanup='rm /Users/b14869/Desktop/password'
+alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'
+alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'
+alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
+alias use_swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -25,8 +36,8 @@ if ls --color > /dev/null 2>&1; then # GNU `ls`
 else # OS X `ls`
 	colorflag="-G"
 fi
-alias la='ls -laF ${colorflag}'
-alias ll='ls -lF ${colorflag}'
+alias la='ls -lhaF ${colorflag}'
+alias ll='ls -lhF ${colorflag}'
 alias ls='ls -F ${colorflag}'
 
 # Pipe my public key to my clipboard.

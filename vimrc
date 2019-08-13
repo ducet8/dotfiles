@@ -4,6 +4,7 @@ syntax on
 filetype plugin indent on
 " set background=dark
 colorscheme gotham256
+" colorscheme base16-default-dark
 
 autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -87,3 +88,9 @@ au BufRead,BufNewFile *.c,*.h set formatoptions-=c formatoptions-=o formatoption
 " Python: yes
 " C: yes
 au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+
+" Needed for tmux and vim to play nice
+nnoremap [A <Up>
+nnoremap [B <Down>
+nnoremap [D <Left>
+nnoremap [C <Right>

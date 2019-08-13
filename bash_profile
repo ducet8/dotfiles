@@ -3,13 +3,20 @@
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,aliases,functions,path,dockerfunc,extra,exports}; do
+for file in ~/.{aliases,functions,path,dockerfunc,extra,exports,bash_prompt}; do
 	if [[ -r "$file" ]] && [[ -f "$file" ]]; then
 		# shellcheck source=/dev/null
 		source "$file"
 	fi
 done
 unset file
+
+# Source bash_completion
+if [ -r $(brew --prefix)/etc/profile.d/bash_completion.sh ]; then
+    # If you'd like to use existing homebrew v1 completions, add the following before the previous line:
+    # export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+    . $(brew --prefix)/etc/profile.d/bash_completion.sh
+fi
 
 # Custom Settings
 set -o vi		# Set vi as Editor
