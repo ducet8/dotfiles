@@ -1,3 +1,6 @@
+if [ "$TERM" != "darwin" ]; then,v
+c,v
+powerline-go,v
 linux,v
 if [ "$TERM" != "linux" ],v
 bash_prompt ,v
