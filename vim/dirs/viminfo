@@ -15,7 +15,7 @@
 
 # Command Line History (newest to oldest):
 :wq!
-|2,0,1572627901,,"wq!"
+|2,0,1572630217,,"wq!"
 :q!
 |2,0,1572627270,,"q!"
 
@@ -30,23 +30,48 @@
 # Debug Line History (newest to oldest):
 
 # Registers:
-""0	CHAR	0
+"0	CHAR	0
 	bash_prompt 
-|3,1,0,0,1,0,1572627886,"bash_prompt "
+|3,0,0,0,1,0,1572627886,"bash_prompt "
+""-	CHAR	0
+	linux
+|3,1,36,0,1,0,1572630213,"linux"
 
 # File marks:
-'0  147  58  ~/.functions
-|4,48,147,58,1572627901,"~/.functions"
+'0  4  22  ~/.exports
+|4,48,4,22,1572630217,"~/.exports"
+'1  147  58  ~/.functions
+|4,49,147,58,1572627901,"~/.functions"
 
 # Jumplist (newest first):
+-'  4  22  ~/.exports
+|4,39,4,22,1572630217,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572630135,"~/.exports"
+-'  147  58  ~/.functions
+|4,39,147,58,1572627901,"~/.functions"
 -'  147  58  ~/.functions
 |4,39,147,58,1572627901,"~/.functions"
 -'  145  0  ~/.functions
 |4,39,145,0,1572627878,"~/.functions"
 -'  1  0  ~/.functions
 |4,39,1,0,1572627878,"~/.functions"
+-'  145  0  ~/.functions
+|4,39,145,0,1572627878,"~/.functions"
+-'  1  0  ~/.functions
+|4,39,1,0,1572627878,"~/.functions"
 
 # History of marks within files (newest to oldest):
+
+> ~/.exports
+	*	1572630216	0
+	"	4	22
+	^	4	23
+	.	4	22
+	+	5	3
+	+	6	4
+	+	7	20
+	+	4	22
 
 > ~/.functions
 	*	1572627900	0

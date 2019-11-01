@@ -1,2 +1,4 @@
+linux,v
+if [ "$TERM" != "linux" ],v
 bash_prompt ,v
 'Xuyuanp/nerdtree-git-plugin',v
