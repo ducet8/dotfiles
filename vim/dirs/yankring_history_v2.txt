@@ -1,3 +1,9 @@
+    ,v
+    export PATH=$PATH:$GOPATH/bin,V
+ ,v
+    export GOBIN=$GOPATH/bin,V
+export GOPATH=$HOME/go,v
+go get -u github.com/justjanne/powerline-go,v
 ,V
 darwin,v
 if [ "$TERM" != "darwin" ]; then,v

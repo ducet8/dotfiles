@@ -13,11 +13,13 @@ export EDITOR=/usr/bin/vim;
 # Go Exports
 if [ "$TERM" == "darwin" ]; then
     export GOPATH=$HOME/projects/go
-    export GOBIN=$GOPATH/bin
     export GOROOT=/usr/local/opt/go/libexec
-    export PATH=$PATH:$GOPATH/bin
     export PATH=$PATH:$GOROOT/bin
+else
+    export GOPATH=$HOME/go
 fi
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin
 
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=50000000;
