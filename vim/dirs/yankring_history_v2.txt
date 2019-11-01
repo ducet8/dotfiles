@@ -1,13 +1,46 @@
+V,v
+alias password_cleanup='rm /Users/b14869/Desktop/password'alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password',V
+/usr/local/bin/bash,v
+,V
+unshow_hidden() {   defaults write com.apple.Finder AppleShowAllFiles FALSE   killall Finder}use() {   if [[ $1 == "outlook" || $1 == "Outlook" ]]; then      osascript -e 'tell app "Microsoft Outlook" to activate'   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then      osascript -e 'tell app "Microsoft OneNote" to activate'   elif [[ $1 == "teams" || $1 == "Teams" ]]; then      osascript -e 'tell app "Webex Teams" to activate'   elif [[ $1 == "skype" || $1 == "Skype" ]]; then      osascript -e 'tell app "Skype for Business" to activate'   else      osascript -e 'tell app "'$@'" to activate'   fi}work() {   for i in teams onenote outlook; do      use $i   done   #use X11   2mount midrangehw   cowsay GET TO IT!},V
+show_hidden() {   defaults write com.apple.Finder AppleShowAllFiles TRUE   killall Finder},V
+mkprj() {   mkdir /Users/b14869/projects/$1   cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore}propagate() {   rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*   for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim   do      cp -R ~/.$i /Users/b14869/projects/midrange/duce/dotfiles/$i      cp -R ~/.$i /Users/b14869/projects/personal/dotfiles/$i   done   echo "Remember to git update midrange and personal projects"}quit() {   if [[ $1 == "outlook" || $1 == "Outlook" ]]; then      osascript -e 'quit app "Microsoft Outlook"'   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then      osascript -e 'quit app "Microsoft OneNote"'   elif [[ $1 == "teams" || $1 == "Teams" ]]; then      osascript -e 'quit app "Webex Teams"'   elif [[ $1 == "skype" || $1 == "Skype" ]]; then      osascript -e 'quit app "Skype for Business"'   else      osascript -e 'quit app "'$@'"'   fi},V
+list_running_apps() {   osascript <<EOFtell application "Finder"get the name of every process whose visible is trueend tellEOF},V
+handback() {   sudo rm /opt/cisco/anyconnect/profile/anyconnect_bcbsal_engineering_client_profile.xml   sudo cp /Users/b14869/Documents/tmp/profiles/handback/acp_emp_bc_mac_ao.xml /opt/cisco/anyconnect/profile/   sudo reboot},V
+gone() {   for i in teams onenote outlook; do      quit $i   done   kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`   #quit X11   cd ~   unlink /Users/b14869/Documents/work   umount /Volumes/midrangehw   if [ -f /Users/b14869/Desktop/password ]; then      rm /Users/b14869/Desktop/password   fi   cowsay Have a Great Evening!},V
+getback() {   sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml   sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/   sudo reboot   cowsay This mug is Pwned},V
+/,v
+n,v
+i,v
+b,v
+l,v
+a,v
+c,v
+o,v
+r,v
+s,v
+u,v
+    echo "TESTING",V
+if [ "$TERM" == "darwin" ]; then,V
+if [[ uname == "Darwin" ]]; then,V
+",v
+M,v
+R,v
+E,v
+T,v
+$,v
+],v
+if [ "$TERM" == "darwin" ]; then,v
+if [[ `uname` == "Darwin" ]]; then,v
+f [ "$(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}")" == '0' ]; then,v
     ,v
     export PATH=$PATH:$GOPATH/bin,V
  ,v
     export GOBIN=$GOPATH/bin,V
 export GOPATH=$HOME/go,v
 go get -u github.com/justjanne/powerline-go,v
-,V
 darwin,v
 if [ "$TERM" != "darwin" ]; then,v
-c,v
 powerline-go,v
 linux,v
 if [ "$TERM" != "linux" ],v

@@ -1,7 +1,7 @@
-#!/usr/local/bin/bash
+#!env bash
 
 # Set the shell to brew bash
-if [ "$TERM" == "darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
     export SHELL=/usr/local/bin/bash
 else
     export SHELL=bash
@@ -11,7 +11,7 @@ fi
 export EDITOR=/usr/bin/vim;
 
 # Go Exports
-if [ "$TERM" == "darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
     export GOPATH=$HOME/projects/go
     export GOROOT=/usr/local/opt/go/libexec
     export PATH=$PATH:$GOROOT/bin

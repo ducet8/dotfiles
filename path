@@ -1,3 +1,5 @@
-#!/usr/local/bin/bash
+#!env bash
 
-export PATH=/usr/local/bin:$PATH
+if [[ `uname` == "Darwin" ]]; then
+    export PATH=/usr/local/bin:$PATH
+fi

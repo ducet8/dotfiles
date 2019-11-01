@@ -1,49 +1,151 @@
-#!/usr/local/bin/bash
+#!env bash
 # Function File for commonly used Functions
 
-2cd() {
-  if [[ $# == 0 ]]; then
-    builtin cd ~ && ll -tr
-  elif [[ $@ == '-' ]]; then
-    builtin cd - && ll -tr
-  elif [[ -d $@ ]]; then
-    builtin cd $@ && ll -tr
-  else
-    echo $@ directory not found!!!
-  fi
-}
+# OSX specific functions
+if [[ `uname` == "Darwin" ]]; then
+    2cd() {
+      if [[ $# == 0 ]]; then
+        builtin cd ~ && ll -tr
+      elif [[ $@ == '-' ]]; then
+        builtin cd - && ll -tr
+      elif [[ -d $@ ]]; then
+        builtin cd $@ && ll -tr
+      else
+        echo $@ directory not found!!!
+      fi
+    }
 
-2mount() {
-   if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
-      osascript <<EOF
+    2mount() {
+       if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
+          osascript <<EOF
 mount volume "smb://b14869@bcptcevs10/midrangehw"
 EOF
-      ln -s /Volumes/midrangehw /Users/b14869/Documents/work
-   elif [[ $1 == "home" || $1 == "Home" ]]; then
-      osascript <<EOF
+          ln -s /Volumes/midrangehw /Users/b14869/Documents/work
+       elif [[ $1 == "home" || $1 == "Home" ]]; then
+          osascript <<EOF
 mount volume "smb://duce@tateserv1/share"
 EOF
-   fi
-}
+       fi
+    }
 
-2umount() {
-   if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
-      umount /Volumes/midrangehw
-      unlink /Users/b14869/Documents/work
-   elif [[ $1 == "home" || $1 == "Home" ]]; then
-      umount /Volumes/share
-   fi
-}
+    2umount() {
+       if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
+          umount /Volumes/midrangehw
+          unlink /Users/b14869/Documents/work
+       elif [[ $1 == "home" || $1 == "Home" ]]; then
+          umount /Volumes/share
+       fi
+    }
 
-brew_upgrade_all() {
-   for i in `brew list`; do brew upgrade $i; done
-   for i in `brew cask list`; do brew cask upgrade $i; done
-   cowsay Brew Upgrades are Complete
-}
+    brew_upgrade_all() {
+       for i in `brew list`; do brew upgrade $i; done
+       for i in `brew cask list`; do brew cask upgrade $i; done
+       cowsay Brew Upgrades are Complete
+    }
 
-clean_house() {
-  sudo /Applications/Confer.app/uninstall
-}
+    clean_house() {
+      sudo /Applications/Confer.app/uninstall
+    }
+
+    getback() {
+       sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml
+       sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/
+       sudo reboot
+       cowsay This mug is Pwned
+    }
+
+    gone() {
+       for i in teams onenote outlook; do
+          quit $i
+       done
+       kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`
+       #quit X11
+       cd ~
+       unlink /Users/b14869/Documents/work
+       umount /Volumes/midrangehw
+       if [ -f /Users/b14869/Desktop/password ]; then
+          rm /Users/b14869/Desktop/password
+       fi
+       cowsay Have a Great Evening!
+    }
+
+    handback() {
+       sudo rm /opt/cisco/anyconnect/profile/anyconnect_bcbsal_engineering_client_profile.xml
+       sudo cp /Users/b14869/Documents/tmp/profiles/handback/acp_emp_bc_mac_ao.xml /opt/cisco/anyconnect/profile/
+       sudo reboot
+    }
+
+    list_running_apps() {
+       osascript <<EOF
+tell application "Finder"
+get the name of every process whose visible is true
+end tell
+EOF
+    }
+
+    mkprj() {
+       mkdir /Users/b14869/projects/$1
+       cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore
+    }
+
+    propagate() {
+       rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*
+       for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim
+       do
+          cp -R ~/.$i /Users/b14869/projects/midrange/duce/dotfiles/$i
+          cp -R ~/.$i /Users/b14869/projects/personal/dotfiles/$i
+       done
+       echo "Remember to git update midrange and personal projects"
+    }
+
+    quit() {
+       if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
+          osascript -e 'quit app "Microsoft Outlook"'
+       elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
+          osascript -e 'quit app "Microsoft OneNote"'
+       elif [[ $1 == "teams" || $1 == "Teams" ]]; then
+          osascript -e 'quit app "Webex Teams"'
+       elif [[ $1 == "skype" || $1 == "Skype" ]]; then
+          osascript -e 'quit app "Skype for Business"'
+       else
+          osascript -e 'quit app "'$@'"'
+       fi
+    }
+
+    show_hidden() {
+       defaults write com.apple.Finder AppleShowAllFiles TRUE
+       killall Finder
+    }
+
+    unshow_hidden() {
+       defaults write com.apple.Finder AppleShowAllFiles FALSE
+       killall Finder
+    }
+
+    use() {
+       if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
+          osascript -e 'tell app "Microsoft Outlook" to activate'
+       elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
+          osascript -e 'tell app "Microsoft OneNote" to activate'
+       elif [[ $1 == "teams" || $1 == "Teams" ]]; then
+          osascript -e 'tell app "Webex Teams" to activate'
+       elif [[ $1 == "skype" || $1 == "Skype" ]]; then
+          osascript -e 'tell app "Skype for Business" to activate'
+       else
+          osascript -e 'tell app "'$@'" to activate'
+       fi
+    }
+
+    work() {
+       for i in teams onenote outlook; do
+          use $i
+       done
+       #use X11
+       2mount midrangehw
+       cowsay GET TO IT!
+    }
+
+fi
 
 # Run `dig` and display the most useful info
 digga() {
@@ -62,13 +164,6 @@ docker_standup() {
   cowsay $1 is built and exposed on $2
 }
 
-getback() {
-   sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml
-   sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/
-   sudo reboot
-   cowsay This mug is Pwned
-}
-
 # git config --global alias.magic '!f() { git add -A && git commit -m "$@" && git push; }; f'
 gmagic() {
    git add --all
@@ -76,30 +171,9 @@ gmagic() {
    git push
 }
 
-gone() {
-   for i in teams onenote outlook; do
-      quit $i
-   done
-   kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`
-   #quit X11
-   cd ~
-   unlink /Users/b14869/Documents/work
-   umount /Volumes/midrangehw
-   if [ -f /Users/b14869/Desktop/password ]; then
-      rm /Users/b14869/Desktop/password
-   fi
-   cowsay Have a Great Evening!
-}
-
 goto() {
    tabname $1
    ssh $1
-}
-
-handback() {
-   sudo rm /opt/cisco/anyconnect/profile/anyconnect_bcbsal_engineering_client_profile.xml
-   sudo cp /Users/b14869/Documents/tmp/profiles/handback/acp_emp_bc_mac_ao.xml /opt/cisco/anyconnect/profile/
-   sudo reboot
 }
 
 # Syntax-highlight JSON strings or files
@@ -116,14 +190,6 @@ list_functions() {
    grep \( ~/.functions | grep \{ | grep -v ^# | grep -v ^" " | awk -F\( '{print $1}'
 }
 
-list_running_apps() {
-   osascript <<EOF
-tell application "Finder"
-get the name of every process whose visible is true
-end tell
-EOF
-}
-
 # Get colors in manual pages
 man() {
 	env \
@@ -135,35 +201,6 @@ man() {
 		LESS_TERMCAP_ue="$(printf '\e[0m')" \
 		LESS_TERMCAP_us="$(printf '\e[1;32m')" \
 		man "$@"
-}
-
-mkprj() {
-   mkdir /Users/b14869/projects/$1
-   cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore
-}
-
-propagate() {
-   rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*
-   for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim
-   do
-      cp -R ~/.$i /Users/b14869/projects/midrange/duce/dotfiles/$i
-      cp -R ~/.$i /Users/b14869/projects/personal/dotfiles/$i
-   done
-   echo "Remember to git update midrange and personal projects"
-}
-
-quit() {
-   if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
-      osascript -e 'quit app "Microsoft Outlook"'
-   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
-      osascript -e 'quit app "Microsoft OneNote"'
-   elif [[ $1 == "teams" || $1 == "Teams" ]]; then
-      osascript -e 'quit app "Webex Teams"'
-   elif [[ $1 == "skype" || $1 == "Skype" ]]; then
-      osascript -e 'quit app "Skype for Business"'
-   else
-      osascript -e 'quit app "'$@'"'
-   fi
 }
 
 # Call from a local repo to open the repository on github/bitbucket in browser
@@ -218,11 +255,6 @@ repo() {
 	open "$url" &> /dev/null || (echo "Using $(type open) to open URL failed." && exit 1);
 }
 
-show_hidden() {
-   defaults write com.apple.Finder AppleShowAllFiles TRUE
-   killall Finder
-}
-
 ssh_setup() {
    cat ~/.ssh/id_rsa.pub | ssh $1 'cat - >> ~/.ssh/authorized_keys'
 }
@@ -233,32 +265,4 @@ tabname() {
 
 tre() {
 	tree -aC -I '.git' --dirsfirst "$@" | less -FRNX
-}
-
-unshow_hidden() {
-   defaults write com.apple.Finder AppleShowAllFiles FALSE
-   killall Finder
-}
-
-use() {
-   if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
-      osascript -e 'tell app "Microsoft Outlook" to activate'
-   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
-      osascript -e 'tell app "Microsoft OneNote" to activate'
-   elif [[ $1 == "teams" || $1 == "Teams" ]]; then
-      osascript -e 'tell app "Webex Teams" to activate'
-   elif [[ $1 == "skype" || $1 == "Skype" ]]; then
-      osascript -e 'tell app "Skype for Business" to activate'
-   else
-      osascript -e 'tell app "'$@'" to activate'
-   fi
-}
-
-work() {
-   for i in teams onenote outlook; do
-      use $i
-   done
-   #use X11
-   2mount midrangehw
-   cowsay GET TO IT!
 }
