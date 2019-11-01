@@ -1,3 +1,4 @@
+,V
 if [ "$TERM" != "darwin" ]; then,v
 c,v
 powerline-go,v
