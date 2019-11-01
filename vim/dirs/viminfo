@@ -10,11 +10,18 @@
 
 # hlsearch on (H) or off (h):
 ~h
+# Last Search Pattern:
+~MSle0~/propa
+
 # Command Line History (newest to oldest):
+:wq!
+|2,0,1572627901,,"wq!"
 :q!
 |2,0,1572627270,,"q!"
 
 # Search String History (newest to oldest):
+?/propa
+|2,1,1572627878,47,"propa"
 
 # Expression History (newest to oldest):
 
@@ -23,9 +30,28 @@
 # Debug Line History (newest to oldest):
 
 # Registers:
+""0	CHAR	0
+	bash_prompt 
+|3,1,0,0,1,0,1572627886,"bash_prompt "
 
 # File marks:
+'0  147  58  ~/.functions
+|4,48,147,58,1572627901,"~/.functions"
 
 # Jumplist (newest first):
+-'  147  58  ~/.functions
+|4,39,147,58,1572627901,"~/.functions"
+-'  145  0  ~/.functions
+|4,39,145,0,1572627878,"~/.functions"
+-'  1  0  ~/.functions
+|4,39,1,0,1572627878,"~/.functions"
 
 # History of marks within files (newest to oldest):
+
+> ~/.functions
+	*	1572627900	0
+	"	147	58
+	^	147	59
+	.	147	58
+	+	148	0
+	+	147	58

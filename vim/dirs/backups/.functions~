@@ -144,7 +144,7 @@ mkprj() {
 
 propagate() {
    rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*
-   for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim
+   for i in aliases bash_profile bash_prompt exports functions inputrc path tmux.conf vimrc vim
    do
       cp -R ~/.$i /Users/b14869/projects/midrange/duce/dotfiles/$i
       cp -R ~/.$i /Users/b14869/projects/personal/dotfiles/$i
