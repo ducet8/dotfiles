@@ -15,11 +15,11 @@
 
 # Command Line History (newest to oldest):
 :wq!
-|2,0,1572635171,,"wq!"
+|2,0,1572636802,,"wq!"
+:q!
+|2,0,1572636678,,"q!"
 :w
 |2,0,1572633722,,"w"
-:q!
-|2,0,1572634109,,"q!"
 
 # Search String History (newest to oldest):
 ?/propa
@@ -36,14 +36,33 @@
 	if [[ uname == "Darwin" ]]; then
 |3,0,0,1,1,0,1572635104,"if [[ uname == \"Darwin\" ]]; then"
 "1	LINE	0
+	
+|3,0,1,1,1,0,1572636139,""
+"2	LINE	0
+	echo "Bottom of aliases"
+|3,0,2,1,1,0,1572636139,"echo \"Bottom of aliases\""
+"3	LINE	0
+	echo "Bottom of exports"
+|3,0,3,1,1,0,1572635806,"echo \"Bottom of exports\""
+"4	LINE	0
+	
+	echo "Bottom of functions"
+|3,0,4,1,2,0,1572635787,"","echo \"Bottom of functions\""
+"5	LINE	0
+	
+|3,0,5,1,1,0,1572635777,""
+"6	LINE	0
+	echo "Bottom of profile"
+|3,0,6,1,1,0,1572635776,"echo \"Bottom of profile\""
+"7	LINE	0
 	alias password_cleanup='rm /Users/b14869/Desktop/password'
 	alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'
 	alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'
-|3,0,1,1,3,0,1572635104,"alias password_cleanup='rm /Users/b14869/Desktop/password'","alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'","alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'"
-"2	LINE	0
+|3,0,7,1,3,0,1572635104,"alias password_cleanup='rm /Users/b14869/Desktop/password'","alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'","alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'"
+"8	LINE	0
 	
-|3,0,2,1,1,0,1572634889,""
-"3	LINE	0
+|3,0,8,1,1,0,1572634889,""
+"9	LINE	0
 	
 	unshow_hidden() {
 	   defaults write com.apple.Finder AppleShowAllFiles FALSE
@@ -72,327 +91,243 @@
 	   2mount midrangehw
 	   cowsay GET TO IT!
 	}
-|3,0,3,1,28,0,1572634869,"","unshow_hidden() {","   defaults write com.apple.Finder AppleShowAllFiles FALSE","   killall Finder","}","","use() {","   if [[ $1 == \"outlook\" || $1 == \"Outlook\" ]]; then","      osascript -e 'tell app \"Microsoft Outlook\" to activate'","   elif [[ $1 == \"onenote\" || $1 == \"OneNote\" || $1 == \"Onenote\" ]]; then","      osascript -e 'tell app \"Microsoft OneNote\" to activate'",>56
+|3,0,9,1,28,0,1572634869,"","unshow_hidden() {","   defaults write com.apple.Finder AppleShowAllFiles FALSE","   killall Finder","}","","use() {","   if [[ $1 == \"outlook\" || $1 == \"Outlook\" ]]; then","      osascript -e 'tell app \"Microsoft Outlook\" to activate'","   elif [[ $1 == \"onenote\" || $1 == \"OneNote\" || $1 == \"Onenote\" ]]; then","      osascript -e 'tell app \"Microsoft OneNote\" to activate'",>56
 |<"   elif [[ $1 == \"teams\" || $1 == \"Teams\" ]]; then","      osascript -e 'tell app \"Webex Teams\" to activate'","   elif [[ $1 == \"skype\" || $1 == \"Skype\" ]]; then","      osascript -e 'tell app \"Skype for Business\" to activate'","   else","      osascript -e 'tell app \"'$@'\" to activate'","   fi","}","","work() {","   for i in teams onenote outlook; do","      use $i","   done","   #use X11","   2mount midrangehw","   cowsay GET TO IT!","}"
-"4	LINE	0
-	show_hidden() {
-	   defaults write com.apple.Finder AppleShowAllFiles TRUE
-	   killall Finder
-	}
-	
-|3,0,4,1,5,0,1572634840,"show_hidden() {","   defaults write com.apple.Finder AppleShowAllFiles TRUE","   killall Finder","}",""
-"5	LINE	0
-	mkprj() {
-	   mkdir /Users/b14869/projects/$1
-	   cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore
-	}
-	
-	propagate() {
-	   rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*
-	   for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim
-	   do
-	      cp -R ~/.$i /Users/b14869/projects/midrange/duce/dotfiles/$i
-	      cp -R ~/.$i /Users/b14869/projects/personal/dotfiles/$i
-	   done
-	   echo "Remember to git update midrange and personal projects"
-	}
-	
-	quit() {
-	   if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
-	      osascript -e 'quit app "Microsoft Outlook"'
-	   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
-	      osascript -e 'quit app "Microsoft OneNote"'
-	   elif [[ $1 == "teams" || $1 == "Teams" ]]; then
-	      osascript -e 'quit app "Webex Teams"'
-	   elif [[ $1 == "skype" || $1 == "Skype" ]]; then
-	      osascript -e 'quit app "Skype for Business"'
-	   else
-	      osascript -e 'quit app "'$@'"'
-	   fi
-	}
-	
-|3,0,5,1,29,0,1572634790,"mkprj() {","   mkdir /Users/b14869/projects/$1","   cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore","}","","propagate() {","   rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*","   for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim","   do",>68
-|<"      cp -R ~/.$i /Users/b14869/projects/midrange/duce/dotfiles/$i","      cp -R ~/.$i /Users/b14869/projects/personal/dotfiles/$i","   done","   echo \"Remember to git update midrange and personal projects\"","}","","quit() {","   if [[ $1 == \"outlook\" || $1 == \"Outlook\" ]]; then","      osascript -e 'quit app \"Microsoft Outlook\"'","   elif [[ $1 == \"onenote\" || $1 == \"OneNote\" || $1 == \"Onenote\" ]]; then","      osascript -e 'quit app \"Microsoft OneNote\"'",>56
-|<"   elif [[ $1 == \"teams\" || $1 == \"Teams\" ]]; then","      osascript -e 'quit app \"Webex Teams\"'","   elif [[ $1 == \"skype\" || $1 == \"Skype\" ]]; then","      osascript -e 'quit app \"Skype for Business\"'","   else","      osascript -e 'quit app \"'$@'\"'","   fi","}",""
-"6	LINE	0
-	list_running_apps() {
-	   osascript <<EOF
-	tell application "Finder"
-	get the name of every process whose visible is true
-	end tell
-	EOF
-	}
-	
-|3,0,6,1,8,0,1572634690,"list_running_apps() {","   osascript <<EOF","tell application \"Finder\"","get the name of every process whose visible is true","end tell","EOF","}",""
-"7	LINE	0
-	handback() {
-	   sudo rm /opt/cisco/anyconnect/profile/anyconnect_bcbsal_engineering_client_profile.xml
-	   sudo cp /Users/b14869/Documents/tmp/profiles/handback/acp_emp_bc_mac_ao.xml /opt/cisco/anyconnect/profile/
-	   sudo reboot
-	}
-	
-|3,0,7,1,6,0,1572634652,"handback() {","   sudo rm /opt/cisco/anyconnect/profile/anyconnect_bcbsal_engineering_client_profile.xml","   sudo cp /Users/b14869/Documents/tmp/profiles/handback/acp_emp_bc_mac_ao.xml /opt/cisco/anyconnect/profile/","   sudo reboot","}",""
-"8	LINE	0
-	gone() {
-	   for i in teams onenote outlook; do
-	      quit $i
-	   done
-	   kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`
-	   #quit X11
-	   cd ~
-	   unlink /Users/b14869/Documents/work
-	   umount /Volumes/midrangehw
-	   if [ -f /Users/b14869/Desktop/password ]; then
-	      rm /Users/b14869/Desktop/password
-	   fi
-	   cowsay Have a Great Evening!
-	}
-	
-|3,0,8,1,15,0,1572634610,"gone() {","   for i in teams onenote outlook; do","      quit $i","   done","   kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`","   #quit X11","   cd ~","   unlink /Users/b14869/Documents/work","   umount /Volumes/midrangehw","   if [ -f /Users/b14869/Desktop/password ]; then","      rm /Users/b14869/Desktop/password","   fi","   cowsay Have a Great Evening!","}",""
-"9	LINE	0
-	getback() {
-	   sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml
-	   sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/
-	   sudo reboot
-	   cowsay This mug is Pwned
-	}
-	
-|3,0,9,1,7,0,1572634562,"getback() {","   sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml","   sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/","   sudo reboot","   cowsay This mug is Pwned","}",""
 ""-	CHAR	0
-	V
-|3,1,36,0,1,0,1572635141,"V"
+	f
+|3,1,36,0,1,0,1572636779,"f"
 
 # File marks:
-'0  28  0  ~/.aliases
-|4,48,28,0,1572635171,"~/.aliases"
-'1  1  9  ~/.aliases
-|4,49,1,9,1572634989,"~/.aliases"
-'2  1  9  ~/.aliases
-|4,50,1,9,1572634989,"~/.aliases"
-'3  147  0  ~/.functions
-|4,51,147,0,1572634908,"~/.functions"
-'4  4  3  ~/.path
-|4,52,4,3,1572634314,"~/.path"
-'5  1  5  ~/.exports
-|4,53,1,5,1572634258,"~/.exports"
-'6  17  1  ~/.bash_prompt_dt
-|4,54,17,1,1572634236,"~/.bash_prompt_dt"
-'7  1  2  ~/.path
-|4,55,1,2,1572634109,"~/.path"
-'8  1  2  ~/.path
-|4,56,1,2,1572634109,"~/.path"
-'9  14  6  ~/.exports
-|4,57,14,6,1572634083,"~/.exports"
+'0  46  1  ~/.aliases
+|4,48,46,1,1572636802,"~/.aliases"
+'1  39  111  ~/.aliases
+|4,49,39,111,1572636732,"~/.aliases"
+'2  39  111  ~/.aliases
+|4,50,39,111,1572636732,"~/.aliases"
+'3  1  0  ~/.alias
+|4,51,1,0,1572636678,"~/.alias"
+'4  65  0  ~/.aliases
+|4,52,65,0,1572636141,"~/.aliases"
+'5  65  0  ~/.aliases
+|4,53,65,0,1572636141,"~/.aliases"
+'6  65  0  ~/.aliases
+|4,54,65,0,1572636141,"~/.aliases"
+'7  65  0  ~/.aliases
+|4,55,65,0,1572636141,"~/.aliases"
+'8  39  0  ~/.aliases
+|4,56,39,0,1572636133,"~/.aliases"
+'9  39  0  ~/.aliases
+|4,57,39,0,1572636133,"~/.aliases"
 
 # Jumplist (newest first):
--'  28  0  ~/.aliases
-|4,39,28,0,1572635171,"~/.aliases"
--'  65  0  ~/.aliases
-|4,39,65,0,1572635038,"~/.aliases"
+-'  46  1  ~/.aliases
+|4,39,46,1,1572636802,"~/.aliases"
 -'  1  0  ~/.aliases
-|4,39,1,0,1572635018,"~/.aliases"
--'  1  9  ~/.aliases
-|4,39,1,9,1572634989,"~/.aliases"
--'  147  0  ~/.functions
-|4,39,147,0,1572634908,"~/.functions"
--'  147  0  ~/.functions
-|4,39,147,0,1572634908,"~/.functions"
--'  147  0  ~/.functions
-|4,39,147,0,1572634908,"~/.functions"
--'  147  0  ~/.functions
-|4,39,147,0,1572634908,"~/.functions"
--'  148  0  ~/.functions
-|4,39,148,0,1572634858,"~/.functions"
--'  148  0  ~/.functions
-|4,39,148,0,1572634858,"~/.functions"
--'  148  0  ~/.functions
-|4,39,148,0,1572634858,"~/.functions"
--'  148  0  ~/.functions
-|4,39,148,0,1572634858,"~/.functions"
--'  6  0  ~/.functions
-|4,39,6,0,1572634451,"~/.functions"
--'  6  0  ~/.functions
-|4,39,6,0,1572634451,"~/.functions"
--'  6  0  ~/.functions
-|4,39,6,0,1572634451,"~/.functions"
--'  6  0  ~/.functions
-|4,39,6,0,1572634451,"~/.functions"
--'  48  2  ~/.functions
-|4,39,48,2,1572634450,"~/.functions"
--'  48  2  ~/.functions
-|4,39,48,2,1572634450,"~/.functions"
--'  48  2  ~/.functions
-|4,39,48,2,1572634450,"~/.functions"
--'  48  2  ~/.functions
-|4,39,48,2,1572634450,"~/.functions"
--'  269  0  ~/.functions
-|4,39,269,0,1572634368,"~/.functions"
--'  269  0  ~/.functions
-|4,39,269,0,1572634368,"~/.functions"
--'  269  0  ~/.functions
-|4,39,269,0,1572634368,"~/.functions"
--'  269  0  ~/.functions
-|4,39,269,0,1572634368,"~/.functions"
--'  1  0  ~/.functions
-|4,39,1,0,1572634320,"~/.functions"
--'  1  0  ~/.functions
-|4,39,1,0,1572634320,"~/.functions"
--'  1  0  ~/.functions
-|4,39,1,0,1572634320,"~/.functions"
--'  1  0  ~/.functions
-|4,39,1,0,1572634320,"~/.functions"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  4  3  ~/.path
-|4,39,4,3,1572634314,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  0  ~/.path
-|4,39,1,0,1572634262,"~/.path"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  1  5  ~/.exports
-|4,39,1,5,1572634258,"~/.exports"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  17  1  ~/.bash_prompt_dt
-|4,39,17,1,1572634236,"~/.bash_prompt_dt"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
--'  1  2  ~/.path
-|4,39,1,2,1572634109,"~/.path"
+|4,39,1,0,1572636759,"~/.aliases"
+-'  39  111  ~/.aliases
+|4,39,39,111,1572636732,"~/.aliases"
+-'  39  111  ~/.aliases
+|4,39,39,111,1572636732,"~/.aliases"
+-'  1  0  ~/.aliases
+|4,39,1,0,1572636680,"~/.aliases"
+-'  1  0  ~/.alias
+|4,39,1,0,1572636678,"~/.alias"
+-'  1  0  ~/.alias
+|4,39,1,0,1572636678,"~/.alias"
+-'  1  0  ~/.alias
+|4,39,1,0,1572636678,"~/.alias"
+-'  1  0  ~/.alias
+|4,39,1,0,1572636678,"~/.alias"
+-'  65  0  ~/.aliases
+|4,39,65,0,1572636141,"~/.aliases"
+-'  65  0  ~/.aliases
+|4,39,65,0,1572636141,"~/.aliases"
+-'  65  0  ~/.aliases
+|4,39,65,0,1572636141,"~/.aliases"
+-'  65  0  ~/.aliases
+|4,39,65,0,1572636141,"~/.aliases"
+-'  1  0  ~/.aliases
+|4,39,1,0,1572636137,"~/.aliases"
+-'  1  0  ~/.aliases
+|4,39,1,0,1572636137,"~/.aliases"
+-'  39  0  ~/.aliases
+|4,39,39,0,1572636133,"~/.aliases"
+-'  39  0  ~/.aliases
+|4,39,39,0,1572636133,"~/.aliases"
+-'  39  0  ~/.aliases
+|4,39,39,0,1572636133,"~/.aliases"
+-'  39  0  ~/.aliases
+|4,39,39,0,1572636133,"~/.aliases"
+-'  1  0  ~/.aliases
+|4,39,1,0,1572636035,"~/.aliases"
+-'  1  0  ~/.aliases
+|4,39,1,0,1572636035,"~/.aliases"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  53  0  ~/.exports
+|4,39,53,0,1572635808,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  1  0  ~/.exports
+|4,39,1,0,1572635805,"~/.exports"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
+-'  268  0  ~/.functions
+|4,39,268,0,1572635789,"~/.functions"
 
 # History of marks within files (newest to oldest):
 
 > ~/.aliases
-	*	1572635170	0
-	"	28	0
-	^	28	0
-	.	28	0
+	*	1572636801	0
+	"	46	1
+	^	46	2
+	.	46	1
 	+	1	9
 	+	17	23
 	+	27	0
@@ -403,53 +338,25 @@
 	+	19	0
 	+	27	1
 	+	28	0
+	+	66	22
+	+	46	0
+	+	39	0
+	+	66	0
+	+	39	21
+	+	39	111
+	+	39	14
+	+	39	94
+	+	39	1
+	+	46	1
 
-> ~/.functions
-	*	1572634907	0
-	"	147	0
-	^	147	0
-	.	147	0
-	+	206	0
-	+	206	58
-	+	1	9
-	+	5	33
-	+	6	0
-	+	21	0
-	+	26	0
-	+	148	1
-	+	149	0
-	+	167	0
-	+	50	0
-	+	49	0
-	+	174	0
-	+	57	0
-	+	179	0
-	+	72	0
-	+	193	0
-	+	78	0
-	+	80	0
-	+	206	0
-	+	86	0
-	+	258	0
-	+	115	0
-	+	269	0
-	+	120	0
-	+	147	0
-
-> ~/.path
-	*	1572634307	0
-	"	4	3
-	^	4	4
-	.	4	3
-	+	1	9
-	+	3	33
-	+	4	3
+> ~/.alias
+	*	1572636677	0
+	"	1	0
 
 > ~/.exports
-	*	1572634254	0
-	"	1	5
-	^	1	6
-	.	1	5
+	*	1572635807	0
+	"	53	0
+	.	54	0
 	+	5	3
 	+	6	4
 	+	7	20
@@ -483,6 +390,54 @@
 	+	4	12
 	+	14	6
 	+	1	5
+	+	54	0
+
+> ~/.functions
+	*	1572635787	0
+	"	268	0
+	.	269	0
+	+	206	0
+	+	206	58
+	+	1	9
+	+	5	33
+	+	6	0
+	+	21	0
+	+	26	0
+	+	148	1
+	+	149	0
+	+	167	0
+	+	50	0
+	+	49	0
+	+	174	0
+	+	57	0
+	+	179	0
+	+	72	0
+	+	193	0
+	+	78	0
+	+	80	0
+	+	206	0
+	+	86	0
+	+	258	0
+	+	115	0
+	+	269	0
+	+	120	0
+	+	147	0
+	+	269	0
+
+> ~/.bash_profile
+	*	1572635778	0
+	"	45	0
+	.	46	0
+	+	46	0
+
+> ~/.path
+	*	1572634307	0
+	"	4	3
+	^	4	4
+	.	4	3
+	+	1	9
+	+	3	33
+	+	4	3
 
 > ~/.bash_prompt_dt
 	*	1572634234	0

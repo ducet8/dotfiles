@@ -117,6 +117,34 @@ EOF
        killall Finder
     }
 
+    unshow_hidden() {
+       defaults write com.apple.Finder AppleShowAllFiles FALSE
+       killall Finder
+    }
+
+    use() {
+       if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
+          osascript -e 'tell app "Microsoft Outlook" to activate'
+       elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
+          osascript -e 'tell app "Microsoft OneNote" to activate'
+       elif [[ $1 == "teams" || $1 == "Teams" ]]; then
+          osascript -e 'tell app "Webex Teams" to activate'
+       elif [[ $1 == "skype" || $1 == "Skype" ]]; then
+          osascript -e 'tell app "Skype for Business" to activate'
+       else
+          osascript -e 'tell app "'$@'" to activate'
+       fi
+    }
+
+    work() {
+       for i in teams onenote outlook; do
+          use $i
+       done
+       #use X11
+       2mount midrangehw
+       cowsay GET TO IT!
+    }
+
 fi
 
 # Run `dig` and display the most useful info
@@ -238,3 +266,5 @@ tabname() {
 tre() {
 	tree -aC -I '.git' --dirsfirst "$@" | less -FRNX
 }
+
+echo "Bottom of functions"

@@ -1,7 +1,25 @@
+f,v
+ ,v
+;,v
+},v
+〉,v
+〈,v
+{,v
+),v
+(,v
+!,v
+〉 }; f,v
+!f() { 〈,v
+#,v
+command git name-rev --name-only --no-undefined,v
+,V
+echo "Bottom of aliases",V
+echo "Bottom of exports",V
+echo "Bottom of functions",V
+echo "Bottom of profile",V
 V,v
 alias password_cleanup='rm /Users/b14869/Desktop/password'alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password',V
 /usr/local/bin/bash,v
-,V
 unshow_hidden() {   defaults write com.apple.Finder AppleShowAllFiles FALSE   killall Finder}use() {   if [[ $1 == "outlook" || $1 == "Outlook" ]]; then      osascript -e 'tell app "Microsoft Outlook" to activate'   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then      osascript -e 'tell app "Microsoft OneNote" to activate'   elif [[ $1 == "teams" || $1 == "Teams" ]]; then      osascript -e 'tell app "Webex Teams" to activate'   elif [[ $1 == "skype" || $1 == "Skype" ]]; then      osascript -e 'tell app "Skype for Business" to activate'   else      osascript -e 'tell app "'$@'" to activate'   fi}work() {   for i in teams onenote outlook; do      use $i   done   #use X11   2mount midrangehw   cowsay GET TO IT!},V
 show_hidden() {   defaults write com.apple.Finder AppleShowAllFiles TRUE   killall Finder},V
 mkprj() {   mkdir /Users/b14869/projects/$1   cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore}propagate() {   rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*   for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim   do      cp -R ~/.$i /Users/b14869/projects/midrange/duce/dotfiles/$i      cp -R ~/.$i /Users/b14869/projects/personal/dotfiles/$i   done   echo "Remember to git update midrange and personal projects"}quit() {   if [[ $1 == "outlook" || $1 == "Outlook" ]]; then      osascript -e 'quit app "Microsoft Outlook"'   elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then      osascript -e 'quit app "Microsoft OneNote"'   elif [[ $1 == "teams" || $1 == "Teams" ]]; then      osascript -e 'quit app "Webex Teams"'   elif [[ $1 == "skype" || $1 == "Skype" ]]; then      osascript -e 'quit app "Skype for Business"'   else      osascript -e 'quit app "'$@'"'   fi},V
@@ -35,7 +53,6 @@ if [[ `uname` == "Darwin" ]]; then,v
 f [ "$(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}")" == '0' ]; then,v
     ,v
     export PATH=$PATH:$GOPATH/bin,V
- ,v
     export GOBIN=$GOPATH/bin,V
 export GOPATH=$HOME/go,v
 go get -u github.com/justjanne/powerline-go,v
