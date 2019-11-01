@@ -1,6 +1,18 @@
 #!/usr/local/bin/bash
 # Function File for commonly used Functions
 
+2cd() {
+  if [[ $# == 0 ]]; then
+    builtin cd ~ && ll -tr
+  elif [[ $@ == '-' ]]; then
+    builtin cd - && ll -tr
+  elif [[ -d $@ ]]; then
+    builtin cd $@ && ll -tr
+  else
+    echo $@ directory not found!!!
+  fi
+}
+
 2mount() {
    if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
       osascript <<EOF

@@ -16,18 +16,33 @@ done
 
 alias adquery='python3 /Users/b14869/projects/local_scripts/active_directory.py'
 alias catpwd='cat /Users/b14869/Desktop/password'
+alias cd='2cd'
 alias console='remote-viewer ~/Downloads/console.vv &'
 alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
 alias d='docker'
+alias dbt='docker build --tag'
 alias docker-swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
 alias docker-kub='export DOCKER_ORCHESTRATOR=kubernetes'
+alias dp='docker push'
 alias foff='kill -9'
+alias ga='git add'
+alias gaa='git add --all'
+alias gcam='git commit -am'
+alias gco='git checkout'
+alias ggpush="git push origin $(command git name-rev --name-only --no-undefined --always HEAD)"
+alias gl='git pull'
 alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
+alias gm='git merge'
+alias gp='git push'
 alias grep='grep --color'
+alias gst='git status'
 alias password_cleanup='rm /Users/b14869/Desktop/password'
 alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'
 alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'
 alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
+# docker pull mcr.microsoft.com/powershell
+alias powershell="docker run -it mcr.microsoft.com/powershell"
+alias rejson-serve="docker run -d -p 6379:6379 --name redis-redisjson redislabs/rejson:latest"
 alias use_swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
 
 # Detect which `ls` flavor is in use
