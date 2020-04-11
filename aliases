@@ -24,6 +24,7 @@ if [[ `uname` == "Darwin" ]]; then
     alias password_cleanup='rm /Users/b14869/Desktop/password'
     alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'
     alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'
+    alias release-camera="sudo killall VDCAssistant"
 fi
 
 alias d='docker'
@@ -41,12 +42,17 @@ alias gl='git pull'
 alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
 alias gm='git merge'
 alias gp='git push'
+alias git-personal='git config user.name "Duce Tate" && git config user.email "ducet8@outlook.com"'
 alias grep='grep --color'
 alias gst='git status'
+alias kc='kubectl'
+alias kitsune='/Users/b14869/projects/personal/kitsune/kitsune.py'
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 # docker pull mcr.microsoft.com/powershell
+# alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 alias powershell="docker run -it mcr.microsoft.com/powershell"
 alias rejson-serve="docker run -d -p 6379:6379 --name redis-redisjson redislabs/rejson:latest"
+alias sre='python3 /Users/b14869/projects/sre/tools/sre_tool/sre.py'
 alias use_swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
 
 # Detect which `ls` flavor is in use
