@@ -497,3 +497,6 @@ let g:airline#extensions#whitespace#enabled = 0
 "let g:airline_symbols.branch = '⭠'
 "let g:airline_symbols.readonly = '⭤'
 "let g:airline_symbols.linenr = '⭡'
+
+" SnipMate deprcation fix
+let g:snipMate = { 'snippet_version' : 1 }
