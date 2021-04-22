@@ -16,7 +16,7 @@ done
 
 # MacOS Specific aliases
 if [[ `uname` == "Darwin" ]]; then
-    alias adquery='python3 /Users/b14869/projects/local_scripts/active_directory.py'
+    # alias adquery='python3 /Users/b14869/projects/local_scripts/active_directory.py'
     alias catpwd='cat /Users/b14869/Desktop/password'
     alias cd='2cd'
     alias console='remote-viewer ~/Downloads/console.vv &'
@@ -55,6 +55,7 @@ alias powershell="docker run -it mcr.microsoft.com/powershell"
 alias rejson-serve="docker run -d -p 6379:6379 --name redis-redisjson redislabs/rejson:latest"
 alias sre='python3 /Users/b14869/projects/sre/tools/sre_tool/sre.py'
 alias use_swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
+alias vault-serve="docker run -d --name vault -p 8200:8200 -v ~/vault:/vault --cap-add=IPC_LOCK vault server && sleep 5 && docker exec vault /vault/startup.sh"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
