@@ -27,6 +27,7 @@ if [[ `uname` == "Darwin" ]]; then
     alias release-camera="sudo killall VDCAssistant"
 fi
 
+alias bluepip='python3 -m pip install --trusted-host blue-pip.apps.bcbsal.org --extra-index-url http://blue-pip.apps.bcbsal.org --upgrade'
 alias d='docker'
 alias dbt='docker build --tag'
 alias docker-swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
@@ -49,6 +50,7 @@ alias kc='kubectl'
 alias kitsune='/Users/b14869/projects/personal/kitsune/kitsune.py'
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 # docker pull mcr.microsoft.com/powershell
+alias oc-csr-approve='oc get csr -o name | xargs oc adm certificate approve'
 alias oc-vers='oc get pods | awk '\''{system("oc describe pod/"$1)}'\'' | grep Image:'
 alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 alias powershell="docker run -it mcr.microsoft.com/powershell"
