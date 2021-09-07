@@ -21,6 +21,7 @@ if [[ `uname` == "Darwin" ]]; then
     alias cd='2cd'
     alias console='remote-viewer ~/Downloads/console.vv &'
     alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
+    alias docker='podman'
     alias password_cleanup='rm /Users/b14869/Desktop/password'
     alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'
     alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'
