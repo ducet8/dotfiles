@@ -16,25 +16,42 @@ done
 
 # MacOS Specific aliases
 if [[ `uname` == "Darwin" ]]; then
-    # alias adquery='python3 /Users/b14869/projects/local_scripts/active_directory.py'
-    alias catpwd='cat /Users/b14869/Desktop/password'
+    alias catpwd='cat ~/Desktop/password'
     alias cd='2cd'
     alias console='remote-viewer ~/Downloads/console.vv &'
-    alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
+    #alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
     # alias docker='podman'
-    alias password_cleanup='rm /Users/b14869/Desktop/password'
-    alias password_encode='openssl enc -a -des3 -in /Users/b14869/Desktop/password >/Users/b14869/Documents/42.enc'
-    alias password_decode='openssl enc -d -a -des3 -in /Users/b14869/Documents/42.enc >/Users/b14869/Desktop/password'
+    alias password_cleanup='rm ~/Desktop/password'
+    alias password_encode='openssl enc -a -des3 -in ~/Desktop/password >~/Documents/42.enc'
+    alias password_decode='openssl enc -d -a -des3 -in ~/Documents/42.enc >~/Desktop/password'
     alias release-camera="sudo killall VDCAssistant"
     alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killfinder"
     alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killfinder"
 fi
 
-alias bluepip='python3 -m pip install --trusted-host blue-pip.apps.bcbsal.org --extra-index-url http://blue-pip.apps.bcbsal.org --upgrade'
+# Setup ls
+if type -P lsd &>/dev/null; then
+    alias ls='lsd'
+    alias la='ls -lhaF'
+    alias ll='ls -lhF'
+    alias ls='ls -F'
+else
+    # Detect which `ls` flavor is in use
+    if ls --color > /dev/null 2>&1; then # GNU `ls`
+	    colorflag="--color"
+    else # OS X `ls`
+    	colorflag="-G"
+    fi
+    alias la='ls -lhaF ${colorflag}'
+    alias ll='ls -lhF ${colorflag}'
+    alias ls='ls -F ${colorflag}'
+fi
+
+#alias bluepip='python3 -m pip install --trusted-host blue-pip.apps.bcbsal.org --extra-index-url http://blue-pip.apps.bcbsal.org --upgrade'
 alias d='docker'
 alias dbt='docker build --tag'
-alias docker-swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
-alias docker-kub='export DOCKER_ORCHESTRATOR=kubernetes'
+#alias docker-swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
+#alias docker-kub='export DOCKER_ORCHESTRATOR=kubernetes'
 alias dp='docker push'
 alias foff='kill -9'
 alias ga='git add'
@@ -50,7 +67,7 @@ alias git-personal='git config user.name "Duce Tate" && git config user.email "d
 alias grep='grep --color'
 alias gst='git status'
 alias kc='kubectl'
-alias kitsune='/Users/b14869/projects/personal/kitsune/kitsune.py'
+alias kitsune='~/projects/personal/kitsune/kitsune.py'
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 # docker pull mcr.microsoft.com/powershell
 alias oc-csr-approve='oc get csr -o name | xargs oc adm certificate approve'
@@ -58,19 +75,9 @@ alias oc-vers='oc get pods | awk '\''{system("oc describe pod/"$1)}'\'' | grep I
 alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 alias powershell="docker run -it mcr.microsoft.com/powershell"
 alias rejson-serve="docker run -d -p 6379:6379 --name redis-redisjson redislabs/rejson:latest"
-alias sre='python3 /Users/b14869/projects/sre/tools/sre_tool/sre.py'
-alias use_swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
+#alias sre='python3 /Users/b14869/projects/sre/tools/sre_tool/sre.py'
+#alias use_swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
 alias vault-serve="docker run -d --name vault -p 8200:8200 -v ~/vault:/vault --cap-add=IPC_LOCK vault server && sleep 5 && docker exec vault /vault/startup.sh"
-
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-	colorflag="--color"
-else # OS X `ls`
-	colorflag="-G"
-fi
-alias la='ls -lhaF ${colorflag}'
-alias ll='ls -lhF ${colorflag}'
-alias ls='ls -F ${colorflag}'
 
 # Pipe my public key to my clipboard.
 alias pubkey="more ~/.ssh/id_ed25519.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"

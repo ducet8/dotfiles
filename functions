@@ -43,17 +43,6 @@ EOF
        cowsay Brew Upgrades are Complete
     }
 
-    clean_house() {
-      sudo /Applications/Confer.app/uninstall
-    }
-
-    getback() {
-       sudo rm /opt/cisco/anyconnect/profile/acp_emp_bc_mac_ao.xml
-       sudo cp /Users/b14869/Documents/tmp/profiles/getback/anyconnect_bcbsal_engineering_client_profile.xml /opt/cisco/anyconnect/profile/
-       sudo reboot
-       cowsay This mug is Pwned
-    }
-
     gone() {
        for i in teams onenote outlook; do
           quit $i
@@ -69,12 +58,6 @@ EOF
        cowsay Have a Great Evening!
     }
 
-    handback() {
-       sudo rm /opt/cisco/anyconnect/profile/anyconnect_bcbsal_engineering_client_profile.xml
-       sudo cp /Users/b14869/Documents/tmp/profiles/handback/acp_emp_bc_mac_ao.xml /opt/cisco/anyconnect/profile/
-       sudo reboot
-    }
-
     list_running_apps() {
        osascript <<EOF
 tell application "Finder"
@@ -86,15 +69,6 @@ EOF
     mkprj() {
        mkdir /Users/b14869/projects/$1
        cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore
-    }
-
-    propagate() {
-       rm -Rf /Users/b14869/projects/midrange/duce/dotfiles/* /Users/b14869/projects/personal/dotfiles/*
-       for i in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc vim
-       do
-          cp -R ~/.$i ~/dotfiles/$i
-       done
-       echo "Remember to git update midrange and personal projects"
     }
 
     quit() {
@@ -146,6 +120,7 @@ EOF
 
 fi
 
+# Non OS specific functions
 # Run `dig` and display the most useful info
 digga() {
   dig +nocmd "$1" any +multiline +noall +answer
@@ -166,7 +141,7 @@ docker_standup() {
 # git config --global alias.magic '!f() { git add -A && git commit -m "$@" && git push; }; f'
 gmagic() {
    git add --all
-   git commit -m "$*"
+   git commit -am "$*"
    git push
 }
 
@@ -200,6 +175,55 @@ man() {
 		LESS_TERMCAP_ue="$(printf '\e[0m')" \
 		LESS_TERMCAP_us="$(printf '\e[1;32m')" \
 		man "$@"
+}
+
+pawk() {
+    while getopts ":hdvi" option; do
+        case $option in
+            h)
+               echo "usage: pawk [-hvi] [pattern] [file]"
+               echo
+               echo "options:"
+               echo "h     Print this Help"
+               echo "d     Debug - print the command"
+               echo "v     Exclude pattern"
+               echo "i     Case insensitive"
+               exit;;
+            d)
+               debug=1;;
+            v)
+               exclude=1;;
+            i)
+               case_insensitive=1;;
+            \?) # Invalid option
+               echo "Error: Invalid option"
+               exit;;
+         esac
+      done
+
+      shift $((OPTIND-1))
+      pattern=$1
+      file=$2
+
+      section="'"
+      if [[ -n $case_insensitive ]]; then
+          pattern=$(echo $pattern | awk '{print tolower($0)}')
+          section+='tolower($0)'
+          if [[ -n $exclude ]]; then
+              section+='!~'
+          else
+              section+='~'
+          fi
+      elif [[ -n $exclude ]]; then
+          section+='!'
+      fi
+      section+="/$pattern/'"
+
+      cmd="awk ${section} RS='\\n\\n' ORS='\\n\\n' $file"
+      if [[ -n $debug ]]; then
+          echo "Running: $cmd"
+      fi
+      eval $cmd
 }
 
 # Call from a local repo to open the repository on github/bitbucket in browser
@@ -264,4 +288,8 @@ tabname() {
 
 tre() {
 	tree -aC -I '.git' --dirsfirst "$@" | less -FRNX
+}
+
+weather() {
+    curl "wttr.in/${1: -35209}\?F"
 }

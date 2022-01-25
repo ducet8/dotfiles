@@ -500,3 +500,5 @@ let g:airline#extensions#whitespace#enabled = 0
 
 " SnipMate deprcation fix
 let g:snipMate = { 'snippet_version' : 1 }
+
+" COC for completion: https://github.com/neoclide/coc.nvim
