@@ -15,12 +15,11 @@ for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
 done
 
 # MacOS Specific aliases
-if [[ `uname` == "Darwin" ]]; then
+if [[ ${Os_Id} == "macos" ]]; then
     alias catpwd='cat ~/Desktop/password'
     alias cd='2cd'
     alias console='remote-viewer ~/Downloads/console.vv &'
     #alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
-    # alias docker='podman'
     alias password_cleanup='rm ~/Desktop/password'
     alias password_encode='openssl enc -a -des3 -in ~/Desktop/password >~/Documents/42.enc'
     alias password_decode='openssl enc -d -a -des3 -in ~/Documents/42.enc >~/Desktop/password'
@@ -37,7 +36,7 @@ if type -P lsd &>/dev/null; then
     alias ls='ls -F'
 else
     # Detect which `ls` flavor is in use
-    if ls --color > /dev/null 2>&1; then # GNU `ls`
+    if ls --color >/dev/null 2>&1; then # GNU `ls`
 	    colorflag="--color"
     else # OS X `ls`
     	colorflag="-G"
@@ -48,38 +47,43 @@ else
 fi
 
 #alias bluepip='python3 -m pip install --trusted-host blue-pip.apps.bcbsal.org --extra-index-url http://blue-pip.apps.bcbsal.org --upgrade'
-alias d='docker'
-alias dbt='docker build --tag'
-#alias docker-swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
-#alias docker-kub='export DOCKER_ORCHESTRATOR=kubernetes'
-alias dp='docker push'
+if type -P podman &>/dev/null; then
+    alias docker=podman
+fi
+if type -P docker || type -P podman &>/dev/null; then
+    alias d='docker'
+    alias dbt='docker build --tag'
+    alias dp='docker push'
+    alias powershell="docker run -it mcr.microsoft.com/powershell"
+    alias rejson-serve="docker run -d -p 6379:6379 --name redis-redisjson redislabs/rejson:latest"
+    alias vault-serve="docker run -d --name vault -p 8200:8200 -v ~/vault:/vault --cap-add=IPC_LOCK vault server && sleep 5 && docker exec vault /vault/startup.sh"
+fi
 alias foff='kill -9'
-alias ga='git add'
-alias gaa='git add --all'
-alias gcam='git commit -am'
-alias gco='git checkout'
-# alias ggpush="git push origin $(command git name-rev --name-only --no-undefined --always HEAD)"
-alias gl='git pull'
-alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
-alias gm='git merge'
-alias gp='git push'
-alias git-personal='git config user.name "Duce Tate" && git config user.email "ducet8@outlook.com"'
+if type -P git &>/dev/null; then
+    alias ga='git add'
+    alias gaa='git add --all'
+    alias gcam='git commit -am'
+    alias gco='git checkout'
+    # alias ggpush="git push origin $(command git name-rev --name-only --no-undefined --always HEAD)"
+    alias gl='git pull'
+    alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
+    alias gm='git merge'
+    alias gp='git push'
+    alias git-personal='git config user.name "Duce Tate" && git config user.email "ducet8@outlook.com"'
+    alias gst='git status'
+fi
 alias grep='grep --color'
-alias gst='git status'
-alias kc='kubectl'
+if type -P kubectl &>/dev/null; then
+    alias kc='kubectl'
+fi
 alias kitsune='~/projects/personal/kitsune/kitsune.py'
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 # docker pull mcr.microsoft.com/powershell
-alias oc-csr-approve='oc get csr -o name | xargs oc adm certificate approve'
-alias oc-vers='oc get pods | awk '\''{system("oc describe pod/"$1)}'\'' | grep Image:'
-alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
-alias powershell="docker run -it mcr.microsoft.com/powershell"
-alias rejson-serve="docker run -d -p 6379:6379 --name redis-redisjson redislabs/rejson:latest"
-#alias sre='python3 /Users/b14869/projects/sre/tools/sre_tool/sre.py'
-#alias use_swarm='export DOCKER_ORCHESTRATOR=swarm; docker swarm init'
-alias vault-serve="docker run -d --name vault -p 8200:8200 -v ~/vault:/vault --cap-add=IPC_LOCK vault server && sleep 5 && docker exec vault /vault/startup.sh"
+if type -P oc &>/dev/null; then
+    alias oc-csr-approve='oc get csr -o name | xargs oc adm certificate approve'
+    alias oc-vers='oc get pods | awk '\''{system("oc describe pod/"$1)}'\'' | grep Image:'
+    alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
+fi
 
 # Pipe my public key to my clipboard.
-alias pubkey="more ~/.ssh/id_ed25519.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"
-# Pipe my private key to my clipboard.
-alias prikey="more ~/.ssh/id_ed25519 | xclip -selection clipboard | echo '=> Private key copied to pasteboard.'"
+alias pubkey="more ~/.ssh/id_rsa.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"
