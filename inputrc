@@ -1,3 +1,5 @@
+set editing-mode vi
+set keymap vi-insert
 # Make Tab autocomplete regardless of filename case
 #set completion-ignore-case on
 
@@ -9,8 +11,8 @@ set mark-symlinked-directories on
 
 # Use the text that has already been typed as the prefix for searching through
 # commands (i.e. more intelligent Up/Down behavior)
-"\e[B": history-search-forward
-"\e[A": history-search-backward
+bind '"\e[B": history-search-forward'
+bind '"\e[A": history-search-backward'
 
 # Do not autocomplete hidden files unless the pattern explicitly begins with a dot
 set match-hidden-files off
@@ -37,8 +39,8 @@ set output-meta on
 set convert-meta off
 
 # Use Alt/Meta + Delete to delete the preceding word
-"\e[3;3~": kill-word
+bind '"\e[3;3~": kill-word'
 
 ## enable Alt-arrows
-"\e[1;5D": backward-word ### Alt left
-"\e[1;5C": forward-word ### Alt right
+bind '"\e[1;5D": backward-word' ### Alt left
+bind '"\e[1;5C": forward-word' ### Alt right
