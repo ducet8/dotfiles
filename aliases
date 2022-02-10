@@ -26,6 +26,7 @@ if [[ ${Os_Id} == "macos" ]]; then
     alias password_cleanup='rm ~/Desktop/password'
     alias password_encode='openssl enc -a -des3 -in ~/Desktop/password >~/Documents/42.enc'
     alias password_decode='openssl enc -d -a -des3 -in ~/Documents/42.enc >~/Desktop/password'
+    alias pubkey="cat ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to pasteboard.'"
     alias release-camera="sudo killall VDCAssistant"
     alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killfinder"
     alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killfinder"
@@ -104,9 +105,6 @@ fi
 alias kitsune='~/projects/personal/kitsune/kitsune.py'
 
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
-
-# Pipe my public key to my clipboard.
-alias pubkey="more ~/.ssh/id_rsa.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"
 
 ##
 # sudo Aliases
