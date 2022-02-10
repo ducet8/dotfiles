@@ -1,7 +1,9 @@
 #!env bash
 # Function File for commonly used Functions
 
+##
 # OSX specific functions
+##
 if [[ ${Os_Id} == "macos" ]]; then
     2cd() {
       if [[ $# == 0 ]]; then
@@ -16,12 +18,7 @@ if [[ ${Os_Id} == "macos" ]]; then
     }
 
     2mount() {
-       if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
-          osascript <<EOF
-mount volume "smb://b14869@bcptcevs10/midrangehw"
-EOF
-          ln -s /Volumes/midrangehw /Users/b14869/Documents/work
-       elif [[ $1 == "home" || $1 == "Home" ]]; then
+       if [[ $1 == "home" || $1 == "Home" ]]; then
           osascript <<EOF
 mount volume "smb://duce@tateserv1/share"
 EOF
@@ -29,10 +26,7 @@ EOF
     }
 
     2umount() {
-       if [[ $1 == "midrangehw" || $1 == "Midrangehw" ]]; then
-          umount /Volumes/midrangehw
-          unlink /Users/b14869/Documents/work
-       elif [[ $1 == "home" || $1 == "Home" ]]; then
+       if [[ $1 == "home" || $1 == "Home" ]]; then
           umount /Volumes/share
        fi
     }
@@ -50,10 +44,8 @@ EOF
        kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`
        #quit X11
        cd ~
-       unlink /Users/b14869/Documents/work
-       umount /Volumes/midrangehw
-       if [ -f /Users/b14869/Desktop/password ]; then
-          rm /Users/b14869/Desktop/password
+       if [ -f /Users/duce/Desktop/password ]; then
+          rm /Users/duce/Desktop/password
        fi
        cowsay Have a Great Evening!
     }
@@ -67,8 +59,8 @@ EOF
     }
 
     mkprj() {
-       mkdir /Users/b14869/projects/$1
-       cp /Users/b14869/projects/gitignore /Users/b14869/projects/$1/.gitignore
+       mkdir /Users/duce/projects/$1
+       cp /Users/duce/projects/gitignore /Users/duce/projects/$1/.gitignore
     }
 
     quit() {
@@ -114,7 +106,6 @@ EOF
           use $i
        done
        #use X11
-       2mount midrangehw
        cowsay GET TO IT!
     }
 
@@ -127,6 +118,9 @@ if type -P dig &>/dev/null; then
     }
 fi
 
+##
+# Docker Functions
+##
 if type -P docker &>/dev/null; then
     docker_destroy() {
       container=`docker ps | grep $1 | awk '{print $1}'`
@@ -141,6 +135,9 @@ if type -P docker &>/dev/null; then
     }
 fi
 
+##
+# Git Functions
+##
 if type -P git &>/dev/null; then
     # git config --global alias.magic '!f() { git add -A && git commit -m "$@" && git push; }; f'
     gmagic() {
@@ -204,7 +201,7 @@ if type -P git &>/dev/null; then
 fi
 
 goto() {
-   tabname $1
+   [[ ${Os_Id} == "macos" ]] && tabname $1
    ssh $1
 }
 
@@ -235,6 +232,7 @@ man() {
 		man "$@"
 }
 
+# Paragraph grep functionality
 pawk() {
     while getopts ":hdvi" option; do
         case $option in

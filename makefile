@@ -7,7 +7,7 @@ HOMEDIR := $(shell echo ~)
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
-	@for file in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc path tmux.conf vimrc; do \
+	@for file in aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc tmux.conf vimrc; do \
 	   ln -sfn $(HOMEDIR)/dotfiles/$$file $(HOMEDIR)/.$$file; \
 	done
 	@echo "$(C_GREEN)Created the following symbolic links:"

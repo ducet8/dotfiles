@@ -1,5 +1,0 @@
-#!env bash
-
-if [[ ${Os_Id} == "macos" ]]; then
-    export PATH=/usr/local/bin:~/local/bin:$PATH
-fi

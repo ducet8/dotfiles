@@ -1,5 +1,6 @@
-#!env bash
-
+##
+# Opener Aliases
+##
 # Check for various OS openers. Quit as soon as we find one that works.
 for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
 	if command -v $opener >/dev/null 2>&1; then
@@ -14,7 +15,9 @@ for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
 	fi
 done
 
-# MacOS Specific aliases
+##
+# MacOS Specific Aliases
+##
 if [[ ${Os_Id} == "macos" ]]; then
     alias catpwd='cat ~/Desktop/password'
     alias cd='2cd'
@@ -28,7 +31,9 @@ if [[ ${Os_Id} == "macos" ]]; then
     alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killfinder"
 fi
 
-# Setup ls
+##
+# ls Aliases
+##
 if type -P lsd &>/dev/null; then
     alias ls='lsd'
     alias la='ls -lhaF'
@@ -47,6 +52,10 @@ else
 fi
 
 #alias bluepip='python3 -m pip install --trusted-host blue-pip.apps.bcbsal.org --extra-index-url http://blue-pip.apps.bcbsal.org --upgrade'
+
+##
+# docker/podman Aliases
+##
 if type -P podman &>/dev/null; then
     alias docker=podman
 fi
@@ -59,6 +68,10 @@ if type -P docker || type -P podman &>/dev/null; then
     alias vault-serve="docker run -d --name vault -p 8200:8200 -v ~/vault:/vault --cap-add=IPC_LOCK vault server && sleep 5 && docker exec vault /vault/startup.sh"
 fi
 alias foff='kill -9'
+
+##
+# git Aliases
+##
 if type -P git &>/dev/null; then
     alias ga='git add'
     alias gaa='git add --all'
@@ -72,18 +85,42 @@ if type -P git &>/dev/null; then
     alias git-personal='git config user.name "Duce Tate" && git config user.email "ducet8@outlook.com"'
     alias gst='git status'
 fi
+
 alias grep='grep --color'
+
+##
+# kubectl/oc Aliases
+##
 if type -P kubectl &>/dev/null; then
     alias kc='kubectl'
 fi
-alias kitsune='~/projects/personal/kitsune/kitsune.py'
-# alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
-# docker pull mcr.microsoft.com/powershell
 if type -P oc &>/dev/null; then
     alias oc-csr-approve='oc get csr -o name | xargs oc adm certificate approve'
     alias oc-vers='oc get pods | awk '\''{system("oc describe pod/"$1)}'\'' | grep Image:'
     alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 fi
 
+
+alias kitsune='~/projects/personal/kitsune/kitsune.py'
+
+# alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
+
 # Pipe my public key to my clipboard.
 alias pubkey="more ~/.ssh/id_rsa.pub | xclip -selection clipboard | echo '=> Public key copied to pasteboard.'"
+
+##
+# sudo Aliases
+##
+if [ -x /usr/bin/sudo ]; then
+    Sudo=/usr/bin/sudo
+else
+    if [ -x /bin/sudo ]; then
+        Sudo=/bin/sudo
+    fi
+fi
+
+if [ ${#Sudo} -gt 0 ]; then
+    alias root="${Sudo} SSH_AUTH_SOCK=${SSH_AUTH_SOCK} -u root /bin/bash --init-file ${HOME}/.bashrc"
+else
+    alias root="su - root -c '/bin/bash --init-file ${HOME}/.bashrc'"
+fi
