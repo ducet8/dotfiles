@@ -33,6 +33,13 @@ if [[ ${Os_Id} == "macos" ]]; then
 fi
 
 ##
+# cat Aliases
+#
+if type -P bat &>/dev/null; then
+    alias cat='bat --paging=never --theme="Visual Studio Dark+"'
+fi
+
+##
 # ls Aliases
 ##
 if type -P lsd &>/dev/null; then
