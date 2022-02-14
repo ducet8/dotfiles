@@ -117,7 +117,7 @@ export PATH=$PATH:$GOPATH/bin
 ##
 export HISTSIZE=50000000;
 export HISTFILESIZE=$HISTSIZE;
-export HISTIGNORE=" *:ls:cd:cd -:cd ~:pwd:exit:date:* --help:* -h:clear:man *:df -*";
+export HISTIGNORE=" *:ls:cd:cd -:cd ~:pwd:exit:date:* --help:* -h:clear:man *:df -*:history *";
 export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT="[%Y-%m-%d %H:%M:%S] "
 
