@@ -60,7 +60,7 @@ export Uname_I=$(uname -i 2> /dev/null)
 ## Scripting Export
 ##
 if [[ ${Os_Id} == "macos" ]]; then
-    export PATH=/usr/local/bin:~/local/bin:$PATH
+    export PATH=/usr/local/bin:${HOME}/local/bin:$PATH
 fi
 
 ##
@@ -159,6 +159,6 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 ##
 # Local Exports
 ##
-if  [[ -r ~/.exports_local ]] && [[ -f ~/.exports_local ]]; then
-    source ~/.exports_local
+if  [[ -r ${HOME}/exports_local ]] && [[ -f ${HOME}/exports_local ]]; then
+    source ${HOME}/exports_local
 fi
