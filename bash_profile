@@ -21,12 +21,12 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 ##
 # Load the shell dotfiles, and then some:
 ##
-[[ -z "${SUDO_USER}" ]] && DOT_LOCATION=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6) || DOT_LOCATION="~"
+[[ -z "${SUDO_USER}" ]] && DOT_LOCATION="${HOME}" || DOT_LOCATION=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6)
 
 for file in ${DOT_LOCATION}/.{exports,aliases,functions,bash_prompt}; do
-    if [[ -r "$file" ]] && [[ -f "$file" ]]; then
+    if [[ -r "${file}" ]] && [[ -f "${file}" ]]; then
         # shellcheck source=/dev/null
-        source "$file"
+        source "${file}"
     fi
 done
 unset file
