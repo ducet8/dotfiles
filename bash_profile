@@ -21,9 +21,9 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 ##
 # Load the shell dotfiles, and then some:
 ##
-[[ -z "${SUDO_USER}" ]] && DOT_LOC=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6) || DOT_LOC="~"
+[[ -z "${SUDO_USER}" ]] && DOT_LOCATION=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6) || DOT_LOCATION="~"
 
-for file in ${DOT_LOC}/.{exports,aliases,functions,bash_prompt}; do
+for file in ${DOT_LOCATION}/.{exports,aliases,functions,bash_prompt}; do
     if [[ -r "$file" ]] && [[ -f "$file" ]]; then
         # shellcheck source=/dev/null
         source "$file"
@@ -56,13 +56,13 @@ if [[ ${Os_Id} == "macos" ]]; then
    eval $(thefuck --alias)
 
    # Add tab completion for SSH hostnames based on ~/.ssh/config ignoring wildcards
-   [[ -e "$HOME/.ssh/config" ]] && complete -o "default" -o "nospace" \
+   [[ -e "${DOT_LOCATION}/.ssh/config" ]] && complete -o "default" -o "nospace" \
       -W "$(grep "^Host" ~/.ssh/config | \
       grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" goto scp sftp ssh
 
    # iTerm2 Shell Integration
-   test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+   test -e "${DOT_LOCATION}/.iterm2_shell_integration.bash" && source "${DOT_LOCATION}/.iterm2_shell_integration.bash"
 
 fi
 
-printf "${HOME}/.bash_profile ${Bash_Profile_Version}\n\n"
+printf "${DOT_LOCATION}/.bash_profile ${Bash_Profile_Version}\n\n"

@@ -125,7 +125,7 @@ else
 fi
 
 if [ ${#Sudo} -gt 0 ]; then
-    alias root="${Sudo} SSH_AUTH_SOCK=${SSH_AUTH_SOCK} -u root /bin/bash --init-file ${HOME}/.bash_profile"
+    alias root="${Sudo} SSH_AUTH_SOCK=${SSH_AUTH_SOCK} -u root /bin/bash --init-file ${DOT_LOCATION}/.bash_profile"
 else
-    alias root="su - root -c '/bin/bash --init-file ${HOME}/.bash_profile'"
+    alias root="su - root -c '/bin/bash --init-file ${DOT_LOCATION}/.bash_profile'"
 fi

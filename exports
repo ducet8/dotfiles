@@ -1,3 +1,5 @@
+export DOT_LOCATION
+
 ##
 # Determine OS Variant
 ##
@@ -78,8 +80,8 @@ Editors=(nvim vim vi)
 for Editor in ${Editors[@]}; do
     if type -P ${Editor} &> /dev/null; then
         export EDITOR="$(type -P ${Editor} 2> /dev/null)"
-        if [[ "${EDITOR}" == *"vim"* ]] && [ -r "${HOME}/.vimrc" ]; then
-            alias vim="HOME=\"${HOME}\" ${EDITOR} --cmd \"let User_Name='$(whoami)'\" --cmd \"let User_Dir='${HOME}'\""
+        if [[ "${EDITOR}" == *"vim"* ]] && [ -r "${DOT_LOCATION}/.vimrc" ]; then
+            alias vim="HOME=\"${DOT_LOCATION}\" ${EDITOR} --cmd \"let User_Name='$(whoami)'\" --cmd \"let User_Dir='${DOT_LOCATION}'\""
         else
             alias vim="${EDITOR}"
         fi
@@ -103,11 +105,11 @@ fi
 ##
 if [[ ${Os_Id} == "macos" ]]; then
     export SHELL=/usr/local/bin/bash
-    export GOPATH=$HOME/projects/go
+    export GOPATH=${HOME}/projects/go
     export GOROOT=/usr/local/opt/go/libexec
     export PATH=$PATH:$GOROOT/bin
 else
-    export GOPATH=$HOME/go
+    export GOPATH=${HOME}/go
 fi
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH/bin
