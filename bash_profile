@@ -1,6 +1,6 @@
 # .bash_profile
 
-Bash_Profile_Version="20220209, ducet8@outlook.com"
+Bash_Profile_Version="20220218, ducet8@outlook.com"
 
 ##
 # Returns to Avoid Interactive Shell Enhancements
@@ -21,7 +21,9 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 ##
 # Load the shell dotfiles, and then some:
 ##
-for file in ~/.{exports,aliases,functions,bash_prompt}; do
+[[ -z "${SUDO_USER}" ]] && DOT_LOC=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6) || DOT_LOC="~"
+
+for file in ${DOT_LOC}/.{exports,aliases,functions,bash_prompt}; do
     if [[ -r "$file" ]] && [[ -f "$file" ]]; then
         # shellcheck source=/dev/null
         source "$file"
