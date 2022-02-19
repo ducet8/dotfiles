@@ -38,10 +38,9 @@ EOF
     }
 
     gone() {
-       for i in teams onenote outlook; do
+       for i in teams soinc outlook; do
           quit $i
        done
-       kill -9 `ps -ef | grep -i Spark | grep -v grep | grep -v Helper | awk '{print $2}'`
        #quit X11
        cd ~
        if [ -f /Users/duce/Desktop/password ]; then
@@ -64,16 +63,16 @@ EOF
     }
 
     quit() {
-       if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
-          osascript -e 'quit app "Microsoft Outlook"'
-       elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
-          osascript -e 'quit app "Microsoft OneNote"'
-       elif [[ $1 == "teams" || $1 == "Teams" ]]; then
-          osascript -e 'quit app "Webex Teams"'
-       elif [[ $1 == "skype" || $1 == "Skype" ]]; then
-          osascript -e 'quit app "Skype for Business"'
+       MATCHES=$(ls /Applications | grep -i "$@" | wc -l)
+       if [[ MATCHES -eq 1 ]]; then
+          APP=$(ls /Applications | grep -i "$@" | awk -F.app '{print $1}')
+          osascript -e 'quit app "'${APP}'"'
+       elif [[ MATCHES -eq 0 ]]; then
+          printf "No applications were found matching $@\n"
        else
-          osascript -e 'quit app "'$@'"'
+          printf "Too many applications were found matching $@.\n"
+          ls /Applications | grep -i "$@"
+          printf "\nPlease be more specific.\n"
        fi
     }
 
@@ -88,21 +87,21 @@ EOF
     }
 
     use() {
-       if [[ $1 == "outlook" || $1 == "Outlook" ]]; then
-          osascript -e 'tell app "Microsoft Outlook" to activate'
-       elif [[ $1 == "onenote" || $1 == "OneNote" || $1 == "Onenote" ]]; then
-          osascript -e 'tell app "Microsoft OneNote" to activate'
-       elif [[ $1 == "teams" || $1 == "Teams" ]]; then
-          osascript -e 'tell app "Webex Teams" to activate'
-       elif [[ $1 == "skype" || $1 == "Skype" ]]; then
-          osascript -e 'tell app "Skype for Business" to activate'
+       MATCHES=$(ls /Applications | grep -i "$@" | wc -l)
+       if [[ MATCHES -eq 1 ]]; then
+          APP=$(ls /Applications | grep -i "$@" | awk -F.app '{print $1}')
+          osascript -e 'tell app "'${APP}'" to activate'
+       elif [[ MATCHES -eq 0 ]]; then
+          printf "No applications were found matching $@\n"
        else
-          osascript -e 'tell app "'$@'" to activate'
+          printf "Too many applications were found matching $@.\n"
+          ls /Applications | grep -i "$@"
+          printf "\nPlease be more specific.\n"
        fi
     }
 
     work() {
-       for i in teams onenote outlook; do
+       for i in teams sonicwall outlook; do
           use $i
        done
        #use X11
