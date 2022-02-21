@@ -66,7 +66,7 @@ EOF
        MATCHES=$(ls /Applications | grep -i "$@" | wc -l)
        if [[ MATCHES -eq 1 ]]; then
           APP=$(ls /Applications | grep -i "$@" | awk -F.app '{print $1}')
-          osascript -e 'quit app "'${APP}'"'
+          osascript -e "quit app \"${APP}\""
        elif [[ MATCHES -eq 0 ]]; then
           printf "No applications were found matching $@\n"
        else
@@ -90,7 +90,7 @@ EOF
        MATCHES=$(ls /Applications | grep -i "$@" | wc -l)
        if [[ MATCHES -eq 1 ]]; then
           APP=$(ls /Applications | grep -i "$@" | awk -F.app '{print $1}')
-          osascript -e 'tell app "'${APP}'" to activate'
+          osascript -e "tell app \"${APP}\" to activate"
        elif [[ MATCHES -eq 0 ]]; then
           printf "No applications were found matching $@\n"
        else
