@@ -19,6 +19,15 @@ if [ ${#PS1} -le 0 ]; then return; fi
 if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; then return; fi
 
 ##
+# Pull the latest dotfiles
+##
+DOTOWNERS=(duce rtate ducet8)
+if [[ (" ${users[*]} " =~ " ${USER} ") && (-d ${HOME}/dotfiles) ]]; then
+    git -qC ${HOME}/dotfiles pull
+fi
+unset DOTOWNERS
+
+##
 # Load the shell dotfiles, and then some:
 ##
 [[ -z "${SUDO_USER}" ]] && DOT_LOCATION="${HOME}" || DOT_LOCATION=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6)
