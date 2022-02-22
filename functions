@@ -38,11 +38,10 @@ EOF
     }
 
     gone() {
-       for i in teams soinc outlook; do
+       for i in teams sonic outlook; do
           quit $i
        done
        #quit X11
-       cd ~
        if [ -f /Users/duce/Desktop/password ]; then
           rm /Users/duce/Desktop/password
        fi
