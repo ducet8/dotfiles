@@ -315,6 +315,7 @@ if has("autocmd")
                         if (exists("PYTHONPATH"))
                             let g:python3_host_prog=$PYTHONPATH
                         endif
+                        let g:loaded_python_provider = 0
 
                     endif " if use_coc
 
