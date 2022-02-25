@@ -83,6 +83,10 @@ if has("autocmd")
 
                 let g:ctrlp_dont_split = 'NERD'
 
+                " https://github.com/sjl/gundo.vim
+                " Using history, undofile, and undoleveles set below
+                Plug 'sjl/gundo.vim'
+
             endif
 
             if v:version >= 800 || has('nvim')
@@ -306,6 +310,10 @@ if has("autocmd")
                             let g:coc_global_extensions=[ 'coc-css', 'coc-gitignore', 'coc-go', 'coc-html', 'coc-json', 'coc-phpls', 'coc-powershell', 'coc-pyright', 'coc-sh', 'coc-tsserver', 'coc-yaml', 'coc-snippets' ]
                         else
                             let g:coc_global_extensions=[ 'coc-css', 'coc-gitignore', 'coc-go', 'coc-html', 'coc-json', 'coc-phpls', 'coc-powershell', 'coc-pyright', 'coc-sh', 'coc-tsserver', 'coc-yaml' ]
+                        endif
+
+                        if (exists("PYTHONPATH"))
+                            let g:python3_host_prog=$PYTHONPATH
                         endif
 
                     endif " if use_coc
@@ -645,7 +653,7 @@ if v:version >= 704
     set formatoptions=j                     " j=remove comment leader when joining lines
 endif
 set hidden                                  " allow hidden buffers
-set history=1000                            " default = 8
+set history=100                             " default = 8
 set laststatus=2                            " use the second statusline
 set linebreak                               " only wrap at sensible places
 set list listchars=tab:│\ ,nbsp:▪,trail:▫,extends:▶,precedes:◀ " help listchars
@@ -671,6 +679,8 @@ set ttyfast                                 " indicates a fast terminal connecti
 if exists("&undodir")
     set undodir=~/.vim/undo                 " set undo directory location
 endif
+set undofile                                " gundo
+set undolevels=100                          " gundo
 set updatetime=300                          " diagnostic messages
 set wildmenu                                " enhanced command-line completion
 set wrap                                    " turn on word wrapping
