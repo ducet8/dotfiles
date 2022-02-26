@@ -74,4 +74,16 @@ if [[ ${Os_Id} == "macos" ]]; then
 
 fi
 
+##
+# Display some useful information
+##
+printf "\n"
+if [ ${#Os_Pretty_Name} -gt 0 ]; then
+    printf "${Os_Pretty_Name}\n\n"
+else
+    if [ -r /etc/redhat-release ]; then
+        cat /etc/redhat-release
+        printf "\n"
+    fi
+fi
 printf "${DOT_LOCATION}/.bash_profile ${Bash_Profile_Version}\n\n"
