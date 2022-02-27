@@ -80,8 +80,9 @@ if has("autocmd")
                 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
                 map <Leader>f :NERDTreeToggle<CR>
                 let g:ctrlp_dont_split = 'NERD'
-                let g:ctrlp_working_path_mode = 0  "don't change working directory
-                let g:ctrlp_custom_ignore = {  "ignore these files and folders on file finder
+                let g:ctrlp_working_path_mode = 0  " don't change working directory
+                " ignore these files and folders on file finder
+                let g:ctrlp_custom_ignore = {
                   \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)$',
                   \ 'file': '\.pyc$\|\.pyo$',
                   \ }
