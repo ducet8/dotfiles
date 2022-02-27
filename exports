@@ -59,9 +59,7 @@ export Uname_I=$(uname -i 2> /dev/null)
 ##
 ## Scripting Export
 ##
-if [[ ${Os_Id} == "macos" ]]; then
-    export PATH=/usr/local/bin:${HOME}/local/bin:$PATH
-fi
+export PATH=/usr/local/bin:${HOME}/local/bin:$PATH
 
 ##
 # bash Export
