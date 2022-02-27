@@ -25,10 +25,10 @@ duce: dotfiles local ssh
 local: # Sets up ~/local
 	@mkdir -p $(HOMEDIR)/local/bin
 	@for file in $(LBINFILES); do \
-       ln -sfn $(HOMEDIR)/dotfiles/local/bin/$$file $(HOMEDIR)/local/bin/$$file; \
-    done
-    @echo "$(C_GREEN)Created the following symbolic links:"
-    @ls -lA $(HOMEDIR)/local/bin | awk '/^l/ {print "\t$(C_MAG)" $$(NF-2) "$(C_RESET) -> " $$(NF)}'
+		ln -sfn $(HOMEDIR)/dotfiles/local/bin/$$file $(HOMEDIR)/local/bin/$$file; \
+	done
+	@echo "(C_GREEN)Created the following symbolic links:"
+	@ls -lA $(HOMEDIR)/local/bin | awk '/^l/ {print "\t$(C_MAG)" $$(NF-2) "$(C_RESET) -> " $$(NF)}'
 
 
 .PHONY: ssh
