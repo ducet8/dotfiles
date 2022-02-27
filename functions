@@ -235,56 +235,6 @@ man() {
 		man "$@"
 }
 
-# Paragraph grep functionality
-pawk() {
-    while getopts ":hdvi" option; do
-        case $option in
-            h)
-               echo "usage: pawk [-hvi] [pattern] [file]"
-               echo
-               echo "options:"
-               echo "h     Print this Help"
-               echo "d     Debug - print the command"
-               echo "v     Exclude pattern"
-               echo "i     Case insensitive"
-               exit;;
-            d)
-               debug=1;;
-            v)
-               exclude=1;;
-            i)
-               case_insensitive=1;;
-            \?) # Invalid option
-               echo "Error: Invalid option"
-               exit;;
-         esac
-      done
-
-      shift $((OPTIND-1))
-      pattern=$1
-      file=$2
-
-      section="'"
-      if [[ -n $case_insensitive ]]; then
-          pattern=$(echo $pattern | awk '{print tolower($0)}')
-          section+='tolower($0)'
-          if [[ -n $exclude ]]; then
-              section+='!~'
-          else
-              section+='~'
-          fi
-      elif [[ -n $exclude ]]; then
-          section+='!'
-      fi
-      section+="/$pattern/'"
-
-      cmd="awk ${section} RS='\\n\\n' ORS='\\n\\n' $file"
-      if [[ -n $debug ]]; then
-          echo "Running: $cmd"
-      fi
-      eval $cmd
-}
-
 ssh_setup() {
    cat ~/.ssh/id_rsa.pub | ssh $1 'cat - >> ~/.ssh/authorized_keys'
 }
@@ -596,32 +546,6 @@ tabname() {
 
 tabreset() {
   echo -n -e "\033]6;1;bg;*;default\a"
-}
-
-test-loop() {
-    printf -v COMMAND "%b " "$@"
-    COUNTER=0
-    SEPERATOR="+--------------------------------------+"
-
-    if [ "$COMMAND" == "" ] || [ "$COMMAND" == "$0" ]; then echo "usage: $0 <command> [sleep seconds]"; exit 1; fi
-
-    if [ "$2" != "" ]; then declare -i SLEEP="$2"; fi
-
-    if [ "$SLEEP" == "" ] || [ "$SLEEP" == "0" ]; then declare -i SLEEP=3; fi
-
-    while true; do
-        let COUNTER=$COUNTER+1
-
-        echo "$COUNTER $SEPERATOR '$COMMAND' (sleep $SLEEP) $SEPERATOR $COUNTER"
-        echo
-
-        eval $COMMAND
-
-        echo
-        echo "$COUNTER $SEPERATOR '$COMMAND' (sleep $SLEEP) $SEPERATOR $COUNTER"
-
-        sleep $SLEEP
-    done
 }
 
 tre() {

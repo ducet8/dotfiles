@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# Paragraph grep
+
+function usage() {
+    echo "usage: $0 [-hvi] [pattern] [file]"
+    echo
+    echo "Options:"
+    echo "   h     Print this Help"
+    echo "   d     Debug - print the command"
+    echo "   v     Exclude pattern"
+    echo "   i     Case insensitive"
+    exit 1
+}
+
+if [ "$1" == "" ] || [ "$2" == "" ]; then
+    usage
+fi
+
+while getopts ":hdvi" option; do
+    case $option in
+        h)
+           usage;;
+        d)
+           debug=1;;
+        v)
+           exclude=1;;
+        i)
+           case_insensitive=1;;
+        \?) # Invalid option
+           echo "Error: Invalid option"
+           exit;;
+     esac
+done
+
+shift $((OPTIND-1))
+pattern=$1
+file=$2
+
+section="'"
+if [[ -n $case_insensitive ]]; then
+    pattern=$(echo $pattern | awk '{print tolower($0)}')
+    section+='tolower($0)'
+    if [[ -n $exclude ]]; then
+        section+='!~'
+    else
+        section+='~'
+    fi
+elif [[ -n $exclude ]]; then
+    section+='!'
+fi
+section+="/$pattern/'"
+
+cmd="awk ${section} RS='\\n\\n' ORS='\\n\\n' $file"
+if [[ -n $debug ]]; then
+    echo "Running: $cmd"
+fi
+eval $cmd 
