@@ -69,7 +69,6 @@ if has("autocmd")
             Plug 'zigford/vim-powershell'
 
             if v:version >= 704
-
                 "
                 " all versions of neovim & vim >= 704 support these plugins
                 "
@@ -80,13 +79,19 @@ if has("autocmd")
                 autocmd StdinReadPre * let s:std_in=1
                 "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
                 map <Leader>f :NERDTreeToggle<CR>
-
                 let g:ctrlp_dont_split = 'NERD'
+                let g:ctrlp_working_path_mode = 0  "don't change working directory
+                let g:ctrlp_custom_ignore = {  "ignore these files and folders on file finder
+                  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)$',
+                  \ 'file': '\.pyc$\|\.pyo$',
+                  \ }
 
                 " https://github.com/sjl/gundo.vim
                 " Using history, undofile, and undoleveles set below
                 Plug 'sjl/gundo.vim'
 
+                " https://github.com/Xuyuanp/nerdtree-git-plugin
+                Plug 'Xuyuanp/nerdtree-git-plugin'
             endif
 
             if v:version >= 800 || has('nvim')
@@ -274,37 +279,29 @@ if has("autocmd")
                         " Use `:Fold` to fold current buffer
                         command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-                        " use `:OR` for organize import of current buffer
+                        " Use `:OR` for organize import of current buffer
                         command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
                         " Add status line support, for integration with other plugin, checkout `:h coc-status`
                         set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
                         " Using CocList
-                        " Show all diagnostics
-                        nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-                        " Manage extensions
-                        nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-                        " Show commands
-                        nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-                        " Find symbol of current document
-                        nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-                        " Search workspace symbols
-                        nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-                        " Do default action for next item.
-                        nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-                        " Do default action for previous item.
-                        nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-                        " Resume latest coc list
-                        nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+                        nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>   " Show all diagnostics
+                        nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>    " Manage extensions
+                        nnoremap <silent> <space>c  :<C-u>CocList commands<cr>      " Show commands
+                        nnoremap <silent> <space>o  :<C-u>CocList outline<cr>       " Find symbol of current document
+                        nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>    " Search workspace symbols
+                        nnoremap <silent> <space>j  :<C-u>CocNext<CR>               " Do default action for next item.
+                        nnoremap <silent> <space>k  :<C-u>CocPrev<CR>               " Do default action for previous item.
+                        nnoremap <silent> <space>p  :<C-u>CocListResume<CR>         " Resume latest coc list
 
-                        " warnings
+                        " Warnings
                         let g:coc_disable_startup_warning = 1
 
-                        " colors
+                        " Colors
                         highlight CocErrorHighlight ctermfg=red  guifg=red
 
-                        " extensions
+                        " Extensions
                         if v:version >= 800 || has('nvim')
                             " add coc-snippets
                             let g:coc_global_extensions=[ 'coc-css', 'coc-gitignore', 'coc-go', 'coc-html', 'coc-json', 'coc-phpls', 'coc-powershell', 'coc-pyright', 'coc-sh', 'coc-tsserver', 'coc-yaml', 'coc-snippets' ]
@@ -317,24 +314,24 @@ if has("autocmd")
                         endif
                         let g:loaded_python_provider = 0
 
-                    endif " if use_coc
+                    endif  " if use_coc
 
-                else " if v:version >= 800 || has('nvim-0.3.1')
+                else  " if v:version >= 800 || has('nvim-0.3.1')
 
                     " https://github.com/suan/vim-instant-markdown
                     Plug 'suan/vim-instant-markdown'
                     let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
                     let g:markdown_syntax_conceal = 0
                     let g:markdown_minlines = 100
-                    let g:instant_markdown_autostart = 0    " Use :InstantMarkdownPreview to turn on
+                    let g:instant_markdown_autostart = 0  " Use :InstantMarkdownPreview to turn on
 
-                endif " if v:version >= 800 || has('nvim-0.3.1')
+                endif  " if v:version >= 800 || has('nvim-0.3.1')
 
                 if use_ycm
                     if v:version < 810
-                        let use_ycm = 0 " false
+                        let use_ycm = 0  " false
                     endif
-                endif " if use_ycm
+                endif  " if use_ycm
 
                 if use_ycm
 
@@ -344,13 +341,13 @@ if has("autocmd")
                     "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
                     "let g:SuperTabDefaultCompletionType = '<C-n>'
 
-                endif " if use_ycm
+                endif  " if use_ycm
 
-            endif " if v:version >= 800 || has('nvim')
+            endif  " if v:version >= 800 || has('nvim')
 
         else " if exists(":Plug")
             echo "Plug does not exist."
-        endif " if exists(":Plug")
+        endif  " if exists(":Plug")
 
         " autoload plug begin
         call plug#end()
@@ -375,7 +372,7 @@ if has("autocmd")
         set guicursor=
     endif
 
-endif " has("autocmd")
+endif  "has("autocmd")
 
 "
 " functions
