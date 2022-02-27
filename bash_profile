@@ -1,6 +1,6 @@
 # .bash_profile
 
-Bash_Profile_Version="20220218, ducet8@outlook.com"
+Bash_Profile_Version="20220227, ducet8@outlook.com"
 
 ##
 # Returns to Avoid Interactive Shell Enhancements
