@@ -19,14 +19,11 @@ endif
 
 " only neovim & vim have autocmd (not ex or vi); vim-plug requires autocmd
 if has("autocmd")
-
     " https://github.com/junegunn/vim-plug
     " auto-install .vim/autoload/plug.vim
     if empty(glob(User_Dir.'/.vim/autoload/plug.vim'))
-
         silent !curl -fLo  $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         autocmd VimEnter * PlugInstall
-
     endif
 
     if !empty(glob(User_Dir.'/.vim/autoload/plug.vim'))
@@ -35,7 +32,6 @@ if has("autocmd")
         silent! call plug#begin(User_Dir.'/.vim/plug')
 
         if exists(":Plug")
-
             "
             " all versions of neovim & vim support these plugins
             "
@@ -91,8 +87,6 @@ if has("autocmd")
                 " Using history, undofile, and undoleveles set below
                 Plug 'sjl/gundo.vim'
 
-                " https://github.com/Xuyuanp/nerdtree-git-plugin
-                Plug 'Xuyuanp/nerdtree-git-plugin'
             endif
 
             if v:version >= 800 || has('nvim')
@@ -140,16 +134,24 @@ if has("autocmd")
 
             " https://github.com/preservim/nerdcommenter
             Plug 'scrooloose/nerdcommenter'
-            let g:NERDCreateDefaultMappings = 1  "Create default mappings
-            let g:NERDSpaceDelims = 1  "Add spaces after comment delimiters
-            let g:NERDCompactSexyComs = 1  "Use compact syntax for prettified multi-line comments
-            let g:NERDDefaultAlign = 'left'  "Left justify comment delimiters
-            let g:NERDCommentEmptyLines = 1  "Allow commenting and inverting empty lines
-            let g:NERDTrimTrailingWhitespace = 1  "Enable trimming of trailing whitespace when uncommenting
-            let g:NERDToggleCheckAllLines = 1  "Enable checking if selected lines are commented
+            let g:NERDCreateDefaultMappings = 1             " Create default mappings
+            let g:NERDSpaceDelims = 1                       " Add spaces after comment delimiters
+            let g:NERDCompactSexyComs = 1                   " Use compact syntax for prettified multi-line comments
+            let g:NERDDefaultAlign = 'left'                 " Left justify comment delimiters
+            let g:NERDCommentEmptyLines = 1                 " Allow commenting and inverting empty lines
+            let g:NERDTrimTrailingWhitespace = 1            " Enable trimming of trailing whitespace when uncommenting
+            let g:NERDToggleCheckAllLines = 1               " Enable checking if selected lines are commented
+            let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$']     " Filetypes to be ignored
 
             " https://github.com/Xuyuanp/nerdtree-git-plugin
             Plug 'Xuyuanp/nerdtree-git-plugin'
+
+            " https://github.com/mhinz/vim-signify
+            if has('nvim') || has('patch-8.0.902')
+            	Plug 'mhinz/vim-signify'
+            else
+            	Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+            endif
 
             if v:version >= 800 || has('nvim')
                 " vim 8+ or neovim, only
@@ -191,7 +193,6 @@ if has("autocmd")
                     endif
 
                     if use_coc
-
                         " https://github.com/neoclide/coc.nvim
                         " release branch
                         Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -314,18 +315,15 @@ if has("autocmd")
                             let g:python3_host_prog=$PYTHONPATH
                         endif
                         let g:loaded_python_provider = 0
-
                     endif  " if use_coc
 
                 else  " if v:version >= 800 || has('nvim-0.3.1')
-
                     " https://github.com/suan/vim-instant-markdown
                     Plug 'suan/vim-instant-markdown'
                     let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
                     let g:markdown_syntax_conceal = 0
                     let g:markdown_minlines = 100
                     let g:instant_markdown_autostart = 0  " Use :InstantMarkdownPreview to turn on
-
                 endif  " if v:version >= 800 || has('nvim-0.3.1')
 
                 if use_ycm
@@ -335,13 +333,11 @@ if has("autocmd")
                 endif  " if use_ycm
 
                 if use_ycm
-
                     " https://github.com/Valloric/YouCompleteMe
                     Plug 'Valloric/YouCompleteMe'
                     "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
                     "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
                     "let g:SuperTabDefaultCompletionType = '<C-n>'
-
                 endif  " if use_ycm
 
             endif  " if v:version >= 800 || has('nvim')
