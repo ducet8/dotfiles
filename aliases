@@ -23,6 +23,7 @@ if [[ ${Os_Id} == "macos" ]]; then
     alias cd='2cd'
     alias console='remote-viewer ~/Downloads/console.vv &'
     #alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
+    alias flushdns='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
     alias password_cleanup='rm ~/Desktop/password'
     alias password_encode='openssl enc -a -des3 -in ~/Desktop/password >~/Documents/42.enc'
     alias password_decode='openssl enc -d -a -des3 -in ~/Documents/42.enc >~/Desktop/password'
