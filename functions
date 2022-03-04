@@ -110,6 +110,12 @@ EOF
 fi
 
 # Non OS specific functions
+if type -P bat &>/dev/null && type -P git &>/dev/null; then
+    batdiff() {
+        git diff --name-only --diff-filter=d | xargs bat --diff
+    }
+fi
+
 if type -P dig &>/dev/null; then
     digga() {
       dig +nocmd "$1" any +multiline +noall +answer
@@ -214,6 +220,7 @@ json() {
 }
 
 list_functions() {
+    # TODO: This is not working correctly. It should list the used functions
    grep \( ~/.functions | grep \{ | grep -v ^# | grep -v ^" " | awk -F\( '{print $1}'
 }
 

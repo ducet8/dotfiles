@@ -129,8 +129,12 @@ if [[ ${Os_Id} == "macos" ]]; then
     export LC_ALL="en_US.UTF-8";
 fi
 
-# Don’t clear the screen after quitting a manual page
-export MANPAGER="less -X";
+if type -P bat &>/dev/null; then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+else
+    # Don’t clear the screen after quitting a manual page
+    export MANPAGER="less -X";
+fi
 
 export TODOTXT_DEFAULT_ACTION=ls
 
