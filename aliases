@@ -68,7 +68,7 @@ fi
 if type -P podman &>/dev/null; then
     alias docker=podman
 fi
-if type -P docker || type -P podman &>/dev/null; then
+if type -P docker &>/dev/null || type -P podman &>/dev/null; then
     alias d='docker'
     alias dbt='docker build --tag'
     alias dp='docker push'
