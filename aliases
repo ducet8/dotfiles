@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ##
 # Opener Aliases
 ##
@@ -44,16 +46,22 @@ fi
 # ls Aliases
 ##
 if type -P lsd &>/dev/null; then
-    alias ls='lsd'
-    alias la='ls -lhaF'
-    alias ll='ls -lhF'
-    alias ls='ls -F'
+    if [ ! -d "${HOME}/.config/lsd" ]; then
+        mkdir -p "${HOME}/.config/lsd"
+    fi
+    if [ ! -f "${HOME}/.config/lsd/config.yaml" ]; then
+        echo "icons:" >"${HOME}/.config/lsd/config.yaml"
+        echo "  when: never" >>"${HOME}/.config/lsd/config.yaml"
+    fi
+    alias la='lsd -lhaF'
+    alias ll='lsd -lhF'
+    alias ls='lsd -F'
 else
     # Detect which `ls` flavor is in use
-    if ls --color >/dev/null 2>&1; then # GNU `ls`
-	    colorflag="--color"
-    else # OS X `ls`
-    	colorflag="-G"
+    if ls --color &>/dev/null; then  # GNU `ls`
+        colorflag="--color=auto"
+    else  # OS X `ls`
+        colorflag="-G"
     fi
     alias la='ls -lhaF ${colorflag}'
     alias ll='ls -lhF ${colorflag}'
@@ -108,7 +116,6 @@ if type -P oc &>/dev/null; then
     alias oc-vers='oc get pods | awk '\''{system("oc describe pod/"$1)}'\'' | grep Image:'
     alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 fi
-
 
 alias kitsune='~/projects/personal/kitsune/kitsune.py'
 

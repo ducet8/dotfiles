@@ -1,6 +1,8 @@
 # .bash_profile
 
-Bash_Profile_Version="20220227, ducet8@outlook.com"
+Bash_Profile_Version="20220308, ducet8@outlook.com"
+
+# TODO: Add an init that checks for common tools that are missing and provides the appropriate install command on login
 
 ##
 # Returns to Avoid Interactive Shell Enhancements
