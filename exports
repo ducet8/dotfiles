@@ -149,6 +149,16 @@ else
     # Don’t clear the screen after quitting a manual page
     export MANPAGER="less -X";
 fi
+Man_Paths=()
+Man_Paths+=(/usr/local/share/man)
+Man_Paths+=(/usr/share/man)
+for Man_Path in ${Man_Paths[@]}; do
+    if ! [[ "${MANPATH}" =~ (^|:)${Man_Path}($|:) ]]; then
+        if [ -r "${Man_Path}" ]; then
+            export MANPATH+=":${Man_Path}"
+        fi
+    fi
+done
 
 export TODOTXT_DEFAULT_ACTION=ls
 
