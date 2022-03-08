@@ -3,6 +3,7 @@
 Bash_Profile_Version="20220308, ducet8@outlook.com"
 
 # TODO: Add an init that checks for common tools that are missing and provides the appropriate install command on login
+# TODO: Notify on new dotfile pull
 
 ##
 # Returns to Avoid Interactive Shell Enhancements
