@@ -118,7 +118,7 @@ if type -P oc &>/dev/null; then
 fi
 
 alias kitsune='~/projects/personal/kitsune/kitsune.py'
-
+alias me='source ~/.bash_profile'
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 
 ##
