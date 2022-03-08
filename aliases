@@ -135,3 +135,7 @@ if [ ${#Sudo} -gt 0 ]; then
 else
     alias root="su - root -c '/bin/bash --init-file ${DOT_LOCATION}/.bash_profile'"
 fi
+
+if type -P systemctl &>/dev/null; then
+    alias sc=systemctl
+fi
