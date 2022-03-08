@@ -180,7 +180,26 @@ export PATH=/usr/local/bin:${HOME}/local/bin:$PATH
 export WTTR_PARAMS=Fu
 export WTTR_LOCATION=35209
 
-# TODO: Make PATH unique only
+##
+# Unique PATH
+##
+OIFS=${IFS}
+IFS=':' read -ra Auto_Path <<< "${PATH}"
+Uniq_Path="./"
+for Dir_Path in "${Auto_Path[@]}"; do
+    if ! [[ "${Uniq_Path}" =~ (^|:)${Dir_Path}($|:) ]]; then
+        if [ -r "${Dir_Path}" ] && [ "${Dir_Path}" != "" ]; then
+            Uniq_Path+=":${Dir_Path}"
+        fi
+    fi
+done
+unset -v Dir_Path
+IFS=${OIFS}
+
+export PATH="${Uniq_Path}"
+
+unset -v Auto_Path
+unset -v Uniq_Path
 
 ##
 # Local Exports
