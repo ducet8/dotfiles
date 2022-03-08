@@ -2,9 +2,6 @@
 
 Bash_Profile_Version="20220308, ducet8@outlook.com"
 
-# TODO: Add an init that checks for common tools that are missing and provides the appropriate install command on login
-# TODO: Notify on new dotfile pull
-
 ##
 # Returns to Avoid Interactive Shell Enhancements
 ##
@@ -24,11 +21,40 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 ##
 # Pull the latest dotfiles
 ##
-DOTOWNERS=(duce rtate ducet8)
-if [[ (" ${users[*]} " =~ " ${USER} ") && (-d ${HOME}/dotfiles) ]]; then
-    git -qC ${HOME}/dotfiles pull
-fi
-unset DOTOWNERS
+update_dotfiles() {
+    local dotowners=(duce rtate ducet8)
+    if [[ (" ${dotowners[*]} " =~ " ${USER} ") && (-d ${HOME}/dotfiles) ]]; then
+        local dotdir="${HOME}/dotfiles"
+        local cwd=$(pwd 2>/dev/null)
+        cd "${dotdir}" &>/dev/null
+
+        if [ -d ${dotdir}/.git ]; then
+            git fetch &> /dev/null
+
+            local git_head_upstream=$(git rev-parse HEAD@{u} 2>/dev/null)
+            local git_head_working=$(git rev-parse HEAD 2>/dev/null)
+
+            if [ "${git_head_upstream}" != "${git_head_working}" ]; then
+                # need to pull
+                printf "NOTICE: git_head_upstream = ${git_head_upstream}"
+                printf "NOTICE: git_head_working = ${git_head_working}\n"
+
+                git pull
+            fi
+        else
+            mkdir -p "${dotdir}"
+            cd "${dotdir}" &>/dev/null
+            git init
+            git remote add origin git@github.com:ducet8/dotfiles
+            git fetch
+            git checkout -t origin/master -f
+            git reset --hard
+            git checkout -- .
+        fi
+        cd "${cwd}" &>/dev/null
+    fi
+}
+update_dotfiles
 
 ##
 # Load the shell dotfiles, and then some:
@@ -80,6 +106,26 @@ fi
 ##
 # Display some useful information
 ##
+# Notify of missing utilities
+required_utils=(bat git lsd nvim tmux vim wget)
+missing_utils=""
+for tool in $required_utils; do
+    if ! type -P ${tool} &>/dev/null; then
+        if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi
+        missing_utils+="${tool} "
+    fi
+done
+if [[ ${missing_utils} != "" ]]; then
+    printf "NOTICE: Missing Utilities: ${missing_utils}\n"
+    if [[ ${Os_Id} == "macos" ]]; then
+        printf "\tYou most likely need to run: brew install ${missing_utils}"
+    elif [[ ${Os_Id} == "rocky" ]]; then
+        printf "\tYou most likely need to run: sudo dnf install ${missing_utils}"
+    fi
+fi
+unset missing_utils
+unset required_utils
+
 printf "\n"
 if [ ${#Os_Pretty_Name} -gt 0 ]; then
     printf "${Os_Pretty_Name}\n\n"
