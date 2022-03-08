@@ -3,13 +3,19 @@
 Bash_Profile_Version="20220308, ducet8@outlook.com"
 
 ##
+# Debugging with file descriptors and time
+##
+# This line will give vim syntax error, but it works
+# exec {FD}> >(/usr/local/bin/ts -i "%.s" >> /tmp/timestamps)
+# export BASH_XTRACEFD="$FD"
+# set -x
+
+##
 # Returns to Avoid Interactive Shell Enhancements
 ##
 case $- in
-    *i*)
-        ;;          # interactive shell (OK)
-    *)
-        return ;;   # non-interactive shell
+    *i*)            ;;          # interactive shell (OK)
+    *)      return  ;;          # non-interactive shell
 esac
 
 # No prompt
@@ -30,7 +36,9 @@ update_dotfiles() {
             git -C "${dotdir}" fetch &> /dev/null
 
             local git_ahead_behind=$(git -C "${dotdir}" rev-list --left-right --count master...origin/master | tr -s '\t' '|';)
-            if [[ "${git_ahead_behind}" != "0|0" ]]; then
+            local git_ahead=$(printf -v int $(echo "${git_ahead_behind}" | awk -F\| '{print $1}'))
+            local git_behind=$(printf -v int $(echo "${git_ahead_behind}" | awk -F\| '{print $2}'))
+            if [[ "${git_ahead}" -lt "${git_behind}" ]]; then
                 # need to pull
                 printf "NOTICE: git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)\n"
                 printf "NOTICE: git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)\n"
@@ -79,17 +87,16 @@ shopt -s histappend     # Append to the Bash history file, rather than overwriti
 if [[ ${Os_Id} == "macos" ]]; then
    # Source bash_completion
     if ! shopt -oq posix; then
-        if [ -r $(brew --prefix)/etc/profile.d/bash_completion.sh ]; then
-            . $(brew --prefix)/etc/profile.d/bash_completion.sh
-        elif [ -f /usr/share/bash-completion/bash_completion ]; then
+        brew_prefix=$(brew --prefix)
+        if [[ -r ${brew_prefix}/etc/profile.d/bash_completion.sh ]]; then
+            . ${brew_prefix}/etc/profile.d/bash_completion.sh
+        elif [[ -f /usr/share/bash-completion/bash_completion ]]; then
             . /usr/share/bash-completion/bash_completion
-        elif [ -f /etc/bash_completion ]; then
+        elif [[ -f /etc/bash_completion ]]; then
             . /etc/bash_completion
         fi
+        unset brew_prefix
    fi
-
-   # Setup thefuck
-   eval $(thefuck --alias)
 
    # Add tab completion for SSH hostnames based on ~/.ssh/config ignoring wildcards
    [[ -e "${DOT_LOCATION}/.ssh/config" ]] && complete -o "default" -o "nospace" \
@@ -125,10 +132,10 @@ unset missing_utils
 unset required_utils
 
 printf "\n"
-if [ ${#Os_Pretty_Name} -gt 0 ]; then
+if [[ ${#Os_Pretty_Name} -gt 0 ]]; then
     printf "${Os_Pretty_Name}\n\n"
 else
-    if [ -r /etc/redhat-release ]; then
+    if [[ -r /etc/redhat-release ]]; then
         cat /etc/redhat-release
         printf "\n"
     fi
