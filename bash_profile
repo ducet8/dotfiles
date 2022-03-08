@@ -23,25 +23,23 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 ##
 update_dotfiles() {
     local dotowners=(duce rtate ducet8)
-    if [[ (" ${dotowners[*]} " =~ " ${USER} ") && (-d ${HOME}/dotfiles) ]]; then
-        local dotdir="${HOME}/dotfiles"
-        local cwd=$(pwd 2>/dev/null)
-        cd "${dotdir}" &>/dev/null
+    local dotdir="${HOME}/dotfiles"
+    if [[ (" ${dotowners[*]} " =~ " ${USER} ") && (-d ${dotdir}) ]]; then
 
         if [ -d ${dotdir}/.git ]; then
-            git fetch &> /dev/null
+            git -C "${dotdir}" fetch &> /dev/null
 
-            local git_head_upstream=$(git rev-parse HEAD@{u} 2>/dev/null)
-            local git_head_working=$(git rev-parse HEAD 2>/dev/null)
-
-            if [ "${git_head_upstream}" != "${git_head_working}" ]; then
+            local git_ahead_behind=$(git -C "${dotdir}" rev-list --left-right --count master...origin/master | tr -s '\t' '|';)
+            if [[ "${git_ahead_behind}" != "0|0" ]]; then
                 # need to pull
-                printf "NOTICE: git_head_upstream = ${git_head_upstream}"
-                printf "NOTICE: git_head_working = ${git_head_working}\n"
+                printf "NOTICE: git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)\n"
+                printf "NOTICE: git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)\n"
 
-                git pull
+                git -C "${dotdir}" pull
             fi
         else
+            printf "NOTICE: ${dotdir} was not a git repository\n"
+            local cwd=$(pwd 2>/dev/null)
             mkdir -p "${dotdir}"
             cd "${dotdir}" &>/dev/null
             git init
@@ -50,8 +48,8 @@ update_dotfiles() {
             git checkout -t origin/master -f
             git reset --hard
             git checkout -- .
+            cd "${cwd}" &>/dev/null
         fi
-        cd "${cwd}" &>/dev/null
     fi
 }
 update_dotfiles
@@ -107,7 +105,7 @@ fi
 # Display some useful information
 ##
 # Notify of missing utilities
-required_utils=(bat git lsd nvim tmux vim wget)
+required_utils=(bat git jq lsd nvim tmux vim wget)
 missing_utils=""
 for tool in $required_utils; do
     if ! type -P ${tool} &>/dev/null; then
