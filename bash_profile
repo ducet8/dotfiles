@@ -5,10 +5,13 @@ Bash_Profile_Version="20220308, ducet8@outlook.com"
 ##
 # Debugging with file descriptors and time
 ##
-# This line will give vim syntax error, but it works
-# exec {FD}> >(/usr/local/bin/ts -i "%.s" >> /tmp/timestamps)
-# export BASH_XTRACEFD="$FD"
-# set -x
+time_debug=1  # 0 is on/1 is off
+if [[ ${time_debug} -eq 0 ]]; then
+    # This line will give vim syntax error, but it works
+    exec {FD}> >(/usr/local/bin/ts -i "%.s" >> /tmp/profile_debug)
+    export BASH_XTRACEFD="$FD"
+    set -x
+fi
 
 ##
 # Returns to Avoid Interactive Shell Enhancements
