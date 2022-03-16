@@ -136,6 +136,11 @@ else
     alias root="su - root -c '/bin/bash --init-file ${DOT_LOCATION}/.bash_profile'"
 fi
 
+alias sal='ps -ef | grep ssh-agent; echo && env | grep -i ssh | sort -V; echo; ssh-add -l'
+alias scpo='scp -o IdentitiesOnly=yes'
+alias ssho='ssh -o IdentitiesOnly=yes'
+alias sudo='sudo '  # Allowing aliases to be used. **This breaks sudo cli options. To bypass the alias use \sudo at the prompt.
+
 if type -P systemctl &>/dev/null; then
     alias sc=systemctl
 fi

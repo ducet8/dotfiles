@@ -1,6 +1,6 @@
 # .bash_profile
 
-Bash_Profile_Version="20220308, ducet8@outlook.com"
+Bash_Profile_Version="20220316, ducet8@outlook.com"
 
 ##
 # Debugging with file descriptors and time
@@ -66,7 +66,7 @@ update_dotfiles() {
 update_dotfiles
 
 ##
-# Load the shell dotfiles, and then some:
+# Load the shell dotfiles
 ##
 [[ -z "${SUDO_USER}" ]] && DOT_LOCATION="${HOME}" || DOT_LOCATION=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6)
 
@@ -124,6 +124,7 @@ for tool in $required_utils; do
     fi
 done
 if [[ ${missing_utils} != "" ]]; then
+    # printf "$(tput setaf 136)testing$(tput sgr0)\n"
     printf "NOTICE: Missing Utilities: ${missing_utils}\n"
     if [[ ${Os_Id} == "macos" ]]; then
         printf "\tYou most likely need to run: brew install ${missing_utils}"
