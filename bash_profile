@@ -42,13 +42,13 @@ update_dotfiles() {
             local git_behind=$(printf -v int $(echo "${git_ahead_behind}" | awk -F\| '{print $2}'))
             if [[ "${git_ahead}" -lt "${git_behind}" ]]; then
                 # need to pull
-                elog notice "git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)\n"
-                elog notice "git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)\n"
+                elog notice "git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)"
+                elog notice "git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)"
 
                 git -C "${dotdir}" pull
             fi
         else
-            elog alert "${dotdir} was not a git repository\n"
+            elog alert "${dotdir} was not a git repository"
             local cwd=$(pwd 2>/dev/null)
             mkdir -p "${dotdir}"
             cd "${dotdir}" &>/dev/null
@@ -130,7 +130,7 @@ if [[ ${missing_utils} != "" ]]; then
         # TODO: Fix this list as not all are available
         missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
     fi
-    elog notice ${missing_util_msg}
+    elog notice "${missing_util_msg}"
     unset missing_util_msg
 fi
 unset missing_utils
