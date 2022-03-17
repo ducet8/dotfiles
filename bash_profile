@@ -32,9 +32,8 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 ##
 update_dotfiles() {
     local dotowners=(duce rtate ducet8)
-    local dotdir="${HOME}/dotfiles"
     if [[ (" ${dotowners[*]} " =~ " ${USER} ") && (-d ${dotdir}) ]]; then
-
+        export PATH=~/local/bin:$PATH
         if [ -d ${dotdir}/.git ]; then
             git -C "${dotdir}" fetch &> /dev/null
 
@@ -43,13 +42,13 @@ update_dotfiles() {
             local git_behind=$(printf -v int $(echo "${git_ahead_behind}" | awk -F\| '{print $2}'))
             if [[ "${git_ahead}" -lt "${git_behind}" ]]; then
                 # need to pull
-                printf "NOTICE: git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)\n"
-                printf "NOTICE: git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)\n"
+                elog notice "git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)\n"
+                elog notice "git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)\n"
 
                 git -C "${dotdir}" pull
             fi
         else
-            printf "NOTICE: ${dotdir} was not a git repository\n"
+            elog alert "${dotdir} was not a git repository\n"
             local cwd=$(pwd 2>/dev/null)
             mkdir -p "${dotdir}"
             cd "${dotdir}" &>/dev/null
@@ -124,24 +123,26 @@ for tool in $required_utils; do
     fi
 done
 if [[ ${missing_utils} != "" ]]; then
-    # printf "$(tput setaf 136)testing$(tput sgr0)\n"
-    printf "NOTICE: Missing Utilities: ${missing_utils}\n"
+    missing_util_msg="Missing Utilities: ${missing_utils}\n"
     if [[ ${Os_Id} == "macos" ]]; then
-        printf "\tYou most likely need to run: brew install ${missing_utils}"
+        missing_util_msg+="\tYou most likely need to run: brew install ${missing_utils}"
     elif [[ ${Os_Id} == "rocky" ]]; then
-        printf "\tYou most likely need to run: sudo dnf install ${missing_utils}"
+        # TODO: Fix this list as not all are available
+        missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
     fi
+    elog notice ${missing_util_msg}
+    unset missing_util_msg
 fi
 unset missing_utils
 unset required_utils
 
 printf "\n"
 if [[ ${#Os_Pretty_Name} -gt 0 ]]; then
-    printf "${Os_Pretty_Name}\n\n"
+    elog info "${Os_Pretty_Name}\n"
 else
     if [[ -r /etc/redhat-release ]]; then
         cat /etc/redhat-release
         printf "\n"
     fi
 fi
-printf "${DOT_LOCATION}/.bash_profile ${Bash_Profile_Version}\n\n"
+elog info "${DOT_LOCATION}/.bash_profile ${Bash_Profile_Version}\n"

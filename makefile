@@ -5,7 +5,7 @@ C_MAG := \033[35m
 C_RESET := \033[0m
 DOTFILES := aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc tmux.conf vimrc
 HOMEDIR := $(shell echo ~)
-LBINFILES := pawk rif test-loop
+LBINFILES := elog pawk rif test-loop
 
 
 .PHONY: dotfiles

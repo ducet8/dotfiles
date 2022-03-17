@@ -242,7 +242,7 @@ json() {
 }
 
 list_functions() {
-    # TODO: This is not working correctly. It should list the used functions
+    # TODO: This is not working correctly. It should list the used functions - decalre -F
    grep \( ~/.functions | grep \{ | grep -v ^# | grep -v ^" " | awk -F\( '{print $1}'
 }
 
@@ -252,17 +252,17 @@ llv() {
 }
 
 # Get colors in manual pages
-man() {
-	env \
-		LESS_TERMCAP_mb="$(printf '\e[1;31m')" \
-		LESS_TERMCAP_md="$(printf '\e[1;31m')" \
-		LESS_TERMCAP_me="$(printf '\e[0m')" \
-		LESS_TERMCAP_se="$(printf '\e[0m')" \
-		LESS_TERMCAP_so="$(printf '\e[1;44;33m')" \
-		LESS_TERMCAP_ue="$(printf '\e[0m')" \
-		LESS_TERMCAP_us="$(printf '\e[1;32m')" \
-		man "$@"
-}
+# man() {
+#     env \
+#         LESS_TERMCAP_mb="$(printf '\e[1;31m')" \
+#         LESS_TERMCAP_md="$(printf '\e[1;31m')" \
+#         LESS_TERMCAP_me="$(printf '\e[0m')" \
+#         LESS_TERMCAP_se="$(printf '\e[0m')" \
+#         LESS_TERMCAP_so="$(printf '\e[1;44;33m')" \
+#         LESS_TERMCAP_ue="$(printf '\e[0m')" \
+#         LESS_TERMCAP_us="$(printf '\e[1;32m')" \
+#         man "$@"
+# }
 
 ssh_setup() {
    cat ~/.ssh/id_rsa.pub | ssh $1 'cat - >> ~/.ssh/authorized_keys'
