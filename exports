@@ -39,6 +39,9 @@ if [ ${#Os_Id} -eq 0 ]; then
     if uname -s | grep -q Darwin; then
         Os_Id=macos
         Os_Version_Id=$(/usr/bin/sw_vers -productVersion 2> /dev/null)
+        if [ ${#Os_Pretty_Name} -eq 0 ]; then
+            Os_Pretty_Name="${Os_Id} ${Os_Version_Id}"
+        fi
     fi
 fi
 
