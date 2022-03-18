@@ -138,11 +138,11 @@ unset required_utils
 
 printf "\n"
 if [[ ${#Os_Pretty_Name} -gt 0 ]]; then
-    elog info "${Os_Pretty_Name}\n"
+    elog -q info "${Os_Pretty_Name}\n"
 else
     if [[ -r /etc/redhat-release ]]; then
         cat /etc/redhat-release
         printf "\n"
     fi
 fi
-elog info "${DOT_LOCATION}/.bash_profile ${Bash_Profile_Version}\n"
+elog -q info "${DOT_LOCATION}/.bash_profile: ${Bash_Profile_Version}\n"

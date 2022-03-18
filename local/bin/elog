@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 usage() {
-    printf "usage: $0 [-h|d|s|t] [emer|alert|crit|error|warn|notice|info|debug] [log_message]\n\n"
+    printf "usage: $0 [-h|d|q|s|t] [emer|alert|crit|error|warn|notice|info|debug] [log_message]\n\n"
 
     printf "Options:\n"
     printf "\t-h|--help           Print this Help\n"
     printf "\t-d|--debug          Enable Debug\n"
+    printf "\t-q|--quiet          Don't print line header\n"
     printf "\t-s|--stacktrace     Enable Stacktrace\n"
     printf "\t-t|--time           Enable Date/Time Stamp\n"
 
@@ -48,6 +49,7 @@ parse_args() {
             case $1 in
                 -d|--debug)         debug=0                                     ;;
                 -h|--help)          usage                                       ;;
+                -q|--quiet)         quiet=0                                     ;;
                 -s|--stacktrace)    stacktrace=0                                ;;
                 -t|--time)          timestamp="$(date '+%Y/%m/%d %H:%M:%S') "   ;;
                 *)                  usage                                       ;;
@@ -74,35 +76,35 @@ stacktrace() {
 }
 
 elog_level_emer() {  # Level 0
-    printf "${red}${timestamp}[EMER]: ${msg}${reset}\n"
+    printf "${red}${timestamp}${log_header}${msg}${reset}\n"
 }
 
 elog_level_alert() {  # Level 1
-    printf "${orange}${timestamp}[ALERT]: ${msg}${reset}\n"
+    printf "${orange}${timestamp}${log_header}${msg}${reset}\n"
 }
 
 elog_level_crit() {  # Level 2
-    printf "${violet}${timestamp}[CRIT]: ${msg}${reset}\n"
+    printf "${violet}${timestamp}${log_header}${msg}${reset}\n"
 }
 
 elog_level_error() {  # Level 3
-    printf "${purple}${timestamp}[ERROR]: ${msg}${reset}\n"
+    printf "${purple}${timestamp}${log_header}${msg}${reset}\n"
 }
 
 elog_level_warn() {  # Level 4
-    printf "${blue}${timestamp}[WARN]: ${msg}${reset}\n"
+    printf "${blue}${timestamp}${log_header}${msg}${reset}\n"
 }
 
 elog_level_notice() {  # Level 5
-    printf "${cyan}${timestamp}[NOTICE]: ${msg}${reset}\n"
+    printf "${cyan}${timestamp}${log_header}${msg}${reset}\n"
 }
 
 elog_level_info() {  # Level 6
-    printf "${yellow}${timestamp}[INFO]: ${msg}${reset}\n"
+    printf "${yellow}${timestamp}${log_header}${msg}${reset}\n"
 }
 
 elog_level_debug() {  # Level 7
-    printf "${green}${timestamp}[DEBUG]: ${msg}${reset}\n"
+    printf "${green}${timestamp}${log_header}${msg}${reset}\n"
     stacktrace 2
 }
 
@@ -115,5 +117,10 @@ elog_levels=($(declare -F | grep elog_ | awk '{print$3}'))
 if [[  ! " ${elog_levels[*]} " =~ " ${log_type} " ]]; then
     usage
 fi
+
+if [[ -z ${quiet} ]] || [[ ${quiet} -ne 0 ]]; then
+    log_header="[$(echo $1 | awk '{print toupper($0)}')]: "
+fi
+
 set_color_codes
 ${log_type} ${msg}
