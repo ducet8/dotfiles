@@ -32,6 +32,7 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 ##
 update_dotfiles() {
     local dotowners=(duce dtate ducet8)
+    dotdir="${HOME}/dotfiles"
     if [[ (" ${dotowners[*]} " =~ " ${USER} ") && (-d ${dotdir}) ]]; then
         export PATH=~/local/bin:$PATH
         if [ -d ${dotdir}/.git ]; then
