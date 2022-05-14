@@ -17,26 +17,6 @@ if [[ ${Os_Id} == "macos" ]]; then
       fi
     }
 
-    2mount() {
-       if [[ $1 == "home" || $1 == "Home" ]]; then
-          osascript <<EOF
-mount volume "smb://duce@tateserv1/share"
-EOF
-       fi
-    }
-
-    2umount() {
-       if [[ $1 == "home" || $1 == "Home" ]]; then
-          umount /Volumes/share
-       fi
-    }
-
-    brew_upgrade_all() {
-       for i in `brew list`; do brew upgrade $i; done
-       for i in `brew cask list`; do brew cask upgrade $i; done
-       cowsay Brew Upgrades are Complete
-    }
-
     fuck() {
        TF_PYTHONIOENCODING=$PYTHONIOENCODING;
        export TF_SHELL=bash;
@@ -44,23 +24,10 @@ EOF
        export TF_SHELL_ALIASES=$(alias);
        export TF_HISTORY=$(fc -ln -10);
        export PYTHONIOENCODING=utf-8;
-       TF_CMD=$(
-           thefuck THEFUCK_ARGUMENT_PLACEHOLDER "$@"
-       ) && eval "$TF_CMD";
+       TF_CMD=$(thefuck THEFUCK_ARGUMENT_PLACEHOLDER "$@") && eval "$TF_CMD";
        unset TF_HISTORY;
        export PYTHONIOENCODING=$TF_PYTHONIOENCODING;
        history -s $TF_CMD;
-    }
-
-    gone() {
-       for i in teams sonic outlook; do
-          quit $i
-       done
-       #quit X11
-       if [ -f /Users/duce/Desktop/password ]; then
-          rm /Users/duce/Desktop/password
-       fi
-       cowsay Have a Great Evening!
     }
 
     list_running_apps() {
@@ -74,20 +41,6 @@ EOF
     mkprj() {
        mkdir /Users/duce/projects/$1
        cp /Users/duce/projects/gitignore /Users/duce/projects/$1/.gitignore
-    }
-
-    quit() {
-       MATCHES=$(ls /Applications | grep -i "$@" | wc -l)
-       if [[ MATCHES -eq 1 ]]; then
-          APP=$(ls /Applications | grep -i "$@" | awk -F.app '{print $1}')
-          osascript -e "quit app \"${APP}\""
-       elif [[ MATCHES -eq 0 ]]; then
-          printf "No applications were found matching $@\n"
-       else
-          printf "Too many applications were found matching $@.\n"
-          ls /Applications | grep -i "$@"
-          printf "\nPlease be more specific.\n"
-       fi
     }
 
     show_hidden() {
@@ -112,14 +65,6 @@ EOF
           ls /Applications | grep -i "$@"
           printf "\nPlease be more specific.\n"
        fi
-    }
-
-    work() {
-       for i in teams sonicwall outlook; do
-          use $i
-       done
-       #use X11
-       cowsay GET TO IT!
     }
 
 fi
@@ -182,13 +127,10 @@ if type -P git &>/dev/null; then
 
         # Fix git@github.com: URLs
         base_url=${base_url//git@github\.com:/https:\/\/github\.com\/}
-
         # Fix git://github.com URLS
         base_url=${base_url//git:\/\/github\.com/https:\/\/github\.com\/}
-
         # Fix git@bitbucket.org: URLs
         base_url=${base_url//git@bitbucket.org:/https:\/\/bitbucket\.org\/}
-
         # Fix git@gitlab.com: URLs
         base_url=${base_url//git@gitlab\.com:/https:\/\/gitlab\.com\/}
 
@@ -217,7 +159,6 @@ if type -P git &>/dev/null; then
 
         [[ $base_url == *bitbucket* ]] && tree="src" || tree="tree"
         url="$base_url/$tree/$branch$relative_path"
-
 
         echo "Calling $(type open) for $url"
 

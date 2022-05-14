@@ -1,6 +1,6 @@
 # .bash_profile
 
-Bash_Profile_Version="20220323, ducet8@outlook.com"
+Bash_Profile_Version="2022.05.14, ducet8@outlook.com"
 
 ##
 # Debugging with file descriptors and time
@@ -26,6 +26,9 @@ if [ ${#PS1} -le 0 ]; then return; fi
 
 # SSH, No TTY,No TMUX
 if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; then return; fi
+
+# Source the system bashrc
+if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 
 ##
 # Pull the latest dotfiles
@@ -119,7 +122,8 @@ required_utils=(bat git jq lsd nvim tmux vim wget)
 missing_utils=""
 for tool in $required_utils; do
     if ! type -P ${tool} &>/dev/null; then
-        if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi
+        if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi  # nvim is available as neovim
+        if [[ ${tool} == "bat" ]] && [[ ${Os_Id} == "rocky" ]]; then continue; fi  # bat is not available on rocky
         missing_utils+="${tool} "
     fi
 done
@@ -128,7 +132,6 @@ if [[ ${missing_utils} != "" ]]; then
     if [[ ${Os_Id} == "macos" ]]; then
         missing_util_msg+="\tYou most likely need to run: brew install ${missing_utils}"
     elif [[ ${Os_Id} == "rocky" ]]; then
-        # TODO: Fix this list as not all are available
         missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
     fi
     elog notice "${missing_util_msg}"
@@ -139,7 +142,7 @@ unset required_utils
 
 printf "\n"
 if [[ ${#Os_Pretty_Name} -gt 0 ]]; then
-    elog -q info "${Os_Pretty_Name}\n"
+    elog -q info "${Os_Pretty_Name^^}\n"
 else
     if [[ -r /etc/redhat-release ]]; then
         cat /etc/redhat-release
