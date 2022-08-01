@@ -1,11 +1,11 @@
 # .bash_profile
 
-Bash_Profile_Version="2022.05.14, ducet8@outlook.com"
+Bash_Profile_Version="2022.07.29, ducet8@outlook.com"
 
 ##
 # Debugging with file descriptors and time
 ##
-time_debug=1  # 0 is on/1 is off
+time_debug=0  # 0 is on/1 is off
 if [[ ${time_debug} -eq 0 ]]; then
     # This line will give vim syntax error, but it works
     exec {FD}> >(/usr/local/bin/ts -i "%.s" >> /tmp/profile_debug)
@@ -20,6 +20,9 @@ case $- in
     *i*)            ;;          # interactive shell (OK)
     *)      return  ;;          # non-interactive shell
 esac
+
+# Do not allow execution
+[ "${BASH_SOURCE}" == "${0}" ] && exit
 
 # No prompt
 if [ ${#PS1} -le 0 ]; then return; fi
@@ -80,6 +83,36 @@ for file in ${DOT_LOCATION}/.{exports,aliases,functions,bash_prompt}; do
     fi
 done
 unset file
+
+##
+# Mimic /etc/bash.d in ~/etc/bash.d
+##
+Etc_Dir=${BASH_SOURCE%/*}
+
+if [ -r "${Etc_Dir}/etc/bash.d/000-bash.d.sh" ]; then
+    source "${Etc_Dir}/etc/bash.d/000-bash.d.sh"
+fi
+
+if  [ ${#Etc_Dir} -gt 0 ] && [ "${Etc_Dir}" != "/" ] && [ -d "${Etc_Dir}/etc/bash.d" ]; then
+    for Home_Etc_Bash_D_Sh in ${Etc_Dir}/etc/bash.d/*.sh; do
+        if [ -r "${Home_Etc_Bash_D_Sh}" ]; then
+            source "${Home_Etc_Bash_D_Sh}"
+        fi
+    done
+    for Home_Etc_Bash_D_Sub in $(find ${Etc_Dir}/etc/bash.d/* -type d); do
+        if [[ $(echo ${Home_Etc_Bash_D_Sub} | awk -F/ '{print tolower($NF)}') == ${Os_Id} ]]; then
+            for Home_Etc_Bash_D_Sh in ${Home_Etc_Bash_D_Sub}/*.sh; do
+                if [ -r "${Home_Etc_Bash_D_Sh}" ]; then
+                    source "${Home_Etc_Bash_D_Sh}"
+                fi
+            done
+            unset -v Home_Etc_Bash_D_Sub
+        fi
+    done
+    unset -v Home_Etc_Bash_D_Sh
+fi
+unset Home_Etc_Bash_D_Sh
+unset Etc_Dir
 
 ##
 # Custom Settings

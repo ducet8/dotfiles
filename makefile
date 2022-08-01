@@ -2,6 +2,7 @@ AUTH_KEY := "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLHD2wQOu7sV6TXpNMw5GCp5vFwCU
 C_CYAN := \033[36m
 C_GREEN := \033[32m
 C_MAG := \033[35m
+C_RED := \033[31m
 C_RESET := \033[0m
 DOTFILES := aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc tmux.conf vimrc
 HOMEDIR := $(shell echo ~)
@@ -18,7 +19,15 @@ dotfiles: ## Installs the dotfiles.
 
 
 .PHONY: duce
-duce: dotfiles local ssh
+duce: dotfiles etc ssh
+
+
+.PHONY: etc
+etc: # Sets up ~/etc
+	@if [[ ! -d "$(HOMEDIR)/etc" && ! -L "$(HOMEDIR)/etc" ]]; then \
+		ln -sfn $(HOMEDIR)/dotfiles/etc $(HOMEDIR)/etc \
+		echo "$(C_GREEN)Linked $(HOMEDIR)/etc to $(HOMEDIR)/dotfiles/etc" \
+	fi
 
 
 .PHONY: local
@@ -27,7 +36,7 @@ local: # Sets up ~/local
 	@for file in $(LBINFILES); do \
 		ln -sfn $(HOMEDIR)/dotfiles/local/bin/$$file $(HOMEDIR)/local/bin/$$file; \
 	done
-	@echo "(C_GREEN)Created the following symbolic links:"
+	@echo "$(C_GREEN)Created the following symbolic links:"
 	@ls -lA $(HOMEDIR)/local/bin | awk '/^l/ {print "\t$(C_MAG)" $$(NF-2) "$(C_RESET) -> " $$(NF)}'
 
 
@@ -42,12 +51,25 @@ ssh:  ## Sets up the authorized_keys
 
 
 .PHONY: test
-test: ## Runs all the tests.
+test:  ## Runs all the tests.
 ifeq ($(shell [ -t 0 ] && echo 1 || echo 0), 1)
 # Required variables can be set here
 	@echo "Session is interactive"
 endif
 	@echo $(HOMEDIR)
+
+
+.PHONY: update
+update:  ## Cleans up and redoes the current required setup
+	@if [[ -d "$(HOMEDIR)/local" && ! -L "$(HOMEDIR)/local" ]]; then \
+		for file in $$(find $(HOMEDIR)/local/bin -type l); do \
+			ls -l $$file | awk '{print $$(NF)}' | grep -i dotfiles >>/dev/null; \
+			if [[ $$? == 0 ]]; then \
+				unlink $$file; \
+				echo "$(C_RED)Unlinked: $$file$(C_RESET)"; \
+			fi; \
+		done; \
+	fi
 
 
 .PHONY: help

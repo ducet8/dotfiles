@@ -67,8 +67,7 @@ stacktrace() {
   if [[ "${debug:-}" -ne 0 ]] &&  [[ "${stacktrace:-}" -ne 0 ]]; then
     local BEGIN="${1:-1}" # Display line numbers starting from given index, e.g. to skip "log::stacktrace" and "error" functions.
     local I
-    for(( I=BEGIN; I<${#FUNCNAME[@]}; I++ ))
-    do
+    for (( I=BEGIN; I<${#FUNCNAME[@]}; I++ )); do
       echo $'\t\t'"at ${FUNCNAME[$I]}(${BASH_SOURCE[$I]}:${BASH_LINENO[$I-1]})" >&2
     done
     echo

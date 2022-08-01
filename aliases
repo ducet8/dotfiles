@@ -33,6 +33,8 @@ if [[ ${Os_Id} == "macos" ]]; then
     alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killfinder"
 fi
 
+alias bell="echo -e '\a'"
+
 ##
 # cat Aliases
 #
@@ -118,6 +120,8 @@ fi
 alias kitsune='~/projects/personal/kitsune/kitsune.py'
 alias me='source ~/.bash_profile'
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
+
+alias list_functions='declare -F | awk '\''{print $3}'\'' | grep -v ^_'
 
 ##
 # sudo Aliases
