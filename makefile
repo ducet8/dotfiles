@@ -24,9 +24,9 @@ duce: dotfiles etc ssh
 
 .PHONY: etc
 etc: # Sets up ~/etc
-	@if [[ ! -d "$(HOMEDIR)/etc" && ! -L "$(HOMEDIR)/etc" ]]; then \
-		ln -sfn $(HOMEDIR)/dotfiles/etc $(HOMEDIR)/etc \
-		echo "$(C_GREEN)Linked $(HOMEDIR)/etc to $(HOMEDIR)/dotfiles/etc" \
+	@if [ ! -d "$(HOMEDIR)/etc" ] && [ ! -L "$(HOMEDIR)/etc" ]; then \
+		ln -sfn $(HOMEDIR)/dotfiles/etc $(HOMEDIR)/etc; \
+		echo "$(C_GREEN)Linked $(HOMEDIR)/etc to $(HOMEDIR)/dotfiles/etc"; \
 	fi
 
 
@@ -61,10 +61,10 @@ endif
 
 .PHONY: update
 update:  ## Cleans up and redoes the current required setup
-	@if [[ -d "$(HOMEDIR)/local" && ! -L "$(HOMEDIR)/local" ]]; then \
+	@if [ -d "$(HOMEDIR)/local" ] && [ ! -L "$(HOMEDIR)/local" ]; then \
 		for file in $$(find $(HOMEDIR)/local/bin -type l); do \
 			ls -l $$file | awk '{print $$(NF)}' | grep -i dotfiles >>/dev/null; \
-			if [[ $$? == 0 ]]; then \
+		if [ "$$?" -eq 0 ]; then \
 				unlink $$file; \
 				echo "$(C_RED)Unlinked: $$file$(C_RESET)"; \
 			fi; \
