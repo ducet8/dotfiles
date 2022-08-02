@@ -6,7 +6,7 @@ Bash_Profile_Version="2022.08.02, ducet8@outlook.com"
 # Debugging with file descriptors and time
 ##
 time_debug=1  # 0 is on/1 is off
-if [[ ${time_debug} -eq 0 ]] && [[ type -P /usr/local/bin/ts &>/dev/null ]]; then
+if [[ ${time_debug} -eq 0 ]] && type -P /usr/local/bin/ts &>/dev/null; then
     # This line will give vim syntax error, but it works
     exec {FD}> >(/usr/local/bin/ts -i "%.s" >> /tmp/profile_debug)
     export BASH_XTRACEFD="$FD"
