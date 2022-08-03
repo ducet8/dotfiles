@@ -46,9 +46,9 @@ update_dotfiles() {
             git -C "${dotdir}" fetch &> /dev/null
 
             local git_ahead_behind=$(git -C "${dotdir}" rev-list --left-right --count master...origin/master | tr -s '\t' '|';)
-            local git_ahead=$(printf -v int $(echo "${git_ahead_behind}" | awk -F\| '{print $1}'))
-            local git_behind=$(printf -v int $(echo "${git_ahead_behind}" | awk -F\| '{print $2}'))
-            if [[ "${git_ahead}" -lt "${git_behind}" ]]; then
+            local git_ahead=$(echo "${git_ahead_behind}" | awk -F\| '{print $1}')
+            local git_behind=$(echo "${git_ahead_behind}" | awk -F\| '{print $2}')
+            if [[ ${git_ahead} -lt ${git_behind} ]]; then
                 # need to pull
                 elog notice "git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)"
                 elog notice "git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)"
