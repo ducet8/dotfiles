@@ -20,33 +20,6 @@ function elog() {
 
     elog_levels=(emer alert crit error warn notice info debug)
     
-    # Set the color codes
-    if tput setaf 1 &>/dev/null; then
-        reset=$(tput sgr0)
-        black=$(tput setaf 0)
-        red=$(tput setaf 1)
-        green=$(tput setaf 2)
-        yellow=$(tput setaf 3)
-        blue=$(tput setaf 4)
-        cyan=$(tput setaf 6)
-        orange=$(tput setaf 166)
-        purple=$(tput setaf 125)
-        violet=$(tput setaf 61)
-        white=$(tput setaf 7)
-    else
-        reset="\[\e[0m\]"
-        black="\[\e[1;30m\]"
-        red="\[\e[1;31m\]"
-        green="\[\e[1;32m\]"
-        yellow="\[\e[1;33m\]"
-        blue="\[\e[1;34m\]"
-        cyan="\[\e[1;36m\]"
-        orange="\[\e[1;33m\]"
-        purple="\[\e[1;35m\]"
-        violet="\[\e[1;35m\]"
-        white="\[\e[1;37m\]"
-    fi
-
     # Parse args
     while :; do
         if [[ $# -eq 0 ]]; then
@@ -65,21 +38,21 @@ function elog() {
             log_level=$(echo ${1} | awk '{print tolower($0)}')
             case ${log_level} in
                 emer)  # Level 0
-                    color=${red}  ;;
+                    color=${RED}  ;;
                 alert)  # Level 1
-                    color=${orange}  ;;
+                    color=${ORANGE}  ;;
                 crit)  # Level 2
-                    color=${violet}  ;;
+                    color=${VIOLET}  ;;
                 error)  # Level 3
-                    color=${purple}  ;;
+                    color=${PURPLE}  ;;
                 warn)  # Level 4
-                    color=${blue}  ;;
+                    color=${BLUE}  ;;
                 notice)  # Level 5
-                    color=${cyan}  ;;
+                    color=${CYAN}  ;;
                 info)  # Level 6
-                    color=${yellow}  ;;
+                    color=${YELLOW}  ;;
                 debug)  # Level 7
-                    color=${green}  ;;
+                    color=${GREEN}  ;;
             esac
             msg=$2
             shift; shift
@@ -91,10 +64,10 @@ function elog() {
     fi
 
     if [[ -z ${quiet} ]] || [[ ${quiet} -ne 0 ]]; then
-        log_header="[$(echo $1 | awk '{print toupper($0)}')]: "
+        log_header="[$(echo ${log_level} | awk '{print toupper($0)}')]: "
     fi
 
-    printf "${color}${timestamp}${log_header}${msg}${reset}\n"
+    printf "${color}${timestamp}${log_header}${msg}${RESET}\n"
 
     # Print stacktrace if level is debug
     if [[ ${log_level} == "debug" ]]; then

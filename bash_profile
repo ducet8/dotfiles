@@ -1,10 +1,11 @@
 # .bash_profile
 
-Bash_Profile_Version="2022.08.02, ducet8@outlook.com"
+Bash_Profile_Version="2022.08.03, ducet8@outlook.com"
 
 ##
 # Debugging with file descriptors and time
 ##
+# TODO: Add a safety to this
 time_debug=1  # 0 is on/1 is off
 if [[ ${time_debug} -eq 0 ]] && type -P /usr/local/bin/ts &>/dev/null; then
     # This line will give vim syntax error, but it works
@@ -72,19 +73,6 @@ update_dotfiles() {
 update_dotfiles
 
 ##
-# Load the shell dotfiles
-##
-[[ -z "${SUDO_USER}" ]] && DOT_LOCATION="${HOME}" || DOT_LOCATION=$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6)
-
-for file in ${DOT_LOCATION}/.{exports,aliases,functions,bash_prompt}; do
-    if [[ -r "${file}" ]] && [[ -f "${file}" ]]; then
-        # shellcheck source=/dev/null
-        source "${file}"
-    fi
-done
-unset file
-
-##
 # Mimic /etc/bash.d in ~/etc/bash.d
 ##
 Etc_Dir=${BASH_SOURCE%/*}
@@ -96,6 +84,7 @@ fi
 if  [ ${#Etc_Dir} -gt 0 ] && [ "${Etc_Dir}" != "/" ] && [ -d "${Etc_Dir}/etc/bash.d" ]; then
     for Home_Etc_Bash_D_Sh in ${Etc_Dir}/etc/bash.d/*.sh; do
         if [ -r "${Home_Etc_Bash_D_Sh}" ]; then
+            # echo "sourcing ${Home_Etc_Bash_D_Sh}"
             source "${Home_Etc_Bash_D_Sh}"
         fi
     done
@@ -154,6 +143,7 @@ fi
 required_utils=(bat git jq lsd nvim tmux vim wget)
 missing_utils=""
 for tool in $required_utils; do
+    # echo ${tool}
     if ! type -P ${tool} &>/dev/null; then
         if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi  # nvim is available as neovim
         if [[ ${tool} == "bat" ]] && [[ ${Os_Id} == "rocky" ]]; then continue; fi  # bat is not available on rocky

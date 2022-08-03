@@ -4,9 +4,10 @@ C_GREEN := \033[32m
 C_MAG := \033[35m
 C_RED := \033[31m
 C_RESET := \033[0m
-DOTFILES := aliases bash_profile bash_prompt bash_prompt_dt exports functions inputrc tmux.conf vimrc
+DOTFILES := bash_profile bash_prompt inputrc tmux.conf vimrc
 HOMEDIR := $(shell echo ~)
 LBINFILES := elog pawk rif test-loop
+UNLINK_FILES := aliases bash_prompt_dt exports functions
 
 
 .PHONY: dotfiles
@@ -70,6 +71,14 @@ update:  ## Cleans up and redoes the current required setup
 			fi; \
 		done; \
 	fi
+	@for file in $(UNLINK_FILES); do \
+		if [ -L "$(HOMEDIR)/.$$file" ]; then \
+			unlink "$(HOMEDIR)/.$$file"; \
+			echo "$(C_RED)Removed the following symbolic links:"; \
+			print "\t$(C_MAG)$(HOMEDIR)/.$$file"; \
+		fi; \
+	done
+	
 
 
 .PHONY: help
