@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [ ${#HOME} -gt 0 ]; then
-    export_path="${HOME}"
+if [ ${#DOT_LOCATION} -gt 0 ]; then
+    export_path="${DOT_LOCATION}"
 else
     export_path="~"
 fi
