@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Forked from: joseph.tingiris@gmail.com
 
 # ls version sort
 function llv() {

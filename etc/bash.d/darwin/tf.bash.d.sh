@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 2022.08.04 - ducet8@outlook.com
 
 function fuck() {
     TF_PYTHONIOENCODING=$PYTHONIOENCODING;

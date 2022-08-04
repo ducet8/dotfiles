@@ -1,3 +1,5 @@
+# 2022.08.04 - ducet8@outlook.com
+
 set editing-mode vi
 set keymap vi-insert
 # Make Tab autocomplete regardless of filename case

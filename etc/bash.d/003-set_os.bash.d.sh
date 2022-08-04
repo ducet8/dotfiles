@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Forked from: joseph.tingiris@gmail.com
+
 # Set the OS variant environment variables
 
 Os_Id=""

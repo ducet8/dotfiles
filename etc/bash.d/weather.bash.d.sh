@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 2022.08.04 - ducet8@outlook.com
 
 function weather() {
   #curl "wttr.in/${1: -35209}\?F"

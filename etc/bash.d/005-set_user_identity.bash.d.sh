@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Forked from: joseph.tingiris@gmail.com
+
 # set user identity variables
 
 [ "$EUID" == "0" ] && USER="root"

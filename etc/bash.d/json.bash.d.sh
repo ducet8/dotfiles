@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
+# 2022.08.04 - ducet8@outlook.com
 
 # Syntax-highlight JSON strings or files
 # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
+
 function json() {
 	if [ -t 0 ]; then
 		python -mjson.tool <<< "$*" | pygmentize -l javascript

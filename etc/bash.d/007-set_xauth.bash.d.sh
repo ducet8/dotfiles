@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Forked from: joseph.tingiris@gmail.com
+
 # If possible, as other users, xauth add ${User_Dir}/.Xauthority
 
 if [ "${USER}" == "${Who}" ]; then

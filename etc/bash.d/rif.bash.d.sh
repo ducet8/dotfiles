@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Forked from: joseph.tingiris@gmail.com
+# 2022.08.04 - ducet8@outlook.com
 
 # replace in files
 

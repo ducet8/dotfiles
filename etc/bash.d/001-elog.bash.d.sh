@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 2022.08.04 - ducet8@outlook.com
 
 function elog_usage() {
     printf "usage: $0 [-h|d|q|s|t] [emer|alert|crit|error|warn|notice|info|debug] [log_message]\n\n"
