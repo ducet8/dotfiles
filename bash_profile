@@ -49,19 +49,28 @@ update_dotfiles() {
             local git_ahead=$(echo "${git_ahead_behind}" | awk -F\| '{print $1}')
             local git_behind=$(echo "${git_ahead_behind}" | awk -F\| '{print $2}')
             if [[ ${git_ahead} -lt ${git_behind} ]]; then
-                export ELOG_GIT_MSG_LEVEL="notice"
-                export ELOG_GIT_MSGS=(
-                    "git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)"
-                    "git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)"
-                )
-
+                if tput setaf 1 &> /dev/null; then
+                    local reset=$(tput sgr0)
+                    local color=$(tput setaf 37)
+                else
+                    local reset="\[\e[0m\]"
+                    local color="\[\e[1;36m\]"
+                fi
+                printf "${color}[NOTICE]: git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)${RESET}\n"
+                printf "${color}[NOTICE]: git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)${RESET}\n"
+                
                 git -C "${dotdir}" pull
             fi
         else
-            export ELOG_GIT_MSG_LEVEL="alert"
-            export ELOG_GIT_MSGS=(
-                "${dotdir} was not a git repository"
-            )
+            if tput setaf 1 &> /dev/null; then
+                local reset=$(tput sgr0)
+                local color=$(tput setaf 166)
+            else
+                local reset="\[\e[0m\]"
+                local color="\[\e[1;33m\]"
+            fi
+            printf "${color}[ALERT]: ${dotdir} was not a git repository${RESET}\n"
+
             local cwd=$(pwd 2>/dev/null)
             mkdir -p "${dotdir}"
             cd "${dotdir}" &>/dev/null
@@ -107,18 +116,6 @@ if  [ ${#Etc_Dir} -gt 0 ] && [ "${Etc_Dir}" != "/" ] && [ -d "${Etc_Dir}/etc/bas
 fi
 unset Home_Etc_Bash_D_Sh
 unset Etc_Dir
-
-
-##
-# Print any git update messages
-##
-if [[ (-z ${ELOG_GIT_MSG_LEVEL}) && (-z ${ELOG_GIT_MSGS}) ]]; then
-    for log_line in ${ELOG_GIT_MSGS}; do
-        elog ${ELOG_GIT_MSG_LEVEL} "${log_line}"
-    done
-    unset ELOG_GIT_MSG_LEVEL
-    unset ELOG_GIT_MSGS
-fi
 
 ##
 # Custom Settings
