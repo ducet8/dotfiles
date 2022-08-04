@@ -9,3 +9,7 @@ else
         export DOT_LOCATION="$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6)"
     fi
 fi
+
+if [[ -z "${DOT_LOCATION}" ]]; then
+    elog alert "DOT_LOCATION did not get set"
+fi

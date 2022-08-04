@@ -1,6 +1,6 @@
 # .bash_profile
 
-Bash_Profile_Version="2022.08.03, ducet8@outlook.com"
+Bash_Profile_Version="2022.08.04, ducet8@outlook.com"
 
 ##
 # Debugging with file descriptors and time

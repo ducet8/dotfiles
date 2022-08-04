@@ -44,7 +44,7 @@ fi
 
 Os_Version_Major=${Os_Version_Id%.*}
 
-export Os_Id Os_Version_Id Os_Version_Major Os_Wsl
+export Os_Id Os_Version_Id Os_Version_Major Os_Wsl Os_Pretty_Name
 
 if [ ${#Os_Id} -gt 0 ]; then
     if [ ${#Os_Version_Major} -gt 0 ]; then
