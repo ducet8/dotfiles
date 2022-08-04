@@ -1,79 +1,7 @@
 ##
-# User Identity Export
+# Bash Exports
 ##
-if [ "$EUID" == "0" ]; then USER="root"; fi
-
-if [ -f ~/.User_Name ]; then
-    export User_Name="$(head -1 ~/.User_Name | tr -d '\n')"
-else
-    if type -P who &> /dev/null; then
-        export User_Name=$(who -m | awk '{print $1}' 2>/dev/null)
-    fi
-fi
-if [ ${#User_Name} -eq 0 ] && [ ${#SUDO_USER} -ne 0 ]; then export User_Name=${SUDO_USER}; fi
-if [ ${#User_Name} -eq 0 ]; then export User_Name=${USER}; fi
-if [ ${#User_Name} -gt 0 ]; then export Who="${User_Name%% *}"; fi
-
-if [ ${#Who} -eq 0 ] && [ ${#USER} -eq 0 ]; then export Who=${USER}; fi
-if [ ${#Who} -eq 0 ] && [ ${#LOGNAME} -gt 0 ]; then export Who=${LOGNAME}; fi
-if [ ${#Who} -eq 0 ]; then
-    export Who=UNKNOWN
-    export User_Dir="/tmp"
-else
-    unset User_Dir
-    if type -P getent &> /dev/null; then
-        export User_Dir=$(getent passwd ${Who} 2> /dev/null | awk -F: '{print $6}' | tr -d '\n')
-    fi
-fi
-
-if [ ${#User_Dir} -eq 0 ]; then
-    if [ ${#HOME} -gt 0 ]; then
-        export User_Dir="${HOME}"
-    else
-        export User_Dir="~"
-    fi
-else
-    if [ ${#User_Name} -gt 0 ] && [ "${USER}" != "root" ]; then
-        if [ -f "${User_Dir}/.bash_profile" ]; then
-            chown ${User_Name} "${User_Dir}/.bash_profile" &> /dev/null
-        fi
-    fi
-fi
-
-export Apex_User=${Who}@${HOSTNAME}
-export Base_User=${Apex_User}
-
-##
-# If possible, as other users, xauth add ${User_Dir}/.Xauthority
-##
-if [ "${USER}" == "${Who}" ]; then
-    # elog -q debug "USER '${USER}' is equal to Who '${Who}'"
-    if [ ${#DISPLAY} -eq 0 ] && [ ${#SSH_CONNECTION} -eq 0 ]; then
-        export DISPLAY=:0
-    fi
-else
-    elog -q debug "USER '${USER}' is NOT equal to Who '${Who}'"
-    if [ ${#DISPLAY} -gt 0 ]; then
-        if type -P xauth &> /dev/null; then
-            elog -q debug "xauth DISPLAY=${DISPLAY}"
-            if [ -r "${User_Dir}/.Xauthority" ]; then
-                # elog -q debug "${User_Dir}/.Xauthority file found readable"
-                while read Xauth_Add; do
-                    xauth -b add ${Xauth_Add} 2> /dev/null
-                done <<< "$(xauth -b -f "${User_Dir}/.Xauthority" list)"
-            else
-                elog -q alert "${User_Dir}/.Xauthority file not found readable"
-            fi
-        fi
-    else
-        export DISPLAY=:0
-    fi
-fi
-
-##
-# bash Export
-##
-if [[ ${Os_Id} == "macos" ]]; then
+if [[ ${Os_Id,,} == "darwin" ]]; then
     export SHELL=/usr/local/bin/bash  # Brew's bash
     export BASH_SILENCE_DEPRECATION_WARNING=1  # hide macos' 'default shell is now ZSH message on root login'
 else
@@ -81,7 +9,7 @@ else
 fi
 
 ##
-# color Export
+# Color Exports
 ##
 if tput setaf 1 &> /dev/null; then
     tput sgr0 # reset colors
@@ -115,17 +43,17 @@ else
 fi
 
 ##
-# Colors for ls Export
+# Colors for ls Exports
 ##
 export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
 
 ##
-# Custom PATH Export
+# Custom PATH Exports
 ##
 export PATH=/usr/local/bin:${DOT_LOCATION}/local/bin:$PATH
 
 ##
-# EDITOR Export
+# EDITOR Exports
 ##
 unset -v EDITOR
 Editors=(nvim vim vi)
@@ -155,19 +83,19 @@ fi
 ##
 # Go Exports
 ##
-if [[ ${Os_Id} == "macos" ]]; then
+if [[ ${Os_Id,,} == "darwin" ]]; then
     export SHELL=/usr/local/bin/bash
     export GOPATH=${HOME}/projects/go
     export GOROOT=/usr/local/opt/go/libexec
-    export PATH=$PATH:$GOROOT/bin
+    export PATH=${PATH}:${GOROOT}/bin
 else
     export GOPATH=${HOME}/go
 fi
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOPATH/bin
+export GOBIN=${GOPATH}/bin
+export PATH=${PATH}:${GOPATH}/bin
 
 # if it's an ssh session export GPG_TTY
-if [[ -n "$SSH_CLIENT" ]] || [[ -n "$SSH_TTY" ]]; then
+if [[ -n "${SSH_CLIENT}" ]] || [[ -n "${SSH_TTY}" ]]; then
 	GPG_TTY=$(tty)
 	export GPG_TTY
 fi
@@ -181,7 +109,7 @@ export QT_DEVICE_PIXEL_RATIO=2
 # History Exports
 ##
 export HISTSIZE=50000000;
-export HISTFILESIZE=$HISTSIZE;
+export HISTFILESIZE=${HISTSIZE};
 export HISTIGNORE=" *:ls:cd:cd -:cd ~:pwd:exit:date:* --help:* -h:clear:man *:df -*:history *";
 export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT="[%Y-%m-%d %H:%M:%S] "
@@ -192,7 +120,7 @@ export TZ="America/Chicago"
 # Language Exports - Prefer US English and use UTF-8
 ##
 export LANG="en_US.UTF-8";
-if [[ ${Os_Id} == "macos" ]]; then
+if [[ ${Os_Id,,} == "darwin" ]]; then
     export LC_ALL="en_US.UTF-8";
 fi
 
@@ -221,7 +149,7 @@ export TODOTXT_DEFAULT_ACTION=ls
 ##
 # Python Exports
 ##
-if [[ ${Os_Id} == "macos" ]]; then
+if [[ ${Os_Id,,} == "darwin" ]]; then
     export PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
 fi
 
@@ -230,6 +158,11 @@ fi
 ##
 export WTTR_PARAMS=Fu
 export WTTR_LOCATION=35209
+
+##
+# Uname Exports
+##
+export Uname_I=$(uname -i 2> /dev/null)
 
 ##
 # Unique PATH

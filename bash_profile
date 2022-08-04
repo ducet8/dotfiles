@@ -37,24 +37,20 @@ if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 ##
 # Mimic /etc/bash.d in ~/etc/bash.d
 ##
-Etc_Dir=${BASH_SOURCE%/*}
+User_Dir=${BASH_SOURCE%/*}
 
-# Pull the latest dotfiles
-source "${Etc_Dir}/etc/bash.d/.update_dotfiles.bash.d.sh"
-.update_dotfiles
-
-if [ -r "${Etc_Dir}/etc/bash.d/000-bash.d.sh" ]; then
-    source "${Etc_Dir}/etc/bash.d/000-bash.d.sh"
+if [ -r "${User_Dir}/etc/bash.d/000-bash.d.sh" ]; then
+    source "${User_Dir}/etc/bash.d/000-bash.d.sh"
 fi
 
-if  [ ${#Etc_Dir} -gt 0 ] && [ "${Etc_Dir}" != "/" ] && [ -d "${Etc_Dir}/etc/bash.d" ]; then
-    for Home_Etc_Bash_D_Sh in ${Etc_Dir}/etc/bash.d/*.sh; do
+if  [ ${#User_Dir} -gt 0 ] && [ "${User_Dir}" != "/" ] && [ -d "${User_Dir}/etc/bash.d" ]; then
+    for Home_Etc_Bash_D_Sh in ${User_Dir}/etc/bash.d/*.sh; do
         if [ -r "${Home_Etc_Bash_D_Sh}" ]; then
             source "${Home_Etc_Bash_D_Sh}"
         fi
     done
-    for Home_Etc_Bash_D_Sub in $(find ${Etc_Dir}/etc/bash.d/* -type d); do
-        if [[ $(echo ${Home_Etc_Bash_D_Sub} | awk -F/ '{print tolower($NF)}') == ${Os_Id} ]]; then
+    for Home_Etc_Bash_D_Sub in $(find ${User_Dir}/etc/bash.d/* -type d); do
+        if [[ $(echo ${Home_Etc_Bash_D_Sub} | awk -F/ '{print tolower($NF)}') == ${Os_Id,,} ]]; then
             for Home_Etc_Bash_D_Sh in ${Home_Etc_Bash_D_Sub}/*.sh; do
                 if [ -r "${Home_Etc_Bash_D_Sh}" ]; then
                     source "${Home_Etc_Bash_D_Sh}"
@@ -66,13 +62,13 @@ if  [ ${#Etc_Dir} -gt 0 ] && [ "${Etc_Dir}" != "/" ] && [ -d "${Etc_Dir}/etc/bas
     unset -v Home_Etc_Bash_D_Sh
 fi
 unset Home_Etc_Bash_D_Sh
-unset Etc_Dir
 
 ##
 # Custom Settings
 ##
 set -o vi               # Set vi as Editor
 shopt -s histappend     # Append to the Bash history file, rather than overwriting it
+shopt -s checkwinsize   # Check the window size after each command. If necessary, update the values of LINES and COLUMNS.
 
 ##
 # Display some useful information
@@ -83,15 +79,15 @@ missing_utils=""
 for tool in $required_utils; do
     if ! type -P ${tool} &>/dev/null; then
         if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi  # nvim is available as neovim
-        if [[ ${tool} == "bat" ]] && [[ ${Os_Id} == "rocky" ]]; then continue; fi  # bat is not available on rocky
+        if [[ ${tool} == "bat" ]] && [[ ${Os_Id,,} == "rocky" ]]; then continue; fi  # bat is not available on rocky
         missing_utils+="${tool} "
     fi
 done
 if [[ ${missing_utils} != "" ]]; then
     missing_util_msg="Missing Utilities: ${missing_utils}\n"
-    if [[ ${Os_Id} == "macos" ]]; then
+    if [[ ${Os_Id,,} == "darwin" ]]; then
         missing_util_msg+="\tYou most likely need to run: brew install ${missing_utils}"
-    elif [[ ${Os_Id} == "rocky" ]]; then
+    elif [[ ${Os_Id,,} == "rocky" ]]; then
         missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
     fi
     elog notice "${missing_util_msg}"

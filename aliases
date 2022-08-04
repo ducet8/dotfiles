@@ -18,7 +18,7 @@ done
 ##
 # MacOS Specific Aliases
 ##
-if [[ ${Os_Id} == "macos" ]]; then
+if [[ ${Os_Id,,} == "darwin" ]]; then
     alias catpwd='cat ~/Desktop/password'
     alias cd='2cd'
     alias console='remote-viewer ~/Downloads/console.vv &'

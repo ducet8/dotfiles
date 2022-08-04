@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
+# Set the OS variant environment variables
 
 Os_Id=""
 Os_Version_Id=""
 Os_Version_Major=""
 Os_Wsl=0
 
+# Identify Windows Subsystem for Linux kernel
 if uname -r | grep -q Microsoft; then Os_Wsl=1; fi
 
+# Identify Linux Standard Base distributions
 if [ -r /etc/os-release ]; then
     if [ ${#Os_Id} -eq 0 ]; then
         Os_Id=$(sed -nEe 's#"##g;s#^ID=(.*)$#\1#p' /etc/os-release)
@@ -25,6 +28,7 @@ if [ -r /etc/os-release ]; then
     fi
 fi
 
+# Identify older, non-lsb RHEL variants
 if [ ${#Os_Id} -eq 0 ]; then
     if [ -r /etc/redhat-release ]; then
         Os_Id=rhel
@@ -32,9 +36,10 @@ if [ ${#Os_Id} -eq 0 ]; then
     fi
 fi
 
+# Identify Apple Darwin distributions
 if [ ${#Os_Id} -eq 0 ]; then
     if uname -s | grep -q Darwin; then
-        Os_Id=macos
+        Os_Id=Darwin
         Os_Version_Id=$(/usr/bin/sw_vers -productVersion 2> /dev/null)
         if [ ${#Os_Pretty_Name} -eq 0 ]; then
             Os_Pretty_Name="${Os_Id} ${Os_Version_Id}"
@@ -42,8 +47,15 @@ if [ ${#Os_Id} -eq 0 ]; then
     fi
 fi
 
+# Identify OS major version
 Os_Version_Major=${Os_Version_Id%.*}
+if [ "${Os_Version_Id}" == "${Os_Version_Id}" ]; then
+    Os_Version_Major=""
+fi
 
+##
+# Set Os_ variables
+##
 export Os_Id Os_Version_Id Os_Version_Major Os_Wsl Os_Pretty_Name
 
 if [ ${#Os_Id} -gt 0 ]; then
@@ -53,5 +65,3 @@ if [ ${#Os_Id} -gt 0 ]; then
         export Os_Variant="${Os_Id}"
     fi
 fi
-
-export Uname_I=$(uname -i 2> /dev/null)
