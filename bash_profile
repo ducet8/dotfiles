@@ -35,61 +35,13 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 
 ##
-# Pull the latest dotfiles
-##
-update_dotfiles() {
-    local dotowners=(duce dtate ducet8)
-    dotdir="${HOME}/dotfiles"
-    if [[ (" ${dotowners[*]} " =~ " ${USER} ") && (-d ${dotdir}) ]]; then
-        export PATH=~/local/bin:$PATH
-        if [ -d ${dotdir}/.git ]; then
-            git -C "${dotdir}" fetch &> /dev/null
-
-            local git_ahead_behind=$(git -C "${dotdir}" rev-list --left-right --count master...origin/master | tr -s '\t' '|';)
-            local git_ahead=$(echo "${git_ahead_behind}" | awk -F\| '{print $1}')
-            local git_behind=$(echo "${git_ahead_behind}" | awk -F\| '{print $2}')
-            if [[ ${git_ahead} -lt ${git_behind} ]]; then
-                if tput setaf 1 &> /dev/null; then
-                    local reset=$(tput sgr0)
-                    local color=$(tput setaf 37)
-                else
-                    local reset="\[\e[0m\]"
-                    local color="\[\e[1;36m\]"
-                fi
-                printf "${color}[NOTICE]: git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)${RESET}\n"
-                printf "${color}[NOTICE]: git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)${RESET}\n"
-                
-                git -C "${dotdir}" pull
-            fi
-        else
-            if tput setaf 1 &> /dev/null; then
-                local reset=$(tput sgr0)
-                local color=$(tput setaf 166)
-            else
-                local reset="\[\e[0m\]"
-                local color="\[\e[1;33m\]"
-            fi
-            printf "${color}[ALERT]: ${dotdir} was not a git repository${RESET}\n"
-
-            local cwd=$(pwd 2>/dev/null)
-            mkdir -p "${dotdir}"
-            cd "${dotdir}" &>/dev/null
-            git init
-            git remote add origin git@github.com:ducet8/dotfiles
-            git fetch
-            git checkout -t origin/master -f
-            git reset --hard
-            git checkout -- .
-            cd "${cwd}" &>/dev/null
-        fi
-    fi
-}
-update_dotfiles
-
-##
 # Mimic /etc/bash.d in ~/etc/bash.d
 ##
 Etc_Dir=${BASH_SOURCE%/*}
+
+# Pull the latest dotfiles
+source "${Etc_Dir}/etc/bash.d/.update_dotfiles.bash.d.sh"
+.update_dotfiles
 
 if [ -r "${Etc_Dir}/etc/bash.d/000-bash.d.sh" ]; then
     source "${Etc_Dir}/etc/bash.d/000-bash.d.sh"
@@ -98,7 +50,6 @@ fi
 if  [ ${#Etc_Dir} -gt 0 ] && [ "${Etc_Dir}" != "/" ] && [ -d "${Etc_Dir}/etc/bash.d" ]; then
     for Home_Etc_Bash_D_Sh in ${Etc_Dir}/etc/bash.d/*.sh; do
         if [ -r "${Home_Etc_Bash_D_Sh}" ]; then
-            # echo "sourcing ${Home_Etc_Bash_D_Sh}"
             source "${Home_Etc_Bash_D_Sh}"
         fi
     done
@@ -124,40 +75,12 @@ set -o vi               # Set vi as Editor
 shopt -s histappend     # Append to the Bash history file, rather than overwriting it
 
 ##
-# If OS is MacOS
-##
-if [[ ${Os_Id} == "macos" ]]; then
-   # Source bash_completion
-    if ! shopt -oq posix; then
-        brew_prefix=$(brew --prefix)
-        if [[ -r ${brew_prefix}/etc/profile.d/bash_completion.sh ]]; then
-            . ${brew_prefix}/etc/profile.d/bash_completion.sh
-        elif [[ -f /usr/share/bash-completion/bash_completion ]]; then
-            . /usr/share/bash-completion/bash_completion
-        elif [[ -f /etc/bash_completion ]]; then
-            . /etc/bash_completion
-        fi
-        unset brew_prefix
-   fi
-
-   # Add tab completion for SSH hostnames based on ~/.ssh/config ignoring wildcards
-   [[ -e "${DOT_LOCATION}/.ssh/config" ]] && complete -o "default" -o "nospace" \
-      -W "$(grep "^Host" ~/.ssh/config | \
-      grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" goto scp sftp ssh
-
-   # iTerm2 Shell Integration
-   test -e "${DOT_LOCATION}/.iterm2_shell_integration.bash" && source "${DOT_LOCATION}/.iterm2_shell_integration.bash"
-
-fi
-
-##
 # Display some useful information
 ##
 # Notify of missing utilities
 required_utils=(bat git jq lsd nvim tmux vim wget)
 missing_utils=""
 for tool in $required_utils; do
-    # echo ${tool}
     if ! type -P ${tool} &>/dev/null; then
         if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi  # nvim is available as neovim
         if [[ ${tool} == "bat" ]] && [[ ${Os_Id} == "rocky" ]]; then continue; fi  # bat is not available on rocky
