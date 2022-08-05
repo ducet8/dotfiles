@@ -2,6 +2,7 @@
 
 Bash_Profile_Version="2022.08.04, ducet8@outlook.com"
 
+
 ##
 # Debugging with file descriptors and time
 ##
@@ -13,6 +14,7 @@ if [[ ${time_debug} -eq 0 ]] && type -P /usr/local/bin/ts &>/dev/null; then
     export BASH_XTRACEFD="$FD"
     set -x
 fi
+
 
 ##
 # Returns to Avoid Interactive Shell Enhancements
@@ -35,6 +37,7 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 
 export Verbose=8
+
 
 ##
 # Mimic /etc/bash.d in ~/etc/bash.d
@@ -65,12 +68,34 @@ if  [ ${#User_Dir} -gt 0 ] && [ "${User_Dir}" != "/" ] && [ -d "${User_Dir}/etc/
 fi
 unset Home_Etc_Bash_D_Sh
 
+
 ##
 # Custom Settings
 ##
 set -o vi               # Set vi as Editor
 shopt -s histappend     # Append to the Bash history file, rather than overwriting it
 shopt -s checkwinsize   # Check the window size after each command. If necessary, update the values of LINES and COLUMNS.
+
+
+##
+# Trap EXIT; ensure .bash_logout gets called, regardless
+##
+if  [ "$(type -t verbose)" == "function" ]; then
+    if [ ${#TMUX_PANE} -eq 0 ]; then
+        trap "bash_logout" EXIT
+    else
+        trap "bash_logout;tmux kill-pane -t ${TMUX_PANE}" EXIT
+    fi
+else
+    if  [ "$(type -t bash_logout)" == "function" ]; then
+        if [ ${#TMUX_PANE} -eq 0 ]; then
+            trap "bash_logout" EXIT
+        else
+            trap "bash_logout;tmux kill-pane -t ${TMUX_PANE}" EXIT
+        fi
+    fi
+fi
+
 
 ##
 # Display some useful information
