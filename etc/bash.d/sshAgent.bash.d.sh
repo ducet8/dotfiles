@@ -241,7 +241,6 @@ function sshAgent() {
 }
 
 function sshAgentInit() {
-
     alias authsock=sshAgentInit
 
     if [[ ! ${Ssh_Agent_Clean_Counter} =~ ^[0-9]+$ ]]; then
@@ -317,7 +316,6 @@ function sshAgentInit() {
 
         ssh_agent_socket_pid=${ssh_agent_socket##*.}
         if [[ ${ssh_agent_socket_pid} =~ ^[0-9]+$ ]]; then
-
             ssh_agent_socket_command=$(ps -h -o comm -p ${ssh_agent_socket_pid} 2> /dev/null)
 
             # TODO: test with gnome
@@ -349,7 +347,6 @@ function sshAgentInit() {
                 unset -v Rm_Rc
             else
                 # don't remove valid sockets; try to reuse them
-
                 if [ ${#SSH_AGENT_PID} -eq 0 ] || [ ${#SSH_AUTH_SOCK} -eq 0 ]; then
                     if [ ${#SSH_AUTH_SOCK} -eq 0 ]; then
                         if [ ${#ssh_agent_socket_pid} -gt 0 ] && [ "${ssh_agent_socket_command}" == "ssh-agent" ]; then
@@ -458,7 +455,6 @@ function sshAgentInit() {
     if [ -w "${Ssh_Agent_State}" ]; then
         chmod 0600 "${Ssh_Agent_State}" &> /dev/null
     fi
-
 }
 
 export -f sshAgent
