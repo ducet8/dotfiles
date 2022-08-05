@@ -34,6 +34,8 @@ if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; 
 # Source the system bashrc
 if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 
+export Verbose=8
+
 ##
 # Mimic /etc/bash.d in ~/etc/bash.d
 ##
@@ -73,6 +75,12 @@ shopt -s checkwinsize   # Check the window size after each command. If necessary
 ##
 # Display some useful information
 ##
+[ ! -z ${Verbose} ] && verbose "NOTICE: Verbose=${Verbose}"
+
+verbose "DEBUG: USER='${USER}'" 14
+verbose "DEBUG: Who='${Who}'" 12
+verbose "DEBUG: User_Dir=${User_Dir}" 12
+
 # Notify of missing utilities
 required_utils=(bat git jq lsd nvim tmux vim wget)
 missing_utils=""
@@ -90,7 +98,7 @@ if [[ ${missing_utils} != "" ]]; then
     elif [[ ${Os_Id,,} == "rocky" ]]; then
         missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
     fi
-    elog notice "${missing_util_msg}"
+    verbose "${missing_util_msg}" 5
     unset missing_util_msg
 fi
 unset missing_utils
@@ -98,11 +106,22 @@ unset required_utils
 
 printf "\n"
 if [[ ${#Os_Pretty_Name} -gt 0 ]]; then
-    elog -q info "${Os_Pretty_Name^^}\n"
+    printf "${YELLOW}${Os_Pretty_Name^^}${RESET}\n"
+    # verbose "INFO: ${Os_Pretty_Name^^}\n"
 else
     if [[ -r /etc/redhat-release ]]; then
         cat /etc/redhat-release
         printf "\n"
     fi
 fi
-elog -q info "${DOT_LOCATION}/.bash_profile: ${Bash_Profile_Version}\n"
+
+printf "${YELLOW}${DOT_LOCATION}/.bash_profile: ${Bash_Profile_Version}${RESET}\n"
+# verbose "INFO: ${DOT_LOCATION}/.bash_profile = ${Bash_Profile_Version}"
+
+[ ! -z "${DISPLAY}" ] && echo ""; verbose "INFO: DISPLAY = ${DISPLAY}"
+
+if [ "${TMUX}" ]; then
+    verbose "${Tmux_Info} [${TMUX}]\n" 8
+fi
+
+unset Verbose

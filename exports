@@ -14,21 +14,33 @@ fi
 ##
 # Color Exports
 ##
-if tput setaf 1 &> /dev/null; then
+if type -P tput &> /dev/null; then
     tput sgr0 # reset colors
-    export BOLD=$(tput bold)
-    export RESET=$(tput sgr0)
+    export BOLD="$(tput bold 2> /dev/null)"
+    export RESET="$(tput sgr0 2> /dev/null)"
     # Solarized colors, taken from http://git.io/solarized-colors.
-    export BLACK=$(tput setaf 0)
-    export BLUE=$(tput setaf 33)  # Alternate choice: 4
-    export CYAN=$(tput setaf 37)  # Alternate choice: 6
-    export GREEN=$(tput setaf 64)  # Alternate choice: 2
-    export ORANGE=$(tput setaf 166)
-    export PURPLE=$(tput setaf 125)
-    export RED=$(tput setaf 124)  # Alternate choice: 1
-    export VIOLET=$(tput setaf 61)
-    export WHITE=$(tput setaf 15)  # Alternate choice: 7
-    export YELLOW=$(tput setaf 136)  # Alternate choice: 3
+    export BLACK="$(tput setaf 0 2> /dev/null)"
+    export BLUE="$(tput setaf 33 2> /dev/null)"  # Alternate choice: 4
+    export CYAN="$(tput setaf 37 2> /dev/null)"  # Alternate choice: 6
+    export GREEN="$(tput setaf 64 2> /dev/null)"  # Alternate choice: 2
+    export ORANGE="$(tput setaf 166 2> /dev/null)"
+    export PURPLE="$(tput setaf 125 2> /dev/null)"
+    export RED="$(tput setaf 124 2> /dev/null)"  # Alternate choice: 1
+    export VIOLET="$(tput setaf 61 2> /dev/null)"
+    export WHITE="$(tput setaf 15 2> /dev/null)"  # Alternate choice: 7
+    export YELLOW="$(tput setaf 136 2> /dev/null)"  # Alternate choice: 3
+    export TPUT_BOLD=${BOLD}
+    export TPUT_SETAF_0=${BLACK}
+    export TPUT_SETAF_1=${RED}
+    export TPUT_SETAF_2=${GREEN}
+    export TPUT_SETAF_3=${YELLOW}
+    export TPUT_SETAF_4=${BLUE}
+    export TPUT_SETAF_5=${VIOLET}
+    export TPUT_SETAF_6=${CYAN}
+    export TPUT_SETAF_7=${WHITE}
+    export TPUT_SETAF_8="$(tput setaf 8 2> /dev/null)" # grey
+    export TPUT_SGR0=${RESET}
+    export TPUT_SMSO="$(tput smso 2> /dev/null)" # standout
 else
     export BOLD=''
     export RESET="\[\e[0m\]"
@@ -154,6 +166,44 @@ export TODOTXT_DEFAULT_ACTION=ls
 ##
 if [[ ${Os_Id,,} == "darwin" ]]; then
     export PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
+fi
+
+##
+# Subversion Exports
+##
+if type -P svn &> /dev/null; then
+    export SVN_EDITOR=${EDITOR}
+fi
+
+##
+# TERM Exports (preserve TERM for screen & tmux; handle TERM before prompt)
+##
+if [ "${TERM}" != "linux" ] && [[ "${TERM}" != *"screen"* ]] && [[ "${TERM}" != *"tmux"* ]]; then
+    if [ ${#KONSOLE_DBUS_WINDOW} -gt 0 ] && [ -r /usr/share/terminfo/k/konsole-256color ]; then
+        export TERM=konsole-256color # if it's a konsole dbus window then use konsole-256color
+    else
+        export TERM=xterm-256color
+    fi
+fi
+
+if [[ "${TERM}" == *"screen"* ]]; then
+    if [ -r /usr/share/terminfo/s/screen-256color ] || [ -r /usr/share/terminfo/73/screen-256color ] || [ -r /usr/lib/terminfo/s/screen-256color ]; then
+        export TERM=screen-256color
+    else
+        if [ -r /usr/share/terminfo/s/screen ]; then
+            export TERM=screen
+        else
+            export TERM=ansi
+        fi
+    fi
+fi
+
+# This is mainly for performance; as long as TERM doesn't change then there's no need to run tput every time
+if [ "${TERM}" != "${TPUT_TERM}" ] || [ ${#TPUT_TERM} -eq 0 ]; then
+    if type -P tput &> /dev/null; then
+        export TPUT_TERM=${TERM}
+        export TPUT_BOLD="$(tput bold 2> /dev/null)"
+    fi
 fi
 
 ##

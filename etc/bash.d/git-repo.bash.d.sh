@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-Forked from: Jess Frizelle
+# Forked from: Jess Frizelle
 # 2022.08.04 - ducet8@outlook.com
 
 if ! type -P git &>/dev/null; then

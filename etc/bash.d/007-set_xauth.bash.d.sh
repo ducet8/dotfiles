@@ -9,17 +9,21 @@ if [ "${USER}" == "${Who}" ]; then
         export DISPLAY=:0
     fi
 else
-    elog -q debug "USER '${USER}' is NOT equal to Who '${Who}'"
+    # elog -q debug "USER '${USER}' is NOT equal to Who '${Who}'"
+    verbose "DEBUG: USER '${USER}' is NOT equal to Who '${Who}'"
     if [ ${#DISPLAY} -gt 0 ]; then
         if type -P xauth &> /dev/null; then
-            elog -q debug "xauth DISPLAY=${DISPLAY}"
+            # elog -q debug "xauth DISPLAY=${DISPLAY}"
+            verbose "DEBUG: xauth DISPLAY = ${DISPLAY}"
             if [ -r "${User_Dir}/.Xauthority" ]; then
-                elog -q debug "${User_Dir}/.Xauthority file found readable"
+                # elog -q debug "${User_Dir}/.Xauthority file found readable"
+                verbose "DEBUG: ${User_Dir}/.Xauthority file found readable"
                 while read Xauth_Add; do
                     xauth -b add ${Xauth_Add} 2> /dev/null
                 done <<< "$(xauth -b -f "${User_Dir}/.Xauthority" list)"
             else
-                elog -q alert "${User_Dir}/.Xauthority file not found readable"
+                # elog -q alert "${User_Dir}/.Xauthority file not found readable"
+                verbose "ALERT: ${User_Dir}/.Xauthority file not found readable"
             fi
         fi
     else

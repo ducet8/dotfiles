@@ -15,13 +15,16 @@ function update_dotfiles() {
             local git_ahead=$(echo "${git_ahead_behind}" | awk -F\| '{print $1}')
             local git_behind=$(echo "${git_ahead_behind}" | awk -F\| '{print $2}')
             if [[ ${git_ahead} -lt ${git_behind} ]]; then
-                elog notice "git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)"
-                elog notice "git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)"
+                # elog notice "git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)"
+                # elog notice "git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)"
+                verbose "NOTICE: git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)"
+                verbose "NOTICE: git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)"
 
                 git -C "${dotdir}" pull
             fi
         else
-            elog alert "${dotdir} was not a git repository"
+            # elog alert "${dotdir} was not a git repository"
+            verbose "ALERT: ${dotdir} was not a git repository"
 
             local cwd=$(pwd 2>/dev/null)
             mkdir -p "${dotdir}"

@@ -14,5 +14,6 @@ else
 fi
 
 if [[ -z "${DOT_LOCATION}" ]]; then
-    elog alert "DOT_LOCATION did not get set"
+    # elog alert "DOT_LOCATION did not get set"
+    verbose "ALERT: DOT_LOCATION did not get set"
 fi

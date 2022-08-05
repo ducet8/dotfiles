@@ -23,7 +23,7 @@ function pawk() {
     while getopts ":hdvi" option; do
         case $option in
             h)
-            elog_usage;;
+            pawk_usage;;
             d)
             debug=1;;
             v)
