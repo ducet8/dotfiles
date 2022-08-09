@@ -37,6 +37,7 @@ if [[ ${Os_Id,,} == "darwin" ]]; then
 fi
 
 alias bell="echo -e '\a'"
+alias binds="bind -P | grep 'can be'"
 
 ##
 # cat Aliases
