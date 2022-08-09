@@ -46,6 +46,8 @@ if type -P bat &>/dev/null; then
     alias cat='bat --paging=never --theme="gruvbox-dark"'
 fi
 
+alias edit="fc"
+
 ##
 # ls Aliases
 ##
