@@ -20,7 +20,7 @@ function update_dotfiles() {
                 verbose "NOTICE: git_head_upstream = $(git -C "${dotdir}" rev-parse HEAD@{u} 2>/dev/null)"
                 verbose "NOTICE: git_head_working = $(git -C "${dotdir}" rev-parse HEAD 2>/dev/null)"
 
-                git -C "${dotdir}" pull
+                git -C "${dotdir}" pull --ff-only
             fi
         else
             # elog alert "${dotdir} was not a git repository"
