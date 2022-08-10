@@ -4,8 +4,13 @@
 
 Bash_Logout_Message="$(date) logout ${USER}@${HOSTNAME}"
 
-# prep sshAgentInit to clean up when the last $USER is logging out
-export Bash_Pids=($(pgrep -u ${USER} bash)) # this creates a subshell, so 2=1?
+if [[ ${Os_Id,,} =~ "alpine" ]]; then 
+    export Bash_Pids=($(ps -ef | grep ${USER} | grep [b]ash | awk '{print $1}'))
+else
+    # prep sshAgentInit to clean up when the last $USER is logging out
+    export Bash_Pids=($(pgrep -u ${USER} bash)) # this creates a subshell, so 2=1?
+fi
+
 export Bash_Logins=${#Bash_Pids[@]}
 Bash_Logout_Message+=" (Bash_Logins=${Bash_Logins})"
 
