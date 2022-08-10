@@ -109,3 +109,5 @@ if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
 else
     fallback_ps1
 fi
+
+export PS4='>\011${GREEN}$(date +%H:%M:%S)\011 ${YELLOW}${LINENO}: ${RESET}'
