@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Forked from: joseph.tingiris@gmail.com
-# 2022.08.04 - ducet8@outlook.com
+# 2022.08.10 - ducet8@outlook.com
 
 Bash_Logout_Message="$(date) logout ${USER}@${HOSTNAME}"
 
