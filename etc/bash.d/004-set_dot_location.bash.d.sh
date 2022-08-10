@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 2022.08.04 - ducet8@outlook.com
+# 2022.08.10 - ducet8@outlook.com
 
 # Set the DOT_LOCATION environment variable
 
@@ -9,7 +9,21 @@ else
     if [[ ${Os_Id,,} == "darwin" ]]; then
         export DOT_LOCATION="$(finger ${SUDO_USER} | awk '/^Directory/ {print $2}')"
     else
-        export DOT_LOCATION="$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6)"
+        cat /etc/passwd | grep duce &>/dev/null
+        if [ $? -eq 0 ]; then
+            export DOT_LOCATION="$(cat /etc/passwd | grep -i "${SUDO_USER}" | cut -d: -f6)"
+        else
+            # Trying to catch non passwd entries
+            if [[ "${Os_Id,,}" == "darwin" ]]; then
+                ls -l /Users/ | grep ${USER} &>/dev/null
+                if [ $? -eq 0 ]; then
+                    export DOT_LOCATION="/Users/${USER}"
+                fi
+            else
+                ls -l /home/ | grep ${USER} &>/dev/null
+                if [ $? -eq 0 ]; then
+                    export DOT_LOCATION="/home/${USER}"
+                fi
     fi
 fi
 
