@@ -1,6 +1,6 @@
 # .bash_profile
 
-Bash_Profile_Version="2022.08.04, ducet8@outlook.com"
+Bash_Profile_Version="2022.08.10, ducet8@outlook.com"
 
 
 ##
@@ -112,7 +112,7 @@ missing_utils=""
 for tool in $required_utils; do
     if ! type -P ${tool} &>/dev/null; then
         if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi  # nvim is available as neovim
-        if [[ ${tool} == "bat" ]] && [[ ${Os_Id,,} == "rocky" ]]; then continue; fi  # bat is not available on rocky
+        if [[ ${tool} == "bat" ]] && ([[ ${Os_Id,,} == "rocky" ]] || [[ ${Os_Id,,} =~ "centos" ]]); then continue; fi  # bat is not available on rocky
         missing_utils+="${tool} "
     fi
 done
@@ -120,7 +120,7 @@ if [[ ${missing_utils} != "" ]]; then
     missing_util_msg="Missing Utilities: ${missing_utils}\n"
     if [[ ${Os_Id,,} == "darwin" ]]; then
         missing_util_msg+="\tYou most likely need to run: brew install ${missing_utils}"
-    elif [[ ${Os_Id,,} == "rocky" ]]; then
+    elif [[ ${Os_Id,,} == "rocky" ]] || [[ ${Os_Id,,} =~ "centos" ]]; then
         missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
     fi
     verbose "${missing_util_msg}" 5
