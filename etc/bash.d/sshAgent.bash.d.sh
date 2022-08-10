@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Forked from: joseph.tingiris@gmail.com
-# 2022.08.04 - ducet8@outlook.com
+# 2022.08.10 - ducet8@outlook.com
 
 # if necessary, start ssh-agent
 function sshAgent() {
@@ -389,7 +389,7 @@ function sshAgentInit() {
     fi
 
     if [ ${#Ssh_Agent} -gt 0 ]; then
-        if [ "${Os_Id}" == "Darwin" ]; then
+        if [ "${Os_Id}" == "Darwin" ] || [ "${Os_Id,,}" == "alpine" ]; then
             ssh_agent_pids=$(ps auxwww | grep "${USER}" | grep ${Ssh_Agent} | grep -v grep | awk '{print $2}')
         else
             ssh_agent_pids=$(pgrep -u "${USER}" -f ${Ssh_Agent} -P 1 2> /dev/null)

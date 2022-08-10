@@ -4,7 +4,7 @@
 
 Bash_Logout_Message="$(date) logout ${USER}@${HOSTNAME}"
 
-if [[ ${Os_Id,,} =~ "alpine" ]]; then 
+if [[ "${Os_Id,,}" =~ "alpine" ]]; then 
     export Bash_Pids=($(ps -ef | grep ${USER} | grep [b]ash | awk '{print $1}'))
 else
     # prep sshAgentInit to clean up when the last $USER is logging out
