@@ -24,6 +24,8 @@ else
                 if [ $? -eq 0 ]; then
                     export DOT_LOCATION="/home/${USER}"
                 fi
+            fi
+        fi
     fi
 fi
 
