@@ -5,7 +5,7 @@
 
 function _prompt_git() {
 	local s='';
-	local branchName='';
+	local branch_name='';
 
 	# Check if the current directory is in a Git repository.
 	if [ "$(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}")" == '0' ]; then
@@ -38,13 +38,13 @@ function _prompt_git() {
 		# Get the short symbolic ref.
 		# If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
 		# Otherwise, just give up.
-		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+		branch_name="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
 			git rev-parse --short HEAD 2> /dev/null || \
 			echo '(unknown)')";
 
 		[ -n "${s}" ] && s=" [${s}]";
 
-		echo -e "${1}${branchName}${BLUE}${s}";
+		echo -e "${1}${branch_name}${BLUE}${s}";
 	else
 		return;
 	fi;
@@ -74,23 +74,23 @@ function fallback_ps1() {
 
     # Highlight the user name when logged in as root.
     if [[ "${USER}" == "root" ]]; then
-        userStyle="${RED}";
+        user_style="${RED}";
     else
-        userStyle="${BLUE}";
+        user_style="${BLUE}";
     fi;
 
     # Highlight the hostname when connected via SSH.
     if [[ "${SSH_TTY}" ]]; then
-        hostStyle="${BOLD}${CYAN}";
+        host_style="${BOLD}${CYAN}";
     else
-        hostStyle="${CYAN}";
+        host_style="${CYAN}";
     fi;
 
     # Set the terminal title to the current working directory.
     PS1="\[\033]0;\]\u@\h\[\007\]";
-    PS1+="\[${userStyle}\]\u"; # username
+    PS1+="\[${user_style}\]\u"; # username
     PS1+="\[${WHITE}\]@";
-    PS1+="\[${hostStyle}${cloud}\]\h"; # host
+    PS1+="\[${host_style}${cloud}\]\h"; # host
     PS1+="\[${WHITE}\]:";
     PS1+="\[${GREEN}\]\w"; # working directory
     PS1+="\$(_prompt_git \"\[${WHITE}\] on \[${VIOLET}\]\")"; # Git repository details
@@ -103,6 +103,7 @@ function fallback_ps1() {
     export PS2;
     trap '[[ -t 1 ]] && tput sgr0' DEBUG
 }
+
 
 if [ "$TERM" != "linux" ] && [ -f "$GOPATH/bin/powerline-go" ]; then
     PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
