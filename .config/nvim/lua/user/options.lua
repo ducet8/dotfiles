@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local options = {
   clipboard = "unnamedplus",               -- allows neovim to access the system clipboard
   cmdheight = 2,                           -- more space in the neovim command line for displaying messages

@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 -- https://github.com/LunarVim/Neovim-from-scratch
 require "user.options"
 require "user.keymaps"

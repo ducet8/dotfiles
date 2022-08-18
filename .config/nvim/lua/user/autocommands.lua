@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 vim.cmd [[
   augroup _general_settings
     autocmd!

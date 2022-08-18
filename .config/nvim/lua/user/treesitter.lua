@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local status_ok, configs = pcall(require, "nvim-treesitter.configs")
 if not status_ok then
   return

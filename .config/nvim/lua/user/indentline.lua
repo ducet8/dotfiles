@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local status_ok, indent_blankline = pcall(require, "indent_blankline")
 if not status_ok then
 	return

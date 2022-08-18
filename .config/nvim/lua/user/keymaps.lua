@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local opts = { noremap = true, silent = true }
 
 local term_opts = { silent = true }

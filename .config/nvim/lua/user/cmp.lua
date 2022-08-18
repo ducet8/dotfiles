@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
   return

@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local default_schemas = nil
 local status_ok, jsonls_settings = pcall(require, "nlspsettings")
 if status_ok then

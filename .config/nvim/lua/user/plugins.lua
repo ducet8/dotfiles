@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local fn = vim.fn
 
 -- Automatically install packer

@@ -1,3 +1,5 @@
+-- 2022.08.18 - ducet8@outlook.com
+
 local status_ok, project = pcall(require, "project_nvim")
 if not status_ok then
 	return
