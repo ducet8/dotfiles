@@ -52,7 +52,7 @@ nvim: # Sets up ~/.config/nvim
 		echo ; \
 		echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/init.lua to $(HOMEDIR)/dotfiles/.config/nvim/init.lua"; \
 		echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/lua/user to $(HOMEDIR)/dotfiles/.config/nvim/lua/user"; \
-		echo "$(C_CYAN)nvim needs python (pip install pynvim) and possibly node (npm i -g neovim) setup$(C_RESET)"
+		echo "$(C_CYAN)NOTICE: nvim needs python (pip install pynvim) and possibly node (npm i -g neovim) setup$(C_RESET)"; \
 		echo ; \
 	fi
 
