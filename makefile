@@ -1,4 +1,4 @@
-# 2022.08.04 - ducet8@outlook.com
+# 2022.08.18 - ducet8@outlook.com
 
 AUTH_KEY := "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLHD2wQOu7sV6TXpNMw5GCp5vFwCUH21HnG/gBKeblXIJYocaYk3cdFjAQ9136zPsOba0PqsSvVgY9vS4XfwnM//bGba9l6oL1/p+Zp0BZnBkNZ8+1DAwkBPgD1Vgptd4ZjjExLxDHNMQr7nUj8az/hDu8y0dFHKOBnI0GAG941rLd4TmxvIV2HJXRscCUgCys9Sn/3S2kfHRQ6MQ6tG7D8zufHv8GHYiOQ8arpCxMBrqqr0upM7K3NvUpdcQhveqk69ipnlDKrKFy25vVGqBfHVLnPjCfxB1lD6K1dlQRsSwYKsv0e4z8g4PmSj3ysn8oLLPsQOMGyuFYVXjgW5hhF8TaFbSarnx2obW2+wIZivejU2miWjOcJoNNdLcXLn3Tt02miVM+7nNJOtp0cGnWjjIn72Z7sQxUKhIzXJnciDe1d8XUKlusvvCS0PyBrSecYUOvykabQ56gjaKze0EYILO26ZVDDrPjRLWlgDL5hCIYnCUCTYlrBOuAPpHd3eBtfAfAtlt9Zl30kWW3U2HVIgRX96AT8V0grXSlce8UeJlpUycptSXzZ1V5oMX3aXGbhiPyv6TS2L3xfbfavC1M21JqKmFWCgck1+MiIoTOENZXh7S0jZyy5ldaFYB0PbS8ZxNwB6PFWVWbEv/xPLA1JEPAcYE/q4TIwUgBnn5kSQ== duce@tatemac1.local"
 C_CYAN := \033[36m
@@ -22,7 +22,7 @@ dotfiles: ## Installs the dotfiles.
 
 
 .PHONY: duce
-duce: dotfiles etc ssh
+duce: dotfiles etc nvim ssh
 
 
 .PHONY: etc
@@ -41,6 +41,20 @@ local: # Sets up ~/local
 	done
 	@echo "$(C_GREEN)Created the following symbolic links:"
 	@ls -lA $(HOMEDIR)/local/bin | awk '/^l/ {print "\t$(C_MAG)" $$(NF-2) "$(C_RESET) -> " $$(NF)}'
+
+
+.PHONY: nvim
+nvim: # Sets up ~/.config/nvim
+	@if ! type -P neovim &>/dev/null; then \
+		mkdir -p $(HOMEDIR)/.config/nvim/{lua,plugin}; \
+		ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/init.lua $(HOMEDIR)/.config/nvim/init.lua; \
+		ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/lua/user $(HOMEDIR)/.config/nvim/lua/user; \
+		echo ; \
+		echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/init.lua to $(HOMEDIR)/dotfiles/.config/nvim/init.lua"; \
+		echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/lua/user to $(HOMEDIR)/dotfiles/.config/nvim/lua/user"; \
+		echo "$(C_CYAN)nvim needs python (pip install pynvim) and possibly node (npm i -g neovim) setup$(C_RESET)"
+		echo ; \
+	fi
 
 
 .PHONY: ssh
