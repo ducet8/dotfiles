@@ -1,4 +1,4 @@
-" 2022.08.04 - ducet8@outlook.com
+" 2022.08.23 - ducet8@outlook.com
 
 "
 " global variables
@@ -106,7 +106,7 @@ if has("autocmd")
 
             elseif v:version >= 704
                 " https://github.com/chrisbra/vim-sh-indent
-                Plug 'chrisbra/vim-sh-indent'
+                " Plug 'chrisbra/vim-sh-indent'
 
                 " https://github.com/pearofducks/ansible-vim
                 Plug 'pearofducks/ansible-vim'
@@ -361,6 +361,18 @@ if has("autocmd")
     autocmd BufNewFile,BufRead named*.conf set filetype=named
     autocmd BufNewFile,BufRead *.web set filetype=sh
     autocmd BufNewFile,BufRead *.zone set filetype=bindzone
+
+    " autocmd filetype settings
+    autocmd FileType c setlocal ai ts=2 sw=2 expandtab
+    autocmd FileType css setlocal ai ts=2 sw=2 expandtab
+    autocmd FileType go setlocal ai ts=8 sw=8 expandtab
+    autocmd FileType html setlocal ai ts=2 sw=2 expandtab
+    autocmd FileType java setlocal ai ts=2 sw=2 expandtab
+    autocmd FileType ksh setlocal ai ts=2 sw=2 expandtab
+    autocmd FileType py setlocal ai ts=4 sw=4 expandtab
+    autocmd FileType sh setlocal ai ts=2 sw=2 expandtab
+    autocmd FileType yaml setlocal ai ts=2 sw=2 expandtab
+    autocmd FileType yml setlocal ai ts=2 sw=2 expandtab
 
     " autocmd Vim preferences
     "autocmd VimEnter * "set term=$TERM"
