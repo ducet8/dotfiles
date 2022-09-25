@@ -22,7 +22,7 @@ dotfiles: ## Installs the dotfiles.
 
 
 .PHONY: duce
-duce: dotfiles etc nvim ssh
+duce: dotfiles etc ssh
 
 
 .PHONY: etc
@@ -45,16 +45,27 @@ local: # Sets up ~/local
 
 .PHONY: nvim
 nvim: # Sets up ~/.config/nvim
-	@if ! type -P neovim &>/dev/null; then \
-		mkdir -p $(HOMEDIR)/.config/nvim/{lua,plugin}; \
-		ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/init.lua $(HOMEDIR)/.config/nvim/init.lua; \
-		ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/lua/user $(HOMEDIR)/.config/nvim/lua/user; \
-		echo ; \
-		echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/init.lua to $(HOMEDIR)/dotfiles/.config/nvim/init.lua"; \
-		echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/lua/user to $(HOMEDIR)/dotfiles/.config/nvim/lua/user"; \
-		echo "$(C_CYAN)NOTICE: nvim needs python (pip install pynvim) and possibly node (npm i -g neovim) setup$(C_RESET)"; \
-		echo ; \
-	fi
+# ifeq ($(shell ! type -P neovim &>/dev/null && echo 1 || echo 0), 0)
+# 	@mkdir -p $(HOMEDIR)/.config/nvim/lua; \
+# 	mkdir -p $(HOMEDIR)/.config/nvim/plugin; \
+# 	ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/init.lua $(HOMEDIR)/.config/nvim/init.lua; \
+# 	ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/lua/user $(HOMEDIR)/.config/nvim/lua/user; \
+# 	echo ; \
+# 	echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/init.lua to $(HOMEDIR)/dotfiles/.config/nvim/init.lua"; \
+# 	echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/lua/user to $(HOMEDIR)/dotfiles/.config/nvim/lua/user"; \
+# 	echo "$(C_CYAN)NOTICE: nvim needs python (pip install pynvim) and possibly node (npm i -g neovim) setup$(C_RESET)"; \
+# 	echo
+# else ifeq ($(! type -P nvim &>/dev/null && echo 1 || echo 0), 0)
+	@mkdir -p $(HOMEDIR)/.config/nvim/lua; \
+	mkdir -p $(HOMEDIR)/.config/nvim/plugin; \
+	ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/init.lua $(HOMEDIR)/.config/nvim/init.lua; \
+	ln -sfn $(HOMEDIR)/dotfiles/.config/nvim/lua/user $(HOMEDIR)/.config/nvim/lua/user; \
+	echo ; \
+	echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/init.lua to $(HOMEDIR)/dotfiles/.config/nvim/init.lua"; \
+	echo "$(C_GREEN)Linked $(HOMEDIR)/.config/nvim/lua/user to $(HOMEDIR)/dotfiles/.config/nvim/lua/user"; \
+	echo "$(C_CYAN)NOTICE: nvim needs python (pip install pynvim) and possibly node (npm i -g neovim) setup$(C_RESET)"; \
+	echo
+# endif
 
 
 .PHONY: ssh
