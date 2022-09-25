@@ -1,6 +1,6 @@
 # .bash_profile
 
-Bash_Profile_Version="2022.08.10, ducet8@outlook.com"
+Bash_Profile_Version="2022.09.25, ducet8@outlook.com"
 
 
 ##
@@ -112,7 +112,13 @@ missing_utils=""
 for tool in $required_utils; do
     if ! type -P ${tool} &>/dev/null; then
         if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi  # nvim is available as neovim
-        if [[ ${tool} == "bat" ]] && ([[ ${Os_Id,,} == "rocky" ]] || [[ ${Os_Id,,} =~ "centos" ]]); then continue; fi  # bat is not available on rocky
+        if [[ ${tool} == "bat" ]]; then
+	    if [[ ${Os_Id,,} == "rocky" ]] || [[ ${Os_Id,,} =~ "centos" ]]; then 
+	        continue  # bat is not available on rocky or centose
+	    elif [[ ${Os_Id,,} == "debian" ]] && (type -P batcat &>/dev/null); then
+	    	continue  # batcat is used on debian
+	    fi
+	fi
         missing_utils+="${tool} "
     fi
 done

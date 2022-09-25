@@ -46,7 +46,7 @@ alias binds="bind -P | grep 'can be'"
 #
 if type -P bat &>/dev/null; then
     alias cat='bat --paging=never --theme="gruvbox-dark"'
-elif [[ ${Os_Id,,} == "debian" ]] && [[ type -P batcat &>/dev/null ]]; then
+elif [[ ${Os_Id,,} == "debian" ]] && [ type -P batcat &>/dev/null ]; then
     mkdir -p "${HOME}/.local/bin"
     ln -s /usr/bin/batcat ~/.local/bin/bat
     alias cat='bat --paging=never --theme="gruvbox-dark"'
