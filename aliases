@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 2022.08.15 - ducet8@outlook.com
+# 2022.09.25 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -28,6 +28,7 @@ if [[ ${Os_Id,,} == "darwin" ]]; then
     alias console='remote-viewer ~/Downloads/console.vv &'
     #alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
     alias flushdns='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+    alias kitsune='~/projects/personal/kitsune/kitsune.py'
     alias password_cleanup='rm ~/Desktop/password'
     alias password_encode='openssl enc -a -des3 -in ~/Desktop/password >~/Documents/42.enc'
     alias password_decode='openssl enc -d -a -des3 -in ~/Documents/42.enc >~/Desktop/password'
@@ -44,6 +45,10 @@ alias binds="bind -P | grep 'can be'"
 # cat Aliases
 #
 if type -P bat &>/dev/null; then
+    alias cat='bat --paging=never --theme="gruvbox-dark"'
+elif [[ ${Os_Id,,} == "debian" ]] && [[ type -P batcat &>/dev/null ]]; then
+    mkdir -p "${HOME}/.local/bin"
+    ln -s /usr/bin/batcat ~/.local/bin/bat
     alias cat='bat --paging=never --theme="gruvbox-dark"'
 fi
 
@@ -124,7 +129,6 @@ if type -P oc &>/dev/null; then
     alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 fi
 
-alias kitsune='~/projects/personal/kitsune/kitsune.py'
 alias me="source ${DOT_LOCATION}/.bash_profile"
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 
