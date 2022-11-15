@@ -137,18 +137,15 @@ alias list_functions='declare -F | awk '\''{print $3}'\'' | grep -v ^_'
 ##
 # sudo Aliases
 ##
-if [ -x /usr/bin/sudo ]; then
-    Sudo=/usr/bin/sudo
-else
-    if [ -x /bin/sudo ]; then
-        Sudo=/bin/sudo
-    fi
-fi
+Sudo="$(type -P sudo 2> /dev/null)"
+[ ! -x ${Sudo} ] && unset Sudo
 
 if [ ${#Sudo} -gt 0 ]; then
-    alias root="${Sudo} SSH_AUTH_SOCK=${SSH_AUTH_SOCK} -u root ${SHELL} --init-file ${DOT_LOCATION}/.bash_profile"
+    alias root="${Sudo} --preserve-env=SSH_AUTH_SOCK,BD_HOME,BD_USER -u root ${SHELL} --init-file ${BD_HOME}/.bash_profile"
+    alias suroot="${Sudo} --preserve-env=SSH_AUTH_SOCK,BD_HOME,BD_USER -u root -"
 else
-    alias root="su - root -c '${SHELL} --init-file ${DOT_LOCATION}/.bash_profile'"
+    alias root="su - root -c '${SHELL} --init-file ${BD_HOME}/.bash_profile'"
+    alias suroot='su -'
 fi
 
 alias sal='ps -ef | grep ssh-agent; echo && env | grep -i ssh | sort -V; echo; ssh-add -l'
