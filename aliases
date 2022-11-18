@@ -40,6 +40,8 @@ fi
 
 alias bell="echo -e '\a'"
 alias binds="bind -P | grep 'can be'"
+alias container_me="echo 'alias ll=\"ls -l\"; export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
+alias container_ps1="echo 'export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
 
 ##
 # cat Aliases
