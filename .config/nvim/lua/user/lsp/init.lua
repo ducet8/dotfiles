@@ -1,10 +1,10 @@
--- 2022.08.23 - ducet8@outlook.com
+-- 2022.11.28 - ducet8@outlook.com
 
 local status_ok, _ = pcall(require, "lspconfig")
 if not status_ok then
   return
 end
 
-require "user.lsp.configs"
+require "user.lsp.mason"
 require("user.lsp.handlers").setup()
 require "user.lsp.null-ls"

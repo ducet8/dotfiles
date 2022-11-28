@@ -1,4 +1,4 @@
--- 2022.08.23 - ducet8@outlook.com
+-- 2022.11.28 - ducet8@outlook.com
 
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
@@ -124,9 +124,7 @@ cmp.setup {
     select = false,
   },
   window = {
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    },
+    documentation = cmp.config.window.bordered()
   },
   experimental = {
     ghost_text = true,
