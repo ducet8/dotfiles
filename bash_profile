@@ -40,5 +40,5 @@ if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 ##
 # bash.d
 ##
-[ -r ~/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ~/etc/bash.d/00bd.sh ${@}
+[ "${USER}" != 'root' ] && [ -r ~/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ~/etc/bash.d/00bd.sh ${@}
 [ "${USER}" == 'root' ] && [ -r ${BD_HOME}/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ${BD_HOME}/etc/bash.d/00bd.sh ${@}
