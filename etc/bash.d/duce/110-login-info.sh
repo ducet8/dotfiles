@@ -1,4 +1,4 @@
-# 2022.11.09 - ducet8@outlook.com
+# 2022.12.19 - ducet8@outlook.com
 
 # Display some useful information
 
@@ -9,9 +9,9 @@ for tool in $required_utils; do
     if ! type -P ${tool} &>/dev/null; then
         if [[ ${tool} == "nvim" ]]; then tool="neovim"; fi  # nvim is available as neovim
         if [[ ${tool} == "bat" ]]; then
-	    if [[ ${Os_Id,,} == "rocky" ]] || [[ ${Os_Id,,} =~ "centos" ]]; then 
+	    if [[ ${BD_OS,,} == "rocky" ]] || [[ ${BD_OS,,} =~ "centos" ]]; then 
 	        continue  # bat is not available on rocky or centose
-	    elif [[ ${Os_Id,,} == "debian" ]] && (type -P batcat &>/dev/null); then
+	    elif [[ ${BD_OS,,} == "debian" ]] && (type -P batcat &>/dev/null); then
 	    	continue  # batcat is used on debian
 	    fi
 	fi
@@ -20,9 +20,9 @@ for tool in $required_utils; do
 done
 if [[ ${missing_utils} != "" ]]; then
     missing_util_msg="Missing Utilities: ${missing_utils}\n"
-    if [[ ${Os_Id,,} == "darwin" ]]; then
+    if [[ ${BD_OS,,} == "darwin" ]]; then
         missing_util_msg+="\tYou most likely need to run: brew install ${missing_utils}"
-    elif [[ ${Os_Id,,} == "rocky" ]] || [[ ${Os_Id,,} =~ "centos" ]]; then
+    elif [[ ${BD_OS,,} == "rocky" ]] || [[ ${BD_OS,,} =~ "centos" ]]; then
         missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
     fi
     bd_ansi reset; bd_ansi fg_yellow5

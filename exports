@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# 2022.08.04 - ducet8@outlook.com
+# 2022.12.19 - ducet8@outlook.com
 
 ##
 # Bash Exports
 ##
-if [[ ${Os_Id,,} == "darwin" ]]; then
+if [[ ${BD_OS,,} == "darwin" ]]; then
     export SHELL=/usr/local/bin/bash  # Brew's bash
     export BASH_SILENCE_DEPRECATION_WARNING=1  # hide macos' 'default shell is now ZSH message on root login'
 else
@@ -98,7 +98,7 @@ fi
 ##
 # Go Exports
 ##
-if [[ ${Os_Id,,} == "darwin" ]]; then
+if [[ ${BD_OS,,} == "darwin" ]]; then
     export SHELL=/usr/local/bin/bash
     export GOPATH=${HOME}/projects/go
     export GOROOT=/usr/local/opt/go/libexec
@@ -135,7 +135,7 @@ export TZ="America/Chicago"
 # Language Exports - Prefer US English and use UTF-8
 ##
 export LANG="en_US.UTF-8";
-if [[ ${Os_Id,,} == "darwin" ]]; then
+if [[ ${BD_OS,,} == "darwin" ]]; then
     export LC_ALL="en_US.UTF-8";
 fi
 
@@ -164,7 +164,7 @@ export TODOTXT_DEFAULT_ACTION=ls
 ##
 # Python Exports
 ##
-if [[ ${Os_Id,,} == "darwin" ]]; then
+if [[ ${BD_OS,,} == "darwin" ]]; then
     export PATH="/Library/Frameworks/Python.framework/Versions/Current/bin:${PATH}"
 fi
 

@@ -1,6 +1,6 @@
-# 2022.11.28 - ducet8@outlook.com
+# 2022.12.19 - ducet8@outlook.com
 
-if [[ ${Os_Id,,} != "darwin" ]]; then
+if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
 fi
 

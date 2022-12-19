@@ -1,8 +1,8 @@
-# 2022.11.08 - ducet8@outlook.com
+# 2022.12.19 - ducet8@outlook.com
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config ignoring wildcards
 
-if [[ ${Os_Id,,} == "darwin" ]]; then
+if [[ ${BD_OS,,} == "darwin" ]]; then
     if [[ -e "${DOT_LOCATION}/.ssh/config" ]]; then
         complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" goto scp sftp ssh
     fi

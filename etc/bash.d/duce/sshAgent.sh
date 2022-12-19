@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2022.11.09 - ducet8@outlook.com
+# 2022.12.19 - ducet8@outlook.com
 
 # if necessary, start ssh-agent
 function sshAgent() {
@@ -50,7 +50,7 @@ function sshAgent() {
         ${Ssh_Keygen} -t ecdsa -b 521
     fi
 
-    if [ "${Os_Id}" != 'Darwin' ]; then
+    if [ "${BD_OS}" != 'Darwin' ]; then
         # (re)start ssh-agent if necessary
         if [ ${#SSH_AGENT_PID} -eq 0 ] && [ ${#SSH_AUTH_SOCK} -eq 0 ]; then
             if [ ${#Ssh_Agent_Home} -gt 0 ] && [ -r "${Ssh_Agent_Home}" ]; then
@@ -64,7 +64,7 @@ function sshAgent() {
     Ssh_Add_Out=$(${Ssh_Add} -l 2>&1)
     Ssh_Add_Rc=$?
     if [ ${Ssh_Add_Rc} -eq 0 ]; then
-        if [ "${Os_Id}" != 'Darwin' ]; then
+        if [ "${BD_OS}" != 'Darwin' ]; then
             if [ ${#SSH_AGENT_PID} -eq 0 ] && [ ${#SSH_AUTH_SOCK} -gt 0 ]; then
                 # ssh-add works; ssh agent forwarding is on .. start another/local agent anyway?
                 local ssh_agent_home_message="SSH_AUTH_SOCK=${SSH_AUTH_SOCK}"
@@ -388,7 +388,7 @@ function sshAgentInit() {
     fi
 
     if [ ${#Ssh_Agent} -gt 0 ]; then
-        if [ "${Os_Id}" == 'Darwin' ] || [ "${Os_Id,,}" == 'alpine' ]; then
+        if [ "${BD_OS}" == 'Darwin' ] || [ "${BD_OS,,}" == 'alpine' ]; then
             ssh_agent_pids=$(ps auxwww | grep "${USER}" | grep ${Ssh_Agent} | grep -v grep | awk '{print $2}')
         else
             ssh_agent_pids=$(pgrep -u "${USER}" -f ${Ssh_Agent} -P 1 2> /dev/null)
@@ -408,7 +408,7 @@ function sshAgentInit() {
                     continue
                 fi
             else
-                if [ "${Os_Id}" != 'Darwin' ]; then
+                if [ "${BD_OS}" != 'Darwin' ]; then
                     if [ ${#SSH_AGENT_PID} -gt 0 ]; then
                         if [ "${SSH_AGENT_PID}" == "${ssh_agent_pid}" ]; then
                             # don't kill the current agent

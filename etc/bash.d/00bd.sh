@@ -1,11 +1,18 @@
 # Copyright (c) 2022 Joseph Tingiris
 # https://github.com/bash-d/bd/blob/main/LICENSE.md
 
-# 00bd.sh: an out-of-bag themed, machine learning directory autoloader for bash shell source
+# 00bd.sh: an autoloader for bash shell source
 
 # https://github.com/bash-d/bd/blob/main/README.md
 
-export BD_VERSION=0.36
+#
+# metadata
+#
+
+# bash.d: exports BD_DEBUG BD_ID BD_HOME BD_USER BD_VERSION
+# vim:ts=4:sw=4
+
+export BD_VERSION=0.37
 
 # prevent non-bash shells (for now)
 [ "${BASH_SOURCE}" == "" ] && return &> /dev/null
@@ -231,32 +238,50 @@ function bd_loader() {
     if [ -d "${bd_loader_dir}" ]; then
         [ ! -x "${SHELL}" ] && return 1
 
-        local bd_dir_sh bd_dir_sh_realpath
-        for bd_dir_sh in "${bd_loader_dir}"/*.sh ; do
+        local bd_loader_file bd_loader_file_realpath
+
+        local bd_loader_files=()
+
+        # bsd/macos LC_COLLATE hack (make it work consistently, like ISO 14651 defines [numbers, UPPERCASE, lowercase])
+        # https://blog.zhimingwang.org/macos-lc_collate-hunt
+        # https://collation-charts.org/fbsd54/
+        # (TODO: tested on macos, but not bsd.  make it work for bsd too)
+        if [ -r /sbin/apfs_hfs_convert ]; then
+            for bd_loader_sh in "${bd_loader_dir}/0"*".sh" "${bd_loader_dir}/0"*".bash" "${bd_loader_dir}/1"*".sh" "${bd_loader_dir}/1"*".bash" "${bd_loader_dir}/2"*".sh" "${bd_loader_dir}/2"*".bash" "${bd_loader_dir}/3"*".sh" "${bd_loader_dir}/3"*".bash" "${bd_loader_dir}/4"*".sh" "${bd_loader_dir}/4"*".bash" "${bd_loader_dir}/5"*".sh" "${bd_loader_dir}/5"*".bash" "${bd_loader_dir}/6"*".sh" "${bd_loader_dir}/6"*".bash" "${bd_loader_dir}/7"*".sh" "${bd_loader_dir}/7"*".bash" "${bd_loader_dir}/8"*".sh" "${bd_loader_dir}/8"*".bash" "${bd_loader_dir}/9"*".sh" "${bd_loader_dir}/9"*".bash" "${bd_loader_dir}/"[a-z]*".sh" "${bd_loader_dir}/"[a-z]*".bash" "${bd_loader_dir}/"[A-Z]*".sh" "${bd_loader_dir}/"[A-Z]*".bash"; do
+                [ -r $bd_loader_sh ] && bd_loader_files+=("${bd_loader_sh}")
+            done
+        else
+            for bd_loader_sh in "${bd_loader_dir}"/*.sh "${bd_loader_dir}"/*.bash; do
+                [ -r $bd_loader_sh ] && bd_loader_files+=("${bd_loader_sh}")
+            done
+        fi
+        unset -v bd_loader_sh
+
+        for bd_loader_file in "${bd_loader_files[@]}"; do
 
             # don't source itself ...
-            bd_dir_sh_realpath="$(bd_realpath "${BASH_SOURCE}")"
-            bd_debug "bd_dir_sh_realpath = ${bd_dir_sh_realpath}" 31
-            [ "${bd_dir_sh}" == "${bd_dir_sh_realpath}" ] && bd_debug "${FUNCNAME} ${bd_dir_sh} matches relative path" 13 && continue # relative location
-            [ "${bd_dir_sh}" == "${bd_dir_sh_realpath##*/}" ] && bd_debug "${FUNCNAME}) ${bd_dir_sh} matches basename" 13 && continue # basename
+            bd_loader_file_realpath="$(bd_realpath "${BASH_SOURCE}")"
+            bd_debug "bd_loader_file_realpath = ${bd_loader_file_realpath}" 31
+            [ "${bd_loader_file}" == "${bd_loader_file_realpath}" ] && bd_debug "${FUNCNAME} ${bd_loader_file} matches relative path" 13 && continue # relative location
+            [ "${bd_loader_file}" == "${bd_loader_file_realpath##*/}" ] && bd_debug "${FUNCNAME}) ${bd_loader_file} matches basename" 13 && continue # basename
 
-            if [ -r "${bd_dir_sh}" ]; then
+            if [ -r "${bd_loader_file}" ]; then
                 if [ ${#BD_DEBUG} -gt 0 ]; then
                     local bd_source_finish bd_source_start bd_source_total bd_source_total_ms
                     bd_source_start=$(bd_uptime_ms)
                 fi
 
-                source "${bd_dir_sh}"
+                source "${bd_loader_file}"
 
                 if [ ${#BD_DEBUG} -gt 0 ]; then
                     bd_source_finish=$(bd_uptime_ms)
                     bd_source_total=$((${bd_source_finish}-${bd_source_start}))
                     bd_source_total_ms=$(bd_debug_ms ${bd_source_total})
-                    bd_debug "source ${bd_dir_sh} ${bd_source_total_ms}" 3
+                    bd_debug "source ${bd_loader_file} ${bd_source_total_ms}" 3
                 fi
             fi
         done
-        unset -v bd_dir_sh
+        unset -v bd_loader_file
     fi
 }
 
@@ -470,10 +495,3 @@ bd_aliases
 #
 
 bd_load "${BD_BAG_DIRS[@]}"
-
-#
-# metadata
-#
-
-# vim:ts=4:sw=4
-# bash.d: exports BD_DEBUG BD_ID BD_HOME BD_USER BD_VERSION

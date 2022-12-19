@@ -1,7 +1,19 @@
 # Copyright (c) 2022 Joseph Tingiris
-# https://github.com/josephtingiris/bash.d/blob/main/LICENSE.md
+# https://github.com/bash-d/bd/blob/main/LICENSE.md
 
 # DO NOT USE bd_debug() inside this function!
+
+#
+# metadata
+#
+
+# bash.d: exports BD_DEBUG BD_ID BD_HOME BD_USER BD_VERSION
+# vim:ts=4:sw=4
+
+#
+# functions
+#
+
 function bd_ansi() {
     local bd_ansi_code="${1}"
 

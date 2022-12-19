@@ -1,4 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
+# 2022.12.19 - ducet8@outlook.com
 
 # set user identity variables
 
@@ -8,7 +9,7 @@
 if [ -f ~/.User_Name ]; then
     User_Name="$(head -1 ~/.User_Name | tr -d '\n')"
 else
-    if (type -P logname &> /dev/null) && [[ "${Os_Id,,}" != "darwin" ]]; then
+    if (type -P logname &> /dev/null) && [[ "${BD_OS,,}" != "darwin" ]]; then
         User_Name=$(logname 2> /dev/null)
     else
         if type -P who &> /dev/null; then
