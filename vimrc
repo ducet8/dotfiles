@@ -10,9 +10,9 @@ if filereadable(".vimrc.first")
     echom "sourced .vimrc.first"
 endif
 
-" could be passed via cli, e.g. vim --cmd="let User_Dir='$HOME'"
-if (!exists("User_Dir"))
-    let User_Dir="~"
+" could be passed via cli, e.g. vim --cmd="let BD_HOME='$HOME'"
+if (!exists("BD_HOME"))
+    let BD_HOME="~"
 endif
 
 "
@@ -23,15 +23,15 @@ endif
 if has("autocmd")
     " https://github.com/junegunn/vim-plug
     " auto-install .vim/autoload/plug.vim
-    if empty(glob(User_Dir.'/.vim/autoload/plug.vim'))
+    if empty(glob(BD_HOME.'/.vim/autoload/plug.vim'))
         silent !curl -fLo  $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         autocmd VimEnter * PlugInstall
     endif
 
-    if !empty(glob(User_Dir.'/.vim/autoload/plug.vim'))
+    if !empty(glob(BD_HOME.'/.vim/autoload/plug.vim'))
 
         " autoload plug begin
-        silent! call plug#begin(User_Dir.'/.vim/plug')
+        silent! call plug#begin(BD_HOME.'/.vim/plug')
 
         if exists(":Plug")
             "
@@ -460,9 +460,9 @@ endif
 " reconfigure/reload (source) .vimrc
 if !exists("*Reconfigure")
     function Reconfigure()
-        :execute ":source " . g:User_Dir . "/.vimrc"
+        :execute ":source " . g:BD_HOME . "/.vimrc"
         if has("gui_running")
-            :execute ":source " . g:User_Dir . "/.gvimrc"
+            :execute ":source " . g:BD_HOME . "/.gvimrc"
         endif
     endfunction
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 2022.12.19 - ducet8@outlook.com
+# 2022.12.20 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -65,7 +65,7 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 ##
 # Custom PATH Exports
 ##
-export PATH=/usr/local/bin:${DOT_LOCATION}/local/bin:$PATH
+export PATH=/usr/local/bin:${BD_HOME}/local/bin:$PATH
 
 ##
 # EDITOR Exports
@@ -75,8 +75,8 @@ Editors=(nvim vim vi)
 for Editor in ${Editors[@]}; do
     if type -P ${Editor} &> /dev/null; then
         export EDITOR="$(type -P ${Editor} 2> /dev/null)"
-        if [[ "${EDITOR}" == *"vim"* ]] && [ -r "${DOT_LOCATION}/.vimrc" ]; then
-            alias vim="HOME=\"${DOT_LOCATION}\" ${EDITOR} --cmd \"let User_Name='$(whoami)'\" --cmd \"let User_Dir='${DOT_LOCATION}'\""
+        if [[ "${EDITOR}" == *"vim"* ]] && [ -r "${BD_HOME}/.vimrc" ]; then
+            alias vim="HOME=\"${BD_HOME}\" ${EDITOR} --cmd \"let BD_USER='$(whoami)'\" --cmd \"let BD_HOME='${BD_HOME}'\""
         else
             alias vim="${EDITOR}"
         fi

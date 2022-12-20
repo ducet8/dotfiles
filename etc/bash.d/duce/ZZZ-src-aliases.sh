@@ -1,5 +1,5 @@
-# 2022.11.09 - ducet8@outlook.com
+# 2022.12.20 - ducet8@outlook.com
 
-if [ -f ${DOT_LOCATION}/dotfiles/aliases ]; then
-    source ${DOT_LOCATION}/dotfiles/aliases
+if [ -f ${BD_HOME}/dotfiles/aliases ]; then
+    source ${BD_HOME}/dotfiles/aliases
 fi

@@ -1,7 +1,7 @@
-# 2022.11.09 - ducet8@outlook.com
+# 2022.12.20 - ducet8@outlook.com
 
-if [ ${#DOT_LOCATION} -gt 0 ]; then
-    export_path="${DOT_LOCATION}"
+if [ ${#BD_HOME} -gt 0 ]; then
+    export_path="${BD_HOME}"
 else
     export_path="~"
 fi

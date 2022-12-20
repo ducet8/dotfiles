@@ -1,4 +1,4 @@
-# 2022.12.19 - ducet8@outlook.com
+# 2022.12.20 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -130,7 +130,7 @@ if type -P oc &>/dev/null; then
     alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 fi
 
-alias me="source ${DOT_LOCATION}/.bash_profile"
+alias me="source ${BD_HOME}/.bash_profile"
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 
 alias list_functions='declare -F | awk '\''{print $3}'\'' | grep -v ^_'

@@ -29,7 +29,7 @@ function bash_logout() {
         fi
     fi
 
-    if [ ${Bash_Logins} -lt 2 ] && [ "${USER}" == "${Who}" ]; then
+    if [ ${Bash_Logins} -lt 2 ] && [ "${USER}" == "${BD_USER}" ]; then
         # last login
         if [[ "${SSH_AGENT_PID}" =~ ^[0-9].+ ]]; then
             kill -9 "${SSH_AGENT_PID}" &> /dev/null

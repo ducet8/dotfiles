@@ -1,7 +1,8 @@
-# 2022.12.19 - ducet8@outlook.com
+# 2022.12.20 - ducet8@outlook.com
 
 # Display some useful information
 
+# TODO: Find a way to do this only on initial login
 # Notify of missing utilities
 required_utils=(bat git jq lsd nvim tmux vim wget)
 missing_utils=""
@@ -47,7 +48,7 @@ fi
 
 # Display Profile Version
 bd_ansi reset; bd_ansi fg_yellow4
-echo "${DOT_LOCATION}/.bash_profile: ${Bash_Profile_Version}"
+echo "${BD_HOME}/.bash_profile: ${Bash_Profile_Version}"
 
 # Display DISPLAY if set
 [ ! -z "${DISPLAY}" ] && bd_ansi reset && bd_ansi fg_magenta3 && echo "" && echo "DISPLAY = ${DISPLAY}"
