@@ -1,6 +1,6 @@
 # .bash_profile
-
-Bash_Profile_Version="2022.11.09, ducet8@outlook.com"
+#set -x
+Bash_Profile_Version="2022.12.21, ducet8@outlook.com"
 
 
 ##

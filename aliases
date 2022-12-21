@@ -1,4 +1,4 @@
-# 2022.12.20 - ducet8@outlook.com
+# 2022.12.21 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -130,10 +130,13 @@ if type -P oc &>/dev/null; then
     alias okd-stats="oc describe nodes | grep -v 'cpu:\|memory:\|MemoryPressure' | grep 'cpu\|Name:\|memory'"
 fi
 
+alias list_functions='declare -F | awk '\''{print $3}'\'' | grep -v ^_'
 alias me="source ${BD_HOME}/.bash_profile"
+if type -P less &>/dev/null; then
+    alias more='less'
+fi
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 
-alias list_functions='declare -F | awk '\''{print $3}'\'' | grep -v ^_'
 
 ##
 # sudo Aliases
