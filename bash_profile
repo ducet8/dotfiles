@@ -42,7 +42,7 @@ if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 ##
 #[ "${USER}" != 'root' ] && [ -r ~/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ~/etc/bash.d/00bd.sh ${@}
 #[ "${USER}" == 'root' ] && [ -r ${BD_HOME}/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ${BD_HOME}/etc/bash.d/00bd.sh ${@}
-if [ -z ${BD_HOME} ] || [ "${USER}" != 'root']; then
+if [ -z ${BD_HOME} ] || [ "${USER}" != 'root' ]; then
     [ -r ~/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ~/etc/bash.d/00bd.sh ${@}
 else
     [ -r ${BD_HOME}/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ${BD_HOME}/etc/bash.d/00bd.sh ${@}
