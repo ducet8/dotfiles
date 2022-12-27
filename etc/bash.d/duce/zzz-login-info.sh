@@ -37,7 +37,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
         printf "\nMissing Utilities: ${missing_utils}\n"
     fi
     if [[ ${unavailable_utils} != '' ]]; then
-        printf "\tNOT AVAILABLE on ${BD_OS_ID^^}: ${unavailable_utils}\n\n"
+        printf "\tNot available on ${BD_OS_ID^}: ${unavailable_utils}\n\n"
         unset unavailable_utils
     fi
     if [[ ${missing_utils} != '' ]]; then
