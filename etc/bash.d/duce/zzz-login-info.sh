@@ -1,8 +1,9 @@
-# 2022.12.21 - ducet8@outlook.com
+# 2022.12.27 - ducet8@outlook.com
 
 # Display some useful information
 
 # TODO: Find a way to do this only on initial login
+# TODO: Fix BD_OS_DISTRIBUTION for linuxes
 # Notify of missing utilities
 required_utils=(bat git jq lsd nvim tmux vim wget)
 missing_utils=''
@@ -35,16 +36,10 @@ unset missing_utils
 unset required_utils
 
 # Display OS Info
-# TODO: This could be much better
-echo ''
 bd_ansi reset; bd_ansi fg_yellow4
-if [[ ${#BD_OS_DISTRIBUTION} -gt 0 ]]; then
-    echo "${BD_OS_DISTRIBUTION^^}"
-else
-    if [[ -r /etc/redhat-release ]]; then
-        cat /etc/redhat-release
-        echo ''
-    fi
+if [[ ${#BD_OS_PRETTY_NAME} -gt 0 ]]; then
+    echo "${BD_OS_PRETTY_NAME^^}"
+    echo ''
 fi
 
 # Display Profile Version

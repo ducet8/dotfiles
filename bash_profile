@@ -1,6 +1,6 @@
 # .bash_profile
 
-BASH_PROFILE_VERSION="2022.12.21, ducet8@outlook.com"
+BASH_PROFILE_VERSION="2022.12.27, ducet8@outlook.com"
 
 
 ##
