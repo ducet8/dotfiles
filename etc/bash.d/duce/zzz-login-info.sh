@@ -33,7 +33,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
         fi
     done
     if [[ ${missing_utils} != '' ]] || [[ ${unavailable_utils} != '' ]]; then
-        missing_util_msg="\nMissing Utilities: ${missing_utils}\n"
+        printf "\nMissing Utilities: ${missing_utils}\n"
     fi
     if [[ ${unavailable_utils} != '' ]]; then
         bd_ansi reset; bd_ansi fg_yellow5 && printf "\tNOT AVAILABLE on ${BD_OS_ID^^}: ${unavailable_utils}\n\n" && bd_ansi reset
