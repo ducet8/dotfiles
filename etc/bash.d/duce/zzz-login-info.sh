@@ -5,13 +5,12 @@
 # Display OS Info
 bd_ansi reset; bd_ansi fg_yellow4
 if [[ ${#BD_OS_PRETTY_NAME} -gt 0 ]]; then
-    echo "${BD_OS_PRETTY_NAME^^}"
-    echo ''
+    echo "${BD_OS_PRETTY_NAME^^}" && echo ''
 fi
 
 # Display Profile Version
 bd_ansi reset; bd_ansi fg_yellow4
-echo "${BD_HOME}/.bash_profile: ${BASH_PROFILE_VERSION}"
+echo "${BD_HOME}/.bash_profile: ${BASH_PROFILE_VERSION}" && echo ''
 
 if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
     # Notify of missing utilities
@@ -34,7 +33,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
     done
     if [[ ${missing_utils} != '' ]] || [[ ${unavailable_utils} != '' ]]; then
         bd_ansi reset; bd_ansi fg_yellow5
-        printf "\nMissing Utilities: ${missing_utils}\n"
+        printf "Missing Utilities: ${missing_utils}\n"
     fi
     if [[ ${unavailable_utils} != '' ]]; then
         printf "\tNot available on ${BD_OS_ID^}: ${unavailable_utils}\n\n"
