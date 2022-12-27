@@ -2,6 +2,17 @@
 
 # Display some useful information
 
+# Display OS Info
+bd_ansi reset; bd_ansi fg_yellow4
+if [[ ${#BD_OS_PRETTY_NAME} -gt 0 ]]; then
+    echo "${BD_OS_PRETTY_NAME^^}"
+    echo ''
+fi
+
+# Display Profile Version
+bd_ansi reset; bd_ansi fg_yellow4
+echo "${BD_HOME}/.bash_profile: ${BASH_PROFILE_VERSION}"
+
 if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
     # Notify of missing utilities
     required_utils=(bat git jq lsd nvim tmux vim wget)
@@ -20,7 +31,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
         fi
     done
     if [[ ${missing_utils} != '' ]]; then
-        missing_util_msg="Missing Utilities: ${missing_utils}\n"
+        missing_util_msg="\nMissing Utilities: ${missing_utils}\n"
         if [[ "${BD_OS,,}" == 'darwin' ]]; then
             missing_util_msg+="\tYou most likely need to run: brew install ${missing_utils}"
         elif [[ "${BD_OS_ID,,}" == 'rocky' ]] || [[ "${BD_OS_ID,,}" =~ 'centos' ]]; then
@@ -35,17 +46,6 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
     unset required_utils
     export BD_MISSING_UTIL_CHECK=1
 fi
-
-# Display OS Info
-bd_ansi reset; bd_ansi fg_yellow4
-if [[ ${#BD_OS_PRETTY_NAME} -gt 0 ]]; then
-    echo "${BD_OS_PRETTY_NAME^^}"
-    echo ''
-fi
-
-# Display Profile Version
-bd_ansi reset; bd_ansi fg_yellow4
-echo "${BD_HOME}/.bash_profile: ${BASH_PROFILE_VERSION}"
 
 # Display DISPLAY if set
 [ ! -z "${DISPLAY}" ] && bd_ansi reset && bd_ansi fg_magenta4 && echo '' && echo "DISPLAY = ${DISPLAY}"
