@@ -32,7 +32,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
             missing_utils+="${tool} "
         fi
     done
-    if [[ ${missing_utils} != '' ]] && [[ ${missing_utils} != '' ]]; then
+    if [[ ${missing_utils} != '' ]] || [[ ${unavailable_utils} != '' ]]; then
         missing_util_msg="\nMissing Utilities: ${missing_utils}\n"
     fi
     if [[ ${unavailable_utils} != '' ]]; then
