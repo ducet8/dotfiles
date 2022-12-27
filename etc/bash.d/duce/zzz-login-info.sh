@@ -33,10 +33,11 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
         fi
     done
     if [[ ${missing_utils} != '' ]] || [[ ${unavailable_utils} != '' ]]; then
+        bd_ansi reset; bd_ansi fg_yellow5
         printf "\nMissing Utilities: ${missing_utils}\n"
     fi
     if [[ ${unavailable_utils} != '' ]]; then
-        bd_ansi reset; bd_ansi fg_yellow5 && printf "\tNOT AVAILABLE on ${BD_OS_ID^^}: ${unavailable_utils}\n\n" && bd_ansi reset
+        printf "\tNOT AVAILABLE on ${BD_OS_ID^^}: ${unavailable_utils}\n\n"
         unset unavailable_utils
     fi
     if [[ ${missing_utils} != '' ]]; then
@@ -48,7 +49,8 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
             os_msg='run: sudo apt '
         fi
         missing_util_msg+="\tYou most likely need to ${os_msg}install ${missing_utils}"
-        bd_ansi reset; bd_ansi fg_yellow5 && printf "${missing_util_msg}" && bd_ansi reset
+        printf "${missing_util_msg}"
+        bd_ansi reset
         unset missing_util_msg os_msg
     fi
     unset missing_utils required_utils
