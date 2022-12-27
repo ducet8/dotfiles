@@ -17,33 +17,41 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
     # Notify of missing utilities
     required_utils=(bat git jq lsd nvim tmux vim wget)
     missing_utils=''
+    unavailable_utils=''
     for tool in $required_utils; do
         if ! type -P "${tool}" &>/dev/null; then
             if [[ "${tool}" == 'nvim' ]]; then tool='neovim'; fi  # nvim is available as neovim
             if [[ "${tool}" == 'bat' ]]; then
-          if [[ "${BD_OS_ID,,}" == 'rocky' ]] || [[ "${BD_OS_ID,,}" =~ 'centos' ]]; then 
-              continue  # bat is not available on rocky or centos
-          elif [[ "${BD_OS_ID,,}" == 'debian' ]] && (type -P batcat &>/dev/null); then
-            continue  # batcat is used on debian
-          fi
-      fi
+                if [[ "${BD_OS_ID,,}" == 'rocky' ]] || [[ "${BD_OS_ID,,}" =~ 'centos' ]]; then 
+                    unavailable_utils+="${tool} "
+                    continue  # bat is not available on rocky or centos
+                elif [[ "${BD_OS_ID,,}" == 'debian' ]] && (! type -P batcat &>/dev/null); then
+                    tool='batcat'  # batcat is used on debian
+                fi
+            fi
             missing_utils+="${tool} "
         fi
     done
-    if [[ ${missing_utils} != '' ]]; then
+    if [[ ${missing_utils} != '' ]] && [[ ${missing_utils} != '' ]]; then
         missing_util_msg="\nMissing Utilities: ${missing_utils}\n"
-        if [[ "${BD_OS,,}" == 'darwin' ]]; then
-            missing_util_msg+="\tYou most likely need to run: brew install ${missing_utils}"
-        elif [[ "${BD_OS_ID,,}" == 'rocky' ]] || [[ "${BD_OS_ID,,}" =~ 'centos' ]]; then
-            missing_util_msg+="\tYou most likely need to run: sudo dnf install ${missing_utils}"
-        fi
-        bd_ansi reset; bd_ansi fg_yellow5
-        printf "${missing_util_msg}"
-        bd_ansi reset
-        unset missing_util_msg
     fi
-    unset missing_utils
-    unset required_utils
+    if [[ ${unavailable_utils} != '' ]]; then
+        bd_ansi reset; bd_ansi fg_yellow5 && printf "\tNOT AVAILABLE on ${BD_OS_ID^^}: ${unavailable_utils}\n\n" && bd_ansi reset
+        unset unavailable_utils
+    fi
+    if [[ ${missing_utils} != '' ]]; then
+        if [[ "${BD_OS,,}" == 'darwin' ]]; then
+            os_msg='run: brew '
+        elif [[ "${BD_OS_ID,,}" == 'rocky' ]] || [[ "${BD_OS_ID,,}" =~ 'centos' ]]; then
+            os_msg='run: sudo dnf '
+        elif [[ "${BD_OS,,}" == 'debian' ]]; then
+            os_msg='run: sudo apt '
+        fi
+        missing_util_msg+="\tYou most likely need to ${os_msg}install ${missing_utils}"
+        bd_ansi reset; bd_ansi fg_yellow5 && printf "${missing_util_msg}" && bd_ansi reset
+        unset missing_util_msg os_msg
+    fi
+    unset missing_utils required_utils
     export BD_MISSING_UTIL_CHECK=1
 fi
 
