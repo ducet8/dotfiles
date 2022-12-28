@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2022.12.21 - ducet8@outlook.com
+# 2022.12.27 - ducet8@outlook.com
 
 # Set tmux info
 
