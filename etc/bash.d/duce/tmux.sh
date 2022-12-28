@@ -11,7 +11,7 @@ fi
 
 if [ ${#TMUX} -gt 0 ]; then
     # already in a tmux
-    if [ "${BD_OS}" == 'linux ]'; then
+    if [ "${BD_OS}" == 'linux' ]; then
         export TMUX_BIN=$(ps -ho cmd -p $(ps -ho ppid -p $$ 2> /dev/null) 2> /dev/null | awk '{print $1}')
     fi
     if [ "${BD_OS}" == 'darwin' ]; then
