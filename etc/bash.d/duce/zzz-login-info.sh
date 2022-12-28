@@ -57,10 +57,11 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
 fi
 
 # Display DISPLAY if set
-[ ! -z "${DISPLAY}" ] && bd_ansi reset && bd_ansi fg_magenta4 && echo '' && echo "DISPLAY = ${DISPLAY}"
+[ ! -z "${DISPLAY}" ] && bd_ansi reset && bd_ansi fg_magenta4 && printf "\nDISPLAY: \t${DISPLAY}\n"
 
 # Dsiplay any tmux info
 if [ "${TMUX}" ]; then
     bd_ansi reset; bd_ansi fg_magenta4
-    echo "${TMUX_INFO} [${TMUX}]"
+    printf "TMUX:\n${TMUX_INFO}    socket:\t${TMUX}\n"
+    bd_ansi reset
 fi
