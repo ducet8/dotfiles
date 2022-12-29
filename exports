@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 2022.12.21 - ducet8@outlook.com
+# 2022.12.28 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -134,10 +134,11 @@ export TZ="America/Chicago"
 ##
 # Language Exports - Prefer US English and use UTF-8
 ##
-export LANG="en_US.UTF-8";
-if [[ ${BD_OS,,} == "darwin" ]]; then
-    export LC_ALL="en_US.UTF-8";
-fi
+#export LANG="en_US.UTF-8";
+#if [[ ${BD_OS,,} == "darwin" ]]; then
+#    export LC_ALL="en_US.UTF-8";
+#fi
+export LC_COLLATE=POSIX
 
 ##
 # Man Exports
