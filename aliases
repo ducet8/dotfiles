@@ -66,9 +66,9 @@ if type -P lsd &>/dev/null; then
         echo "icons:" >"${HOME}/.config/lsd/config.yaml"
         echo "  when: never" >>"${HOME}/.config/lsd/config.yaml"
     fi
-    alias la='lsd -lhaFv'
-    alias ll='lsd -lhFv'
-    alias ls='lsd -Fv'
+    alias la='lsd -lhaFv --group-directories-first'
+    alias ll='lsd -lhFv --group-directories-first'
+    alias ls='lsd -Fv --group-directories-first'
 else
     # Detect which `ls` flavor is in use
     if ls --color &>/dev/null; then  # GNU `ls`
