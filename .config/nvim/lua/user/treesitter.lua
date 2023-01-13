@@ -1,4 +1,4 @@
--- 2022.08.23 - ducet8@outlook.com
+-- 2023.01.11 - ducet8@outlook.com
 
 local status_ok, configs = pcall(require, "nvim-treesitter.configs")
 if not status_ok then
@@ -22,7 +22,7 @@ configs.setup {
     additional_vim_regex_highlighting = true
   },
   indent = {
-    enable = true,
+    enable = false,
     disable = { "" }
   },
   context_commentstring = {
