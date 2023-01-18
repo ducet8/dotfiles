@@ -1,21 +1,21 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.01.11 - ducet8@outlook.com
+# 2023.01.17 - ducet8@outlook.com
 
 # fif
 # find file (ff) or find in file (fif)
 
 function fif_aborting() {
-    printf "\naborting ... $@\n\n"A && exit 1
+    printf "\naborting ... $@\n\n"A && return 1
 }
 
 function fif_usage() {
     printf "\nusage: $0 <start from|string to find> [string to find] [find flags]\n\n"
-    exit 1
 }
 
 function fif() {
     if [ ! "${1}" ];then
         fif_usage
+        return 1
     fi
 
     if [ "${BD_OS}" == 'darwin' ]; then

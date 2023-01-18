@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2022.11.09 - ducet8@outlook.com
+# 2023.01.17 - ducet8@outlook.com
 
 # replace in files
 
@@ -7,12 +7,12 @@ function rif_usage() {
     echo
     echo "${0} <from> <to>"
     echo
-    exit 1
 }
 
 function rif() {
     if [ "${1}" == '' ] || [ "${2}" == '' ]; then
         rif_usage
+        return 1
     fi
 
     REPLACE_FROM="${1}"
@@ -31,6 +31,3 @@ function rif() {
         fi
     done <<< "$(find . -type f ! -wholename "*.git*" -and ! -wholename "*.svn*" -print0 | xargs -0 -r grep -l "${REPLACE_FROM}")"
 }
-
-# export -f rif_usage
-# export -f rif

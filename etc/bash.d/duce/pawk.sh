@@ -1,61 +1,65 @@
-# 2022.11.07 - ducet8@outlook.com
+# 2023.01.18 - ducet8@outlook.com
 
 # Paragraph grep
 
 function pawk_usage() {
     printf "usage: $0 [-hvi] [pattern] [file]\n\n"
     
-    printf "Options:\n"
-    printf "\th                  Print this Help\n"
-    printf "\td                  Debug - print the command\n"
-    printf "\tv                  Exclude pattern\n"
-    printf "\ti                  Case insensitive\n"
-
-    exit 1
+    printf 'Options:\n'
+    printf '\t-h                  Print this Help\n'
+    printf '\t-d                  Debug - print the command\n'
+    printf '\t-i                  Case insensitive\n'
+    printf '\t-v                  Exclude pattern\n'
+    printf '\t-x                  Disable bat parsing\n'
 }
 
 function pawk() {
-    if [ "$1" == "" ] || [ "$2" == "" ]; then
-        pawk_usage
-    fi
+    [ $# -lt 2 ] && pawk_usage && return 1
 
-    while getopts ":hdvi" option; do
-        case $option in
-            h)
-            pawk_usage;;
-            d)
-            debug=1;;
-            v)
-            exclude=1;;
-            i)
-            case_insensitive=1;;
-            \?) # Invalid option
-            echo "Error: Invalid option"
-            exit;;
-        esac
+    # Parse args
+    while :; do
+        if [[ $# -eq 0 ]]; then
+            break
+        elif [[ $1 =~ ^- ]]; then
+            case $1 in
+                -d)      local pawk_debug=1                           ;;
+                -h)      pawk_usage && return 0                       ;;
+                -i)      local pawk_case_insensitive=1                ;;
+                -v)      local pawk_exclude=1                         ;;
+                -x)      local skip_bat=1                             ;;
+                *)       echo 'Error: Invalid option' && return 1     ;;
+            esac
+            shift
+        else
+            local pattern=$1
+            local file=$2
+            shift; shift
+        fi
     done
 
-    shift $((OPTIND-1))
-    pattern=$1
-    file=$2
-
-    section="'"
-    if [[ -n $case_insensitive ]]; then
-        pattern=$(echo $pattern | awk '{print tolower($0)}')
+    local section="'"
+    if [[ -n $pawk_case_insensitive ]]; then
+        pattern=$(echo ${pattern} | awk '{print tolower($0)}')
         section+='tolower($0)'
-        if [[ -n $exclude ]]; then
+        if [[ -n $pawk_exclude ]]; then
             section+='!~'
         else
             section+='~'
         fi
-    elif [[ -n $exclude ]]; then
+    elif [[ -n $pawk_exclude ]]; then
         section+='!'
     fi
     section+="/$pattern/'"
 
-    cmd="awk ${section} RS='\\n\\n' ORS='\\n\\n' $file"
-    if [[ -n $debug ]]; then
-        echo "Running: $cmd"
+    if type -P bat &>/dev/null; then
+        if [[ -z $skip_bat ]]; then
+            local bat_lang="$(echo ${file} | awk -F. '{print $NF}')"
+            local bat_addon="| bat -l ${bat_lang}"
+        fi
     fi
-    eval $cmd 
+    local pawk_cmd="awk ${section} RS='\\n\\n' ORS='\\n\\n' ${file} ${bat_addon}"
+    if [[ -n $pawk_debug ]]; then
+        echo "Running: ${pawk_cmd}"
+    fi
+    eval ${pawk_cmd}
 }

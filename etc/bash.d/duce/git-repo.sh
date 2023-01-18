@@ -1,8 +1,8 @@
 # Forked from: Jess Frizelle
-# 2022.11.09 - ducet8@outlook.com
+# 2023.01.17 - ducet8@outlook.com
 
 if ! type -P git &>/dev/null; then
-    return 0
+    return 1
 fi
 
 # Call from a local repo to open the repository on github/bitbucket in browser
@@ -25,12 +25,12 @@ function repo() {
     # Validate that this folder is a git folder
     if ! git branch 2>/dev/null 1>&2 ; then
         echo 'Not a git repo!'
-        exit $?
+        return 1
     fi
 
     # Find current directory relative to .git parent
     full_path=$(pwd)
-    git_base_path=$(cd "./$(git rev-parse --show-cdup)" || exit 1; pwd)
+    git_base_path=$(cd "./$(git rev-parse --show-cdup)" || return 1; pwd)
     relative_path=${full_path#$git_base_path} # remove leading git_base_path from working directory
 
     # If filename argument is present, append it
@@ -50,7 +50,5 @@ function repo() {
 
     echo "Calling $(type open) for ${url}"
 
-    open "${url}" &> /dev/null || (echo "Using $(type open) to open URL failed." && exit 1);
+    open "${url}" &> /dev/null || (echo "Using $(type open) to open URL failed." && return 1);
 }
-
-# export -f repo

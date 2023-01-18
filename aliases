@@ -1,4 +1,4 @@
-# 2022.12.21 - ducet8@outlook.com
+# 2023.01.18 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -48,8 +48,12 @@ alias container_ps1="echo 'export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"
 if type -P bat &>/dev/null; then
     alias cat='bat --paging=never --theme="gruvbox-dark"'
 elif [[ ${BD_OS,,} == "debian" ]] && [ type -P batcat &>/dev/null ]; then
-    mkdir -p "${HOME}/.local/bin"
-    ln -s /usr/bin/batcat ~/.local/bin/bat
+    if [ ! -d "${HOME}/.local/bin" ]; then
+        mkdir -p "${HOME}/.local/bin"
+    fi
+    if [ ! -L "${HOME}/.local/bin/bat" ]; then
+        ln -s /usr/bin/batcat ~/.local/bin/bat
+    fi
     alias cat='bat --paging=never --theme="gruvbox-dark"'
 fi
 
@@ -133,6 +137,18 @@ fi
 alias list_functions='declare -F | awk '\''{print $3}'\'' | grep -v ^_'
 alias me="source ${BD_HOME}/.bash_profile"
 if type -P less &>/dev/null; then
+    if type -P bat &>/dev/null; then
+        alias less='bat --theme="gruvbox-dark"'
+    elif [[ ${BD_OS,,} == "debian" ]] && [ type -P batcat &>/dev/null ]; then
+        if [ ! -d "${HOME}/.local/bin" ]; then
+            mkdir -p "${HOME}/.local/bin"
+        fi
+        if [ ! -L "${HOME}/.local/bin/bat" ]; then
+            ln -s /usr/bin/batcat ~/.local/bin/bat
+        fi
+        alias less='bat --theme="gruvbox-dark"'
+    fi
+
     alias more='less'
 fi
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"

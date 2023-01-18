@@ -1,12 +1,12 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2022.11.09 - ducet8@outlook.com
+# 2023.01.17 - ducet8@outlook.com
 
 function test_loop() {
     printf -v COMMAND "%b " "$@"
     COUNTER=0
     SEPERATOR='+--------------------------------------+'
 
-    if [ "$COMMAND" == '' ] || [ "$COMMAND" == "$0" ]; then echo "usage: $0 <command> [sleep seconds]"; exit 1; fi
+    if [ "$COMMAND" == '' ] || [ "$COMMAND" == "$0" ]; then echo "usage: $0 <command> [sleep seconds]"; return 1; fi
 
     if [ "$2" != '' ]; then declare -i SLEEP="$2"; fi
 
@@ -26,5 +26,3 @@ function test_loop() {
         sleep $SLEEP
     done
 }
-
-# export -f test-loop
