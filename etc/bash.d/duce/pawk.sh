@@ -1,4 +1,4 @@
-# 2023.01.18 - ducet8@outlook.com
+# 2023.01.25 - ducet8@outlook.com
 
 # Paragraph grep
 
@@ -53,8 +53,12 @@ function pawk() {
 
     if type -P bat &>/dev/null; then
         if [[ -z $skip_bat ]]; then
-            local bat_lang="$(echo ${file} | awk -F. '{print $NF}')"
-            local bat_addon="| bat -l ${bat_lang}"
+            local bat_lang="$(IFS='.' read -a test <<< $(echo ${file} | awk -F/ '{print $NF}') && echo ${test[1]})"
+            if [ ${#bat_lang} -gt 0 ]; then
+                local bat_addon="| bat -l ${bat_lang}"
+            else
+                local bat_addon="| bat"
+            fi
         fi
     fi
     local pawk_cmd="awk ${section} RS='\\n\\n' ORS='\\n\\n' ${file} ${bat_addon}"

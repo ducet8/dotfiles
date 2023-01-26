@@ -11,6 +11,14 @@ else
     export SHELL=$(which bash)
 fi
 
+
+##
+# bd exports
+##
+if type bd_ansi &>/dev/null; then
+    export -f bd_ansi
+fi
+
 ##
 # Color Exports
 ##

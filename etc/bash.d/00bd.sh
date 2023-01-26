@@ -25,6 +25,11 @@ if [ "${0}" == "${BASH_SOURCE}" ]; then
     exit 1
 fi
 
+# handle dirs argument
+if [ "${1}" == "dirs" ]; then
+    echo "${BD_BAG_DIRS[@]}"
+fi
+
 # handle upgrade argument
 if [ "${1}" == "upgrade" ]; then
     BD_UPDATE_URL="https://raw.githubusercontent.com/bash-d/bd/main/00bd.sh"
@@ -36,15 +41,14 @@ if [ "${1}" == "upgrade" ]; then
     return $?
 fi
 
-# verify SHELL (why?)
-SHELL="${SHELL:-$(command -v sh 2> /dev/null)}"
-[ ! -x "${SHELL}" ] && return 1
+# bypass unhandled arguments
+[ ${#1} -gt 0 ] && return
 
 #
 # globals
 #
 
-export BD_VERSION=0.38
+export BD_VERSION=0.39
 
 BD_CONF_FILE=".bash.d.conf"
 BD_SUB_DIR="etc/bash.d"
@@ -534,6 +538,8 @@ fi
 #
 # 5 - add current working directory via bd_bagger
 #
+
+[ -r "${PWD}/${BD_CONF_FILE}" ] && [ -f "${PWD}/${BD_CONF_FILE}" ] && bd_bagger_file "${PWD}/${BD_CONF_FILE}"
 
 if [ -d "${PWD}/${BD_SUB_DIR}" ]; then
     bd_bagger "${PWD}/${BD_SUB_DIR}"
