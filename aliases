@@ -1,4 +1,4 @@
-# 2023.01.25 - ducet8@outlook.com
+# 2023.02.02 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -187,7 +187,7 @@ else
 fi
 
 
-alias sal='ps -ef | grep ssh-agent; echo && env | grep -i ssh | sort -V; echo; ssh-add -l'
+alias sal='ps -ef | grep [s]sh-agent; echo && env | grep -i ssh | sort -V; echo; ssh-add -l'
 alias scpo='scp -o IdentitiesOnly=yes'
 alias ssho='ssh -o IdentitiesOnly=yes'
 alias sudo='sudo '  # Allowing aliases to be used. **This breaks sudo cli options. To bypass the alias use \sudo at the prompt.
