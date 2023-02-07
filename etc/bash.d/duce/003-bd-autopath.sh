@@ -47,7 +47,7 @@ BD_ADD_PATHS+=("${HOME}/opt")
 BD_ADD_PATHS+=("${HOME}/src")
 
 # fourth, if BD_HOME is set then add these paths to the BD_ADD_PATHS array
-if [ -n ${BD_HOME} ]; then
+if [ -n ${BD_HOME} ] && [ -r ${BD_HOME}/${BD_AUTO_PATHS} ]; then
     if [ "${BD_HOME}" != "${HOME}" ]; then
         # if BD_HOME isn't HOME then mimic the first step (i.e. when sudo su -)
         while read BD_AUTO_PATHS_LINE; do
