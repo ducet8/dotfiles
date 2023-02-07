@@ -68,7 +68,7 @@ if ssh-add -l &> /dev/null; then
     printf "$(ssh-add -l | wc -l | awk '{print $1}')\n"
 else
     bd_ansi reset && bd_ansi fg_red1 
-    printf "ERROR"
+    printf "ERROR\n"
 fi
 
 
