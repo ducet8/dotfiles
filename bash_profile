@@ -1,6 +1,6 @@
 # .bash_profile
 
-BASH_PROFILE_VERSION="2022.12.27, ducet8@outlook.com"
+BASH_PROFILE_VERSION="2023.02.17, ducet8@outlook.com"
 
 
 ##
@@ -46,4 +46,8 @@ if [ -z ${BD_HOME} ] || [ "${USER}" != 'root' ]; then
     [ -r ~/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ~/etc/bash.d/00bd.sh ${@}
 else
     [ -r ${BD_HOME}/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ${BD_HOME}/etc/bash.d/00bd.sh ${@}
+    # If user isn't BD_USER, go home
+    if [ "${BD_HOME}" != "${HOME}" ]; then
+        cd ${HOME}
+    fi
 fi
