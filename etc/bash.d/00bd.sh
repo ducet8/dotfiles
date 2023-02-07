@@ -68,7 +68,7 @@ function bd_ansi() {
 function bd_aliases() {
     bd_debug "function ${FUNCNAME}(${@})" 15
 
-    [ -f "${BD_HOME}/.bashrc" ] && alias bd="source '${BD_HOME}/.bashrc'" || alias bd="source '${BD_HOME}/.bash_profile'"
+    [ -f "${BD_HOME}/.bash_profile" ] && alias bd="source '${BD_HOME}/.bash_profile'"
 }
 
 # add a specific subdirectory via bd_bagger; a single 'bag' is simply a subdirectory in ${BD_PATH}
