@@ -1,16 +1,19 @@
-# 2022.12.27 - ducet8@outlook.com
+# 2023.02.07 - ducet8@outlook.com
 
 # Display some useful information
 
 # Display OS Info
-bd_ansi reset; bd_ansi fg_yellow4
 if [[ ${#BD_OS_PRETTY_NAME} -gt 0 ]]; then
-    echo "${BD_OS_PRETTY_NAME^^}" && echo ''
+    bd_ansi reset; bd_ansi fg_cyan3
+    printf "${BD_OS_PRETTY_NAME^^}\n\n"
 fi
 
+
 # Display Profile Version
-bd_ansi reset; bd_ansi fg_yellow4
-echo "${BD_HOME}/.bash_profile: ${BASH_PROFILE_VERSION}" && echo ''
+bd_ansi reset; bd_ansi fg_cyan3
+printf "${BD_HOME}/.bash_profile:"
+bd_ansi reset; bd_ansi fg_cyan1
+printf "\t${BASH_PROFILE_VERSION}\n\n"
 
 if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
     # Notify of missing utilities
@@ -47,7 +50,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
         elif [[ "${BD_OS,,}" == 'debian' ]]; then
             os_msg='run: sudo apt '
         fi
-        missing_util_msg+="\tYou most likely need to ${os_msg}install ${missing_utils}"
+        missing_util_msg+="\tYou most likely need to ${os_msg}install ${missing_utils}\n\n"
         printf "${missing_util_msg}"
         bd_ansi reset
         unset missing_util_msg os_msg
@@ -56,12 +59,36 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
     export BD_MISSING_UTIL_CHECK=1
 fi
 
+
+# Display ssh-agent information
+bd_ansi reset && bd_ansi fg_yellow5 
+printf "SSH-AGENT:\t\t\t"
+if ssh-add -l &> /dev/null; then 
+    bd_ansi reset && bd_ansi fg_yellow4
+    printf "$(ssh-add -l | wc -l | awk '{print $1}')\n"
+else
+    bd_ansi reset && bd_ansi fg_red1 
+    printf "ERROR"
+fi
+
+
 # Display DISPLAY if set
-[ ! -z "${DISPLAY}" ] && bd_ansi reset && bd_ansi fg_magenta4 && printf "DISPLAY: \t${DISPLAY}\n"
+bd_ansi reset && bd_ansi fg_yellow5 
+[ ! -z "${DISPLAY}" ] && printf "DISPLAY:\t\t\t"; bd_ansi reset && bd_ansi fg_yellow4 && printf "${DISPLAY}\n"
+
 
 # Dsiplay any tmux info
+bd_ansi reset && bd_ansi fg_yellow5
 if [ "${TMUX}" ]; then
-    bd_ansi reset; bd_ansi fg_magenta4
-    printf "TMUX:\n${TMUX_INFO}    socket:\t${TMUX}\n"
+    tmux_fmt="\t$(bd_ansi reset && bd_ansi fg_yellow5)%-24s$(bd_ansi reset && bd_ansi fg_yellow4)%-12s\n"
+    printf "TMUX:\n"
+    printf "${tmux_fmt}" "binary:" "${TMUX_BIN}"
+    printf "${tmux_fmt}" "session:" "${TMUX_SESSION_NAME}"
+    printf "${tmux_fmt}" "conf:" "${TMUX_COMMAND}"
+    printf "${tmux_fmt}" "socket:" "${BD_HOME}/.tmux.conf"
     bd_ansi reset
+    unset tmux_fmt
 fi
+
+
+bd_ansi reset

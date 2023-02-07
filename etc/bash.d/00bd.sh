@@ -48,7 +48,7 @@ fi
 # globals
 #
 
-export BD_VERSION=0.39
+export BD_VERSION=0.39.1
 
 BD_CONF_FILE=".bash.d.conf"
 BD_SUB_DIR="etc/bash.d"

@@ -1,48 +1,46 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2022.12.19 - ducet8@outlook.com
+# 2023.02.07 - ducet8@outlook.com
 
 function bash_logout() {
-    Bash_Logout_Message="$(date) logout ${USER}@${HOSTNAME}"
+    bash_logout_message="$(date) logout ${USER}@${HOSTNAME}"
 
     if [[ "${BD_OS,,}" =~ 'alpine' ]]; then 
-        export Bash_Pids=($(ps -ef | grep ${USER} | grep [b]ash | awk '{print $1}'))
+        export bash_pids=($(ps -ef | grep ${USER} | grep [b]ash | awk '{print $1}'))
     else
         # prep sshAgentInit to clean up when the last $USER is logging out
-        export Bash_Pids=($(pgrep -u ${USER} bash)) # this creates a subshell, so 2=1?
+        export bash_pids=($(pgrep -u ${USER} bash)) # this creates a subshell, so 2=1?
     fi
 
-    export Bash_Logins=${#Bash_Pids[@]}
-    Bash_Logout_Message+=" (Bash_Logins=${Bash_Logins})"
+    export bash_logins=${#bash_pids[@]}
+    bash_logout_message+=" (bash_logins=${bash_logins})"
 
-    if [ ${Bash_Logins} -lt 2 ]; then
-        Bash_Logout_Message+=' (last login)'
-        verbose_level=3
+    if [ ${bash_logins} -lt 2 ]; then
+        bash_logout_message+=' (last login)'
+        bd_ansi_color="fg_yellow4"
     else
-        verbose_level=4
+        bd_ansi_color="fg_yellow3"
     fi
 
-    if [ ${#Bash_Logout} -eq 0 ]; then
-        if [ "$(type -t verbose)" == 'function' ]; then
-            verbose "${Bash_Logout_Message}" $verbose_level
-        else
-            printf "${Bash_Logout_Message}\n"
-        fi
+    if [ ${#bash_logout} -eq 0 ]; then
+        bd_ansi reset && bd_ansi ${bd_ansi_color}
+        printf "${bash_logout_message}\n"
+        bd_ansi reset
     fi
 
-    if [ ${Bash_Logins} -lt 2 ] && [ "${USER}" == "${BD_USER}" ]; then
+    if [ ${bash_logins} -lt 2 ] && [ "${USER}" == "${BD_USER}" ]; then
         # last login
         if [[ "${SSH_AGENT_PID}" =~ ^[0-9].+ ]]; then
             kill -9 "${SSH_AGENT_PID}" &> /dev/null
         fi
 
-        if [ "$(type -t sshAgentInit)" == 'function' ]; then
-            sshAgentInit
-        fi
+        # if [ "$(type -t sshAgentInit)" == 'function' ]; then
+        #     sshAgentInit
+        # fi
 
         unset -v SSH_AGENT_PID SSH_AUTH_SOCK
     fi
 
-    export Bash_Logout=0
+    export bash_logout=0
 
     if [ "$SHLVL" = 1 ]; then
         [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
