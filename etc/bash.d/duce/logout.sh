@@ -1,17 +1,16 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.07 - ducet8@outlook.com
+# 2023.02.08 - ducet8@outlook.com
 
 function bash_logout() {
     bash_logout_message="$(date) logout ${USER}@${HOSTNAME}"
 
     if [[ "${BD_OS,,}" =~ 'alpine' ]]; then 
-        export bash_pids=($(ps -ef | grep ${USER} | grep [b]ash | awk '{print $1}'))
+        export bash_logins=($(ps aux | grep ${USER} | grep -c [b]ash))
     else
         # prep sshAgentInit to clean up when the last $USER is logging out
-        export bash_pids=($(pgrep -u ${USER} bash)) # this creates a subshell, so 2=1?
+        export bash_logins=($(pgrep -u ${USER} -c bash))
     fi
 
-    export bash_logins=${#bash_pids[@]}
     bash_logout_message+=" (bash_logins=${bash_logins})"
 
     if [ ${bash_logins} -lt 2 ]; then
