@@ -1,4 +1,4 @@
-# 2023.02.07 - ducet8@outlook.com
+# 2023.02.08 - ducet8@outlook.com
 
 # Display some useful information
 
@@ -24,7 +24,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
         if ! type -P "${tool}" &>/dev/null; then
             if [[ "${tool}" == 'nvim' ]]; then tool='neovim'; fi  # nvim is available as neovim
             if [[ "${tool}" == 'bat' ]]; then
-                if [[ "${BD_OS_ID,,}" == 'rocky' ]] || [[ "${BD_OS_ID,,}" =~ 'centos' ]]; then 
+                if [[ "${BD_OS_ID,,}" == 'centos' ]] || [[ "${BD_OS_ID,,}" == 'rhel' ]] || [[ "${BD_OS_ID,,}" =~ 'rocky' ]]; then 
                     unavailable_utils+="${tool} "
                     continue  # bat is not available on rocky or centos
                 elif [[ "${BD_OS_ID,,}" == 'debian' ]] && (! type -P batcat &>/dev/null); then
