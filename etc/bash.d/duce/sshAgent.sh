@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.07 - ducet8@outlook.com
+# 2023.02.08 - ducet8@outlook.com
 
 # bd_ansi mapping
 # EMER - fg_red1
@@ -37,7 +37,7 @@ function ssh_agent_add_identities() {
 }
 
 function ssh_agent() {
-    local num_of_agents=$(ps ax | grep [s]sh-agent | wc -l)
+    local num_of_agents=$(ps aux | grep ${USER} | grep [s]sh-agent | wc -l)
 
     # 1 running agent with no connection to an agent
     if [ ${num_of_agents} -eq 1 ] && [ $(ssh-add -l &> /dev/null; echo $?) -eq 2 ]; then
@@ -49,11 +49,11 @@ function ssh_agent() {
             eval $(<${BD_HOME}/.ssh/.ssh_agent) > /dev/null
         else
             ssh_agent_msg fg_blue2 '\tNo .ssh_agent file found. Killing existing agent...\n' 2
-            kill -9 $(ps -ef | grep [s]sh-agent | awk '{print $2}')
+            kill -9 $(ps aux | grep ${USER} | grep [s]sh-agent | awk '{print $2}')
             unset SSH_AGENT_PID SSH_AUTH_SOCK
         fi
 
-        num_of_agents=$(ps ax | grep [s]sh-agent | wc -l)
+        num_of_agents=$(ps aux | grep ${USER} | grep [s]sh-agent | wc -l)
     fi
 
     # More than 1 running agents
@@ -68,12 +68,12 @@ function ssh_agent() {
                 # ssh-agent used in .ssh_agent is still running
                 if [ $? == 0 ]; then
                     ssh_agent_msg fg_yellow2 "\tKilling ssh-agents not associated with ${BD_HOME}/.ssh/.ssh_agent [${agent_pid}]\n" 2
-                    kill -9 $(ps -ef | grep [s]sh-agent | grep -v ${agent_pid} | awk '{print $2}') &> /dev/null
+                    kill -9 $(ps aux | grep ${USER} | grep [s]sh-agent | grep -v ${agent_pid} | awk '{print $2}') &> /dev/null
                     unset SSH_AGENT_PID SSH_AUTH_SOCK
                     eval $(<{BD_HOME}/.ssh/.ssh_agent)
                 else  # Not still running
                     ssh_agent_msg fg_yellow2 "\tKilling all running ssh-agents...\n" 2
-                    kill -9 $(ps -ef | grep [s]sh-agent | awk '{print $2}') &> /dev/null
+                    kill -9 $(ps aux | grep ${USER} | grep [s]sh-agent | awk '{print $2}') &> /dev/null
                     ssh_agent_msg fg_yellow2 "\tRemoving stale ${BD_HOME}/.ssh/.ssh_agent\n" 2
                     rm -f ${BD_HOME}/.ssh/.ssh_agent &> /dev/null
                     unset SSH_AGENT_PID SSH_AUTH_SOCK
@@ -81,7 +81,7 @@ function ssh_agent() {
             else  # Invalid ssh-agent PID
                 ssh_agent_msg fg_yellow2 "\tInvalid ssh-agent PID in ${BD_HOME}/.ssh/.ssh_agent [${agent_pid}]\n" 2
                 ssh_agent_msg fg_yellow2 "\tKilling all running ssh-agents...\n" 2
-                kill -9 $(ps -ef | grep [s]sh-agent | awk '{print $2}') &> /dev/null
+                kill -9 $(ps aux | grep ${USER} | grep [s]sh-agent | awk '{print $2}') &> /dev/null
                 ssh_agent_msg fg_yellow2 "\tRemoving stale ${BD_HOME}/.ssh/.ssh_agent\n" 2
                 rm -f ${BD_HOME}/.ssh/.ssh_agent &> /dev/null
                 unset SSH_AGENT_PID SSH_AUTH_SOCK
@@ -89,11 +89,11 @@ function ssh_agent() {
         else 
             ssh_agent_msg fg_yellow2 "\tFile not found: ${BD_HOME}/.ssh/.ssh_agent\n" 2
             ssh_agent_msg fg_yellow2 "\tKilling all running ssh-agents...\n" 2
-            kill -9 $(ps -ef | grep [s]sh-agent | awk '{print $2}')
+            kill -9 $(ps aux | grep ${USER} | grep [s]sh-agent | awk '{print $2}')
             unset SSH_AGENT_PID SSH_AUTH_SOCK
         fi
         
-        num_of_agents=$(ps ax | grep [s]sh-agent | wc -l)
+        num_of_agents=$(ps aux | grep ${USER} | grep [s]sh-agent | wc -l)
     fi
 
     # No running agents and no keys connection to an agent
