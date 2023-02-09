@@ -106,7 +106,7 @@ function ssh_agent() {
         
         ssh_agent_msg fg_blue2 'Starting ssh-agent\n' 2
         
-        ssh-agent > ${BD_HOME}/.ssh/.ssh_agent && chmod 600 ${BD_HOME}/.ssh/.ssh_agent
+        ssh-agent -t 24h > ${BD_HOME}/.ssh/.ssh_agent && chmod 600 ${BD_HOME}/.ssh/.ssh_agent
         eval $(<{BD_HOME}/.ssh/.ssh_agent)
     fi
 
@@ -117,7 +117,3 @@ function ssh_agent() {
 }
 
 ssh_agent
-
-# Don't leave extra agents around: kill it on exit. You may not want this part.
-# Also clean up sock and env files
-#trap "ssh-agent -k" exit
