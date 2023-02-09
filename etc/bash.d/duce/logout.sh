@@ -47,6 +47,8 @@ function bash_logout() {
 
     export bash_logout=0
 
+    sleep 5
+
     if [ "$SHLVL" = 1 ]; then
         [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
     fi
