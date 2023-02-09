@@ -4,15 +4,15 @@
 function bash_logout() {
 
     if [[ "${BD_OS,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 
-        export bash_logins=($(ps aux | grep ${USER} | grep -c [b]ash))
+        local bash_logins=($(ps aux | grep ${USER} | grep -c [b]ash))
     else
-        export bash_logins=($(pgrep -u ${USER} -c bash))
+        local bash_logins=($(pgrep -u ${USER} -c bash))
     fi
 
     # Trap seems to create a subshell that shouldn't be counted
     if [ -n ${bash_logins} ]; then
         (( bash_logins-- ))
-        export bash_logins
+        bash_logins
     fi
 
     bash_logout_message="$(date) logout ${USER}@${HOSTNAME} (bash_logins=${bash_logins})"
@@ -40,7 +40,7 @@ function bash_logout() {
         unset -v SSH_AGENT_PID SSH_AUTH_SOCK
     fi
 
-    export bash_logout=0
+    local bash_logout=0
 
     # Sleep for future debugging when it is the last login
     if [ -n ${sleep_timer} ]; then
