@@ -4,7 +4,7 @@
 function bash_logout() {
     bash_logout_message="$(date) logout ${USER}@${HOSTNAME}"
 
-    if [[ "${BD_OS,,}" =~ 'alpine' ]]; then 
+    if [[ "${BD_OS,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 
         export bash_logins=($(ps aux | grep ${USER} | grep -c [b]ash))
     else
         # prep sshAgentInit to clean up when the last $USER is logging out
