@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.08 - ducet8@outlook.com
+# 2023.02.09 - ducet8@outlook.com
 
 function bash_logout() {
     bash_logout_message="$(date) logout ${USER}@${HOSTNAME}"
@@ -9,6 +9,12 @@ function bash_logout() {
     else
         # prep sshAgentInit to clean up when the last $USER is logging out
         export bash_logins=($(pgrep -u ${USER} -c bash))
+    fi
+
+      # Trap seems to create a subshell hat shouldn't be counted
+    if [ -n ${bash_logins} ]; then
+        (( bash_logins-- ))
+        export bash_logins
     fi
 
     bash_logout_message+=" (bash_logins=${bash_logins})"
