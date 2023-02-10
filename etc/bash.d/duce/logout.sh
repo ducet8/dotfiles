@@ -11,7 +11,6 @@ function bash_logout() {
     # Trap seems to create a subshell that shouldn't be counted
     if [ -n ${bash_logins} ]; then
         (( bash_logins-- ))
-        bash_logins
     fi
 
     bash_logout_message="$(date) logout ${USER}@${HOSTNAME} (bash_logins=${bash_logins})"
