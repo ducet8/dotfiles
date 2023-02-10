@@ -1,8 +1,8 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.09 - ducet8@outlook.com
+# 2023.02.10 - ducet8@outlook.com
 
 function bash_logout() {
-    if [[ "${BD_OS,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 
+    if [[ "${BD_OS_ID,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 
         local bash_logins=($(ps aux | grep ${USER} | grep -c [b]ash))
     else
         local bash_logins=($(pgrep -u ${USER} -c bash))
