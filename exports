@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# 2023.01.26 - ducet8@outlook.com
+# vim: ft:sh
+# 2023.02.16 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -19,61 +20,20 @@ if type bd_ansi &>/dev/null; then
     export -f bd_ansi
 fi
 
+
 ##
-# Color Exports
+# Brew Exports
 ##
-#if type -P tput &> /dev/null; then
-#    tput sgr0 # reset colors
-#    export BOLD="$(tput bold 2> /dev/null)"
-#    export RESET="$(tput sgr0 2> /dev/null)"
-#    # Solarized colors, taken from http://git.io/solarized-colors.
-#    export BLACK="$(tput setaf 0 2> /dev/null)"
-#    export BLUE="$(tput setaf 33 2> /dev/null)"  # Alternate choice: 4
-#    export CYAN="$(tput setaf 37 2> /dev/null)"  # Alternate choice: 6
-#    export GREEN="$(tput setaf 64 2> /dev/null)"  # Alternate choice: 2
-#    export ORANGE="$(tput setaf 166 2> /dev/null)"
-#    export PURPLE="$(tput setaf 125 2> /dev/null)"
-#    export RED="$(tput setaf 124 2> /dev/null)"  # Alternate choice: 1
-#    export VIOLET="$(tput setaf 61 2> /dev/null)"
-#    export WHITE="$(tput setaf 15 2> /dev/null)"  # Alternate choice: 7
-#    export YELLOW="$(tput setaf 136 2> /dev/null)"  # Alternate choice: 3
-#    export TPUT_BOLD=${BOLD}
-#    export TPUT_SETAF_0=${BLACK}
-#    export TPUT_SETAF_1=${RED}
-#    export TPUT_SETAF_2=${GREEN}
-#    export TPUT_SETAF_3=${YELLOW}
-#    export TPUT_SETAF_4=${BLUE}
-#    export TPUT_SETAF_5=${VIOLET}
-#    export TPUT_SETAF_6=${CYAN}
-#    export TPUT_SETAF_7=${WHITE}
-#    export TPUT_SETAF_8="$(tput setaf 8 2> /dev/null)" # grey
-#    export TPUT_SGR0=${RESET}
-#    export TPUT_SMSO="$(tput smso 2> /dev/null)" # standout
-#else
-#    export BOLD=''
-#    export RESET="\[\e[0m\]"
-#    export BLACK="\[\e[1;30m\]"
-#    export RED="\[\e[1;31m\]"
-#    export GREEN="\[\e[1;32m\]"
-#    export ORANGE="\[\e[1;33m\]"
-#    export YELLOW="\[\e[1;33m\]"
-#    export BLUE="\[\e[1;34m\]"
-#    export PURPLE="\[\e[1;35m\]"
-#    export VIOLET="\[\e[1;35m\]"
-#    export CYAN="\[\e[1;36m\]"
-#    export WHITE="\[\e[1;37m\]"
-#    
-#fi
+if [[ ${BD_OS,,} == "darwin" ]]; then
+    export HOMEBREW_NO_ANALYTICS=1  # Disable homebrew analytics
+fi
+
 
 ##
 # Colors for ls Exports
 ##
 export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
 
-##
-# Custom PATH Exports
-##
-#export PATH=/usr/local/bin:${BD_HOME}/local/bin:$PATH
 
 ##
 # EDITOR Exports
