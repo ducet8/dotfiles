@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.10 - ducet8@outlook.com
+# 2023.02.17 - ducet8@outlook.com
 
 function bash_logout() {
     if [[ "${BD_OS_ID,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 
@@ -16,14 +16,17 @@ function bash_logout() {
     bash_logout_message="$(date) logout ${USER}@${HOSTNAME} (bash_logins=${bash_logins})"
     bd_ansi reset
     if [ ${bash_logins} -lt 2 ]; then
-        sleep_timer=5
         if [ ${#bash_logout} -eq 0 ]; then
             bd_ansi fg_yellow4 && printf "${bash_logout_message}"
-            bd_ansi blink_fast && printf ' (last login)\n' && bd_ansi reset_blink
+            bd_ansi blink_fast && bd_ansi bold && printf ' (last login)\n' && bd_ansi reset_blink && bd_ansi reset_bold
+            sleep_timer=1
+        else
+            sleep_timer=4
         fi
     else
         if [ ${#bash_logout} -eq 0 ]; then
             bd_ansi fg_yellow3 && printf "${bash_logout_message}\n"
+            sleep_timer=1
         fi
     fi
     bd_ansi reset
