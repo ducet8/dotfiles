@@ -1,7 +1,9 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.17 - ducet8@outlook.com
+# 2023.02.18 - ducet8@outlook.com
 
 function bash_logout() {
+    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+
     if [[ "${BD_OS_ID,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 
         local bash_logins=($(ps aux | grep ${USER} | grep -c [b]ash))
     else
@@ -47,9 +49,9 @@ function bash_logout() {
         sleep ${sleep_timer}
     fi
 
-    if [ "$SHLVL" = 1 ]; then
-        [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
-    fi
+    # if [ "$SHLVL" = 1 ]; then
+    #     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+    # fi
 }
 
 # Trap EXIT
