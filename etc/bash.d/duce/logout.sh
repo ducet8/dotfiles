@@ -2,7 +2,7 @@
 # 2023.02.18 - ducet8@outlook.com
 
 function bash_logout() {
-    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+    [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || /usr/bin/clear
 
     if [[ "${BD_OS_ID,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 
         local bash_logins=($(ps aux | grep ${USER} | grep -c [b]ash))
