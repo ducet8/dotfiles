@@ -1,9 +1,9 @@
-# 2023.01.25 - ducet8@outlook.com
+# 2023.02.18 - ducet8@outlook.com
 
 # Paragraph grep
 
 function pawk_usage() {
-    printf "usage: $0 [-hvi] [pattern] [file]\n\n"
+    printf "usage: $0 [-hvi] <pattern> <file>\n\n"
     
     printf 'Options:\n'
     printf '\t-h                  Print this Help\n'
