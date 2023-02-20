@@ -1,18 +1,18 @@
-# 2023.02.08 - ducet8@outlook.com
+# 2023.02.18 - ducet8@outlook.com
 
 # Display some useful information
 
 # Display OS Info
 if [[ ${#BD_OS_PRETTY_NAME} -gt 0 ]]; then
-    bd_ansi reset; bd_ansi fg_cyan3
+    bd_ansi reset; bd_ansi fg_cyan2
     printf "${BD_OS_PRETTY_NAME^^}\n\n"
 fi
 
 
 # Display Profile Version
-bd_ansi reset; bd_ansi fg_cyan3
+bd_ansi reset; bd_ansi fg_cyan4
 printf "${BD_HOME}/.bash_profile:"
-bd_ansi reset; bd_ansi fg_cyan1
+bd_ansi reset; bd_ansi fg_cyan2
 printf "\t${BASH_PROFILE_VERSION}\n\n"
 
 if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
@@ -35,7 +35,7 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
         fi
     done
     if [[ ${missing_utils} != '' ]] || [[ ${unavailable_utils} != '' ]]; then
-        bd_ansi reset; bd_ansi fg_yellow5
+        bd_ansi reset; bd_ansi fg_yellow3
         printf "Missing Utilities: ${missing_utils}\n"
     fi
     if [[ ${unavailable_utils} != '' ]]; then
@@ -61,10 +61,10 @@ fi
 
 
 # Display ssh-agent information
-bd_ansi reset && bd_ansi fg_yellow5 
+bd_ansi reset && bd_ansi fg_cyan4 
 printf "SSH-AGENT:\t\t\t"
 if ssh-add -l &> /dev/null; then 
-    bd_ansi reset && bd_ansi fg_yellow4
+    bd_ansi reset && bd_ansi fg_cyan2
     printf "$(ssh-add -l | wc -l | awk '{print $1}')\n"
 else
     bd_ansi reset && bd_ansi fg_red1 
@@ -73,14 +73,14 @@ fi
 
 
 # Display DISPLAY if set
-bd_ansi reset && bd_ansi fg_yellow5 
-[ ! -z "${DISPLAY}" ] && printf "DISPLAY:\t\t\t"; bd_ansi reset && bd_ansi fg_yellow4 && printf "${DISPLAY}\n"
+bd_ansi reset && bd_ansi fg_cyan4 
+[ ! -z "${DISPLAY}" ] && printf "DISPLAY:\t\t\t"; bd_ansi reset && bd_ansi fg_cyan2 && printf "${DISPLAY}\n"
 
 
 # Dsiplay any tmux info
-bd_ansi reset && bd_ansi fg_yellow5
+bd_ansi reset && bd_ansi fg_cyan4
 if [ "${TMUX}" ]; then
-    tmux_fmt="\t$(bd_ansi reset && bd_ansi fg_yellow5)%-24s$(bd_ansi reset && bd_ansi fg_yellow4)%-12s\n"
+    tmux_fmt="\t$(bd_ansi reset && bd_ansi fg_cyan4)%-24s$(bd_ansi reset && bd_ansi fg_cyan2)%-12s\n"
     printf "TMUX:\n"
     printf "${tmux_fmt}" "binary:" "${TMUX_BIN}"
     printf "${tmux_fmt}" "session:" "${TMUX_SESSION_NAME}"
