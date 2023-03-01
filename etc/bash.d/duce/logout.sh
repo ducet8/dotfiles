@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.18 - ducet8@outlook.com
+# 2023.03.01 - ducet8@outlook.com
 
 function bash_logout() {
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || /usr/bin/clear
@@ -21,7 +21,7 @@ function bash_logout() {
         if [ ${#bash_logout} -eq 0 ]; then
             bd_ansi fg_yellow4 && printf "${bash_logout_message}"
             bd_ansi blink_fast && bd_ansi bold && printf ' (last login)\n' && bd_ansi reset_blink && bd_ansi reset_bold
-            sleep_timer=1
+            sleep_timer=.3
         else
             sleep_timer=4
         fi
