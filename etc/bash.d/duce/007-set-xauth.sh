@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.03.01 - ducet8@outlook.com
+# 2023.03.02 - ducet8@outlook.com
 
 # If possible, as other users, xauth add ${BD_HOME}/.Xauthority
 
@@ -35,5 +35,6 @@ else
     else
         export DISPLAY=:0
     fi
+    echo ""
 fi
 bd_ansi reset
