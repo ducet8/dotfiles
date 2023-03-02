@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.03.01 - ducet8@outlook.com
+# 2023.03.02 - ducet8@outlook.com
 
 function bash_logout() {
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || /usr/bin/clear
@@ -15,21 +15,24 @@ function bash_logout() {
         (( bash_logins-- ))
     fi
 
-    bash_logout_message="$(date) logout ${USER}@${HOSTNAME} (bash_logins=${bash_logins})"
+    [[ -n ${SUDO_USER} ]] && local user_color="fg_cyan2"
+
+    bash_logout_opening_message="$(date) logout "
+    bash_logout_closing_message="@${HOSTNAME} (bash_logins=${bash_logins})"
     bd_ansi reset
     if [ ${bash_logins} -lt 2 ]; then
-        if [ ${#bash_logout} -eq 0 ]; then
-            bd_ansi fg_yellow4 && printf "${bash_logout_message}"
-            bd_ansi blink_fast && bd_ansi bold && printf ' (last login)\n' && bd_ansi reset_blink && bd_ansi reset_bold
-            sleep_timer=.3
-        else
-            sleep_timer=4
-        fi
+        [[ -n ${user_color} ]] && local user_color="fg_yellow4"
+        bd_ansi fg_yellow4 && printf "${bash_logout_opening_message}"
+        bd_ansi ${user_color} && printf "${USER}"
+        bd_ansi fg_yellow4 && printf "${bash_logout_closing_message}"
+        bd_ansi blink_fast && bd_ansi bold && printf ' (last login)\n' && bd_ansi reset_blink && bd_ansi reset_bold
+        sleep_timer=.3
     else
-        if [ ${#bash_logout} -eq 0 ]; then
-            bd_ansi fg_yellow3 && printf "${bash_logout_message}\n"
-            sleep_timer=1
-        fi
+        [[ -n ${user_color} ]] && local user_color="fg_yellow3"
+        bd_ansi fg_yellow3 && printf "${bash_logout_opening_message}"
+        bd_ansi ${user_color} && printf "${USER}"
+        bd_ansi fg_yellow3 && printf "${bash_logout_closing_message}\n"
+        sleep_timer=1
     fi
     bd_ansi reset
 
@@ -41,8 +44,6 @@ function bash_logout() {
 
         unset -v SSH_AGENT_PID SSH_AUTH_SOCK
     fi
-
-    local bash_logout=0
 
     # Sleep for future debugging when it is the last login
     if [ -n ${sleep_timer} ]; then
