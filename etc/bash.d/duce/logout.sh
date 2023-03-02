@@ -21,14 +21,14 @@ function bash_logout() {
     bash_logout_closing_message="@${HOSTNAME} (bash_logins=${bash_logins})"
     bd_ansi reset
     if [ ${bash_logins} -lt 2 ]; then
-        [[ -n ${user_color} ]] && local user_color="fg_yellow4"
+        [[ -z ${user_color} ]] && local user_color="fg_yellow4"
         bd_ansi fg_yellow4 && printf "${bash_logout_opening_message}"
         bd_ansi ${user_color} && printf "${USER}"
         bd_ansi fg_yellow4 && printf "${bash_logout_closing_message}"
         bd_ansi blink_fast && bd_ansi bold && printf ' (last login)\n' && bd_ansi reset_blink && bd_ansi reset_bold
         sleep_timer=.3
     else
-        [[ -n ${user_color} ]] && local user_color="fg_yellow3"
+        [[ -z ${user_color} ]] && local user_color="fg_yellow3"
         bd_ansi fg_yellow3 && printf "${bash_logout_opening_message}"
         bd_ansi ${user_color} && printf "${USER}"
         bd_ansi fg_yellow3 && printf "${bash_logout_closing_message}\n"
