@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2022.11.09 - ducet8@outlook.com
+# 2023.03.03 - ducet8@outlook.com
 
 ##
 ### machine learning prompt 0.1
@@ -39,11 +39,11 @@ function bash_prompt() {
 
         # bash_prompt_ps1+="\[$(bd_ansi bg_black)\]"
 
-        if [ "${USER}" == 'root' ]; then
-            bash_prompt_color="$(bd_ansi fg_yellow4)"
-        else
-            bash_prompt_color="$(bd_ansi fg_green4)" || bash_prompt_color="$(bd_ansi fg_gray4)"
-        fi
+        case ${USER} in
+            root)           bash_prompt_color="$(bd_ansi fg_yellow4)"       ;;
+            duce|dtate)     bash_prompt_color="$(bd_ansi fg_green4)"        ;;
+            *)              bash_prompt_color="$(bd_ansi fg_gray4)"         ;;
+        esac
         bash_prompt_ps1+="\[${bash_prompt_color}\]"
     fi
     bash_prompt_ps1+='❲'
@@ -51,41 +51,41 @@ function bash_prompt() {
     bash_prompt_ps1+="\u"
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
-        if [ "${USER}" == 'root' ]; then
-            bash_prompt_color="$(bd_ansi fg_yellow3)"
-        else
-            [ "${USER}" == 'duce' ] && bash_prompt_color="$(bd_ansi fg_green3)" || bash_prompt_color="$(bd_ansi fg_gray3)"
-        fi
+        case ${USER} in
+            root)               bash_prompt_color="$(bd_ansi fg_yellow3)"   ;;
+            duce|dtate)         bash_prompt_color="$(bd_ansi fg_green3)"    ;;
+            *)                  bash_prompt_color="$(bd_ansi fg_gray3)"     ;;
+        esac
         bash_prompt_ps1+="\[${bash_prompt_color}\]"
     fi
     bash_prompt_ps1+='@'
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
-        if [ "${USER}" == 'root' ]; then
-            bash_prompt_color="$(bd_ansi fg_yellow4)"
-        else
-            [ "${USER}" == 'duce' ] && bash_prompt_color="$(bd_ansi fg_green4)" || bash_prompt_color="$(bd_ansi fg_gray4)"
-        fi
+        case ${USER} in
+            root)               bash_prompt_color="$(bd_ansi fg_yellow4)"   ;;
+            duce|dtate)         bash_prompt_color="$(bd_ansi fg_green4)"    ;;
+            *)                  bash_prompt_color="$(bd_ansi fg_gray4)"     ;;
+        esac
         bash_prompt_ps1+="\[${bash_prompt_color}\]"
     fi
     bash_prompt_ps1+="\H"
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
-        if [ "${USER}" == 'root' ]; then
-            bash_prompt_color="$(bd_ansi fg_yellow1)"
-        else
-            [ "${USER}" == 'dtate' ] && bash_prompt_color="$(bd_ansi fg_green1)" || bash_prompt_color="$(bd_ansi fg_gray1)"
-        fi
+        case ${USER} in
+            root)               bash_prompt_color="$(bd_ansi fg_yellow1)"   ;;
+            duce|dtate)         bash_prompt_color="$(bd_ansi fg_green1)"    ;;
+            *)                  bash_prompt_color="$(bd_ansi fg_gray1)"     ;;
+        esac
         bash_prompt_ps1+="\[${bash_prompt_color}\]"
     fi
     bash_prompt_ps1+=" \w"
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
-        if [ "${USER}" == 'root' ]; then
-            bash_prompt_color="$(bd_ansi fg_yellow4)"
-        else
-            [ "${USER}" == 'duce' ] && bash_prompt_color="$(bd_ansi fg_green4)" || bash_prompt_color="$(bd_ansi fg_gray4)"
-        fi
+        case ${USER} in
+            root)               bash_prompt_color="$(bd_ansi fg_yellow4)"   ;;
+            duce|dtate)         bash_prompt_color="$(bd_ansi fg_green4)"    ;;
+            *)                  bash_prompt_color="$(bd_ansi fg_gray4)"     ;;
+        esac
         bash_prompt_ps1+="\[${bash_prompt_color}\]"
     fi
     bash_prompt_ps1+='❳'
@@ -128,11 +128,11 @@ function bash_prompt() {
 
     # append colored/utf-8 symbols for # and $
     if [ ${bash_prompt_color_term} -eq 1 ]; then
-        if [ "${USER}" == 'root' ]; then
-            bash_prompt_color="$(bd_ansi fg_yellow1)"
-        else
-            [ "${USER}" == 'duce' ] && bash_prompt_color="$(bd_ansi fg_green1)" || bash_prompt_color="$(bd_ansi fg_gray1)"
-        fi
+        case ${USER} in
+            root)               bash_prompt_color="$(bd_ansi fg_yellow1)"   ;;
+            duce|dtate)         bash_prompt_color="$(bd_ansi fg_green1)"    ;;
+            *)                  bash_prompt_color="$(bd_ansi fg_gray1)"     ;;
+        esac
         bash_prompt_ps1+="\[${bash_prompt_color}\]"
     fi
 
