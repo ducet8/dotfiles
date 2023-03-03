@@ -62,9 +62,9 @@ function bash_prompt() {
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
         case ${USER} in
-            root)               bash_prompt_color="$(bd_ansi fg_yellow4)"   ;;
-            duce|dtate)         bash_prompt_color="$(bd_ansi fg_green4)"    ;;
-            *)                  bash_prompt_color="$(bd_ansi fg_gray4)"     ;;
+            root)               bash_prompt_color="$(bd_ansi fg_yellow4)"                                                                   ;;
+            duce|dtate)         [ -z ${SSH_TTY} ] && bash_prompt_color="$(bd_ansi fg_gray4)" || bash_prompt_color="$(bd_ansi fg_green4)"    ;;
+            *)                  bash_prompt_color="$(bd_ansi fg_gray4)"                                                                     ;;
         esac
         bash_prompt_ps1+="\[${bash_prompt_color}\]"
     fi
