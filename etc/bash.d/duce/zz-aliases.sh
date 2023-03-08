@@ -1,3 +1,4 @@
+# vim: ft=sh
 # 2023.02.02 - ducet8@outlook.com
 
 ##

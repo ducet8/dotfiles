@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
-# vim: ft:sh
-# 2023.02.16 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.03.08 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -185,27 +184,6 @@ export WTTR_LOCATION=35209
 # Uname Exports
 ##
 export Uname_I=$(uname -i 2> /dev/null)
-
-##
-# Unique PATH - Deprecated in favor of zz-bd-autopath.sh
-##
-#OIFS=${IFS}
-#IFS=':' read -ra Auto_Path <<< "${PATH}"
-#Uniq_Path="./"
-#for Dir_Path in "${Auto_Path[@]}"; do
-#    if ! [[ "${Uniq_Path}" =~ (^|:)${Dir_Path}($|:) ]]; then
-#        if [ -r "${Dir_Path}" ] && [ "${Dir_Path}" != "" ]; then
-#            Uniq_Path+=":${Dir_Path}"
-#        fi
-#    fi
-#done
-#unset -v Dir_Path
-#IFS=${OIFS}
-
-#export PATH="${Uniq_Path}"
-
-#unset -v Auto_Path
-#unset -v Uniq_Path
 
 ##
 # Local Exports
