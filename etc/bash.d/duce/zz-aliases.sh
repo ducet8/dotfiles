@@ -173,25 +173,9 @@ fi
 alias me="source ${BD_HOME}/.bash_profile"
 
 
-##
-# sudo Aliases
-##
-Sudo="$(type -P sudo 2> /dev/null)"
-[ ! -x ${Sudo} ] && unset Sudo
-
-if [ ${#Sudo} -gt 0 ]; then
-    alias root="${Sudo} --preserve-env=SSH_AUTH_SOCK,BD_HOME,BD_USER -u root ${SHELL} --init-file ${BD_HOME}/.bash_profile"
-    alias suroot="${Sudo} --preserve-env=SSH_AUTH_SOCK,BD_HOME,BD_USER -u root -"
-else
-    alias root="su - root -c '${SHELL} --init-file ${BD_HOME}/.bash_profile'"
-    alias suroot='su -'
-fi
-
-
 alias sal='ps -ef | grep [s]sh-agent; echo && env | grep -i ssh | sort -V; echo; ssh-add -l'
 alias scpo='scp -o IdentitiesOnly=yes'
 alias ssho='ssh -o IdentitiesOnly=yes'
-alias sudo='sudo '  # Allowing aliases to be used. **This breaks sudo cli options. To bypass the alias use \sudo at the prompt.
 
 
 if type -P systemctl &>/dev/null; then

@@ -10,3 +10,4 @@ function kubectl-events {
         | column -s $'\t' -t \
         | less -S
 }
+
