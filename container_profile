@@ -1,0 +1,37 @@
+# vim: ft=sh
+# 2023.03.14 - ducet8@outlook.com
+
+##
+# Returns to Avoid Interactive Shell Enhancements
+##
+case $- in
+    *i*)            ;;          # interactive shell (OK)
+    *)      return  ;;          # non-interactive shell
+esac
+
+# Do not allow execution
+[ "${BASH_SOURCE}" == "${0}" ] && exit
+
+# No prompt
+if [ ${#PS1} -le 0 ]; then return; fi
+
+# SSH, No TTY,No TMUX
+if [ ${#SSH_CONNECTION} -gt 0 ] && [ ${#SSH_TTY} -eq 0 ] && [ ${#TMUX} -eq 0 ]; then return; fi
+
+
+set -o vi
+
+##
+# Aliases
+## 
+if ls --color &>/dev/null; then  # GNU `ls`
+    colorflag='--color=auto'
+else  # OS X `ls`
+    colorflag='-G'
+fi
+alias la="ls -lhaF ${colorflag}"
+alias ll="ls -lhF ${colorflag}"
+alias ls="ls -F ${colorflag}"
+
+type -P less &>/dev/null && alias more='less'
+
