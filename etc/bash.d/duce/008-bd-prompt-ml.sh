@@ -1,3 +1,6 @@
+# Forked from: joseph.tingiris@gmail.com
+# 2023.03.27 - ducet8@outlook.com
+
 ##
 ### machine learning prompt 0.1
 ##
