@@ -49,13 +49,15 @@ function bash_prompt() {
     bash_prompt_ps1+="\u"
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
-        bash_prompt_ps1+="\[$(bash_prompt_color 2)\]"
+        # bash_prompt_ps1+="\[$(bash_prompt_color 2)\]"
+        bash_prompt_ps1+="\[$(bd_ansi fg_gray2)\]"
     fi
 
     bash_prompt_ps1+='@'
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
-        bash_prompt_ps1+="\[$(bash_prompt_color 3)\]"
+        # bash_prompt_ps1+="\[$(bash_prompt_color 3)\]"
+        [ -z ${SSH_TTY} ] && bash_prompt_ps1+="\[$(bd_ansi fg_gray3)\]" || bash_prompt_ps1+="\[$(bd_ansi fg_green3)\]"
     fi
 
     bash_prompt_ps1+="\H"
@@ -122,17 +124,22 @@ function bash_prompt_color() {
         [ -z "${bash_prompt_color_name}" ] && bash_prompt_color_name="green"
         bd_ansi fg_${bash_prompt_color_name}${1}
     else
-        if [ "${USER}" == 'root' ]; then
-            bash_prompt_color_name="yellow" # root is always yellow
-            bd_ansi fg_${bash_prompt_color_name}${1}
-        else
-            [ -z "${bash_prompt_color_name}" ] && bash_prompt_color_name="gray"
-            bd_ansi fg_${bash_prompt_color_name}${1}
-        fi
+        case ${USER} in
+            root)
+                bash_prompt_color_name="yellow" # root is always yellow
+                bd_ansi fg_${bash_prompt_color_name}${1}
+                ;;
+            *)
+                [ -z "${bash_prompt_color_name}" ] && bash_prompt_color_name="gray"
+                bd_ansi fg_${bash_prompt_color_name}${1}
+                ;;
+        esac
     fi
 }
 
-PROMPT_LOGNAME=$(logname 2> /dev/null)
+if [ "${BD_OS}" != 'darwin' ]; then
+    PROMPT_LOGNAME=$(logname 2> /dev/null)
+fi
 [ ${#PROMPT_LOGNAME} -eq 0 ] && PROMPT_LOGNAME="${USER}"
 
 PROMPT_COMMAND='bash_prompt'
