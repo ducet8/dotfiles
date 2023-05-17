@@ -1,14 +1,27 @@
-# Copyright (c) 2022 Joseph Tingiris
-# https://github.com/bash-d/bd/blob/main/LICENSE.md
-
 # 00bd-os.sh: set additional variables that identify the operating system details
+
+# Copyright (C) 2018-2023 Joseph Tingiris <joseph.tingiris@gmail.com>
+# https://github.com/bash-d/bd/blob/main/LICENSE.md
 
 #
 # metadata
 #
 
-# bash.d: exports BD_DEBUG BD_ID BD_HOME BD_USER BD_VERSION
+# bash.d: exports BD_OS_ID BD_OS_MACHINE BD_OS_NAME BD_OS_PATH BD_OS_PLATFORM_ID BD_OS_PRETTY_NAME BD_OS_SH BD_OS_VARIANT BD_OS_VARIANT_ID BD_OS_VERSION BD_OS_VERSION_ID BD_OS_VERSION_MAJOR
 # vim: ft=sh:ts=4:sw=4
+
+#
+# main
+#
+
+# prevent non-sourced execution
+if [ "${0}" == "${BASH_SOURCE}" ]; then
+    printf "\n${BASH_SOURCE} | ERROR | this code is not designed to be executed (instead, 'source ${BASH_SOURCE}')\n\n"
+    exit 1
+fi
+
+# bd source id
+export BD_OS_SH="${BASH_SOURCE}"
 
 # BD_OS is set in 00bd.sh; if it's not set then return
 [ ${#BD_OS} -eq 0 ] && return

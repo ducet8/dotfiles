@@ -1,25 +1,32 @@
-# Copyright (c) 2022 Joseph Tingiris
+#!/usr/bin/env bash
+
+# bd-ansi.sh: display a message that's ansi colorized/formatted
+
+# DO NOT USE bd-debug or bd_debug() inside this script!
+
+# Copyright (C) 2018-2023 Joseph Tingiris <joseph.tingiris@gmail.com>
 # https://github.com/bash-d/bd/blob/main/LICENSE.md
-
-# DO NOT USE bd_debug() inside this function!
-
-#
-# metadata
-#
-
-# bash.d: exports BD_DEBUG BD_ID BD_HOME BD_USER BD_VERSION
-# vim: ft=sh:ts=4:sw=4
 
 #
 # init
 #
 
+# prevent non-sourced execution
+if [ "${0}" == "${BASH_SOURCE}" ]; then
+    printf "\n${BASH_SOURCE} | ERROR | this code is not designed to be executed (instead, 'source ${BASH_SOURCE}')\n\n"
+    exit 1
+fi
+
+# exit/return for terms that may not support following functions
 case "${TERM}" in
     alacritty*|ansi*|*color)
-        # these terms should support the following functions
         ;;
     *)
-        return
+        if [ "${0}" == "${BASH_SOURCE}" ]; then
+            exit
+        else
+            return
+        fi
 esac
 
 #
@@ -28,16 +35,16 @@ esac
 
 # echo ansi codes using common names
 function bd_ansi() {
-    local bd_ansi_code="${1}"
+    local bd_ansi="${1}"
 
-    [ ${#bd_ansi_code} -eq 0 ] && return 0
+    [ ${#bd_ansi} -eq 0 ] && return 0
 
     # https://en.wikipedia.org/wiki/ANSI_escape_code
 
     local bd_ansi_reset_all
     bd_ansi_reset_all='\e[0m' # reset all attributes
 
-    case ${bd_ansi_code} in
+    case ${bd_ansi} in
         bold) echo -ne '\e[1m' ;;
         dim) echo -ne '\e[2m' ;;
         italic|italics) echo -ne '\e[3m' ;;
@@ -178,24 +185,25 @@ function bd_ansi() {
         bg_gray4|bg_grey4) echo -ne '\e[48;5;240m' ;;
         bg_gray5|bg_grey5) echo -ne '\e[48;5;237m' ;;
 
-        bg*) bd_ansi_code=${bd_ansi_code/bg/}; bd_ansi_code=${bd_ansi_code//_/}; [[ "${bd_ansi_code}" =~ ^[0-9]+$ ]] && echo -ne "\e[48;5;${bd_ansi_code}m" ;;
+        bg*) bd_ansi=${bd_ansi/bg/}; bd_ansi=${bd_ansi//_/}; [[ "${bd_ansi}" =~ ^[0-9]+$ ]] && echo -ne "\e[48;5;${bd_ansi}m" ;;
 
-        fg*) bd_ansi_code=${bd_ansi_code/fg/}; bd_ansi_code=${bd_ansi_code//_/}; [[ "${bd_ansi_code}" =~ ^[0-9]+$ ]] && echo -ne "\e[38;5;${bd_ansi_code}m" ;;
+        fg*) bd_ansi=${bd_ansi/fg/}; bd_ansi=${bd_ansi//_/}; [[ "${bd_ansi}" =~ ^[0-9]+$ ]] && echo -ne "\e[38;5;${bd_ansi}m" ;;
 
         *)
-            echo "${FUNCNAME} no bd_ansi_code for '${bd_ansi_code}'" 1>&2
+            echo "${FUNCNAME} has no bd_ansi for '${bd_ansi}'" 1>&2
             ;;
     esac
 
     if [ "${2}" != "" ]; then
-        echo -n "${2}"
+        shift
+        echo -n "${@}"
         echo -e "${bd_ansi_reset_all}"
     fi
 
     return 0
 }
 
-# display bd_ansi color chart of common names
+# display ansi color chart of common names
 function bd_ansi_chart() {
     local bd_ansi_color_name
     local bd_ansi_color_names=()
@@ -223,6 +231,7 @@ function bd_ansi_chart() {
 
 
     for bd_ansi_color_name in ${bd_ansi_color_names[@]}; do
+        [ -z ${bd_ansi_color_name} ] && continue
         if [ "${1}" != "" ]; then
             if [[ "${bd_ansi_color_name}" != *"${1}"* ]]; then
                 continue
@@ -283,3 +292,10 @@ function bd_ansi_chart_256_fg() {
         fi
     done
 }
+
+#
+# main
+#
+
+# bd source id
+export BD_ANSI_SH="${BASH_SOURCE}"
