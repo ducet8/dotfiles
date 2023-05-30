@@ -1,11 +1,13 @@
-#!/usr/bin/env bash
-
 # bd-ansi.sh: display a message that's ansi colorized/formatted
-
-# DO NOT USE bd-debug or bd_debug() inside this script!
 
 # Copyright (C) 2018-2023 Joseph Tingiris <joseph.tingiris@gmail.com>
 # https://github.com/bash-d/bd/blob/main/LICENSE.md
+
+#
+# metadata
+#
+
+# DO NOT USE bd-debug or bd_debug() inside this script!
 
 #
 # init
@@ -19,7 +21,7 @@ fi
 
 # exit/return for terms that may not support following functions
 case "${TERM}" in
-    alacritty*|ansi*|*color)
+    alacritty*|ansi*|*color|xterm)
         ;;
     *)
         if [ "${0}" == "${BASH_SOURCE}" ]; then
@@ -202,6 +204,7 @@ function bd_ansi() {
 
     return 0
 }
+export -f bd_ansi
 
 # display ansi color chart of common names
 function bd_ansi_chart() {
@@ -292,10 +295,3 @@ function bd_ansi_chart_256_fg() {
         fi
     done
 }
-
-#
-# main
-#
-
-# bd source id
-export BD_ANSI_SH="${BASH_SOURCE}"
