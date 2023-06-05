@@ -27,9 +27,9 @@ function bd_ansi_usage() {
 
 [ ${#BD_DIR} -eq 0 ] || [ ! -r "${BD_DIR}" ] && exit 1
 
-[ ! -r "${BD_DIR}/bash.d/bd-ansi.sh" ] && printf "\naborting ... ${BD_DIR}/bash.d/bd-ansi.sh file not found readable\n\n" && exit 1
+[ ! -r "${BD_DIR}/etc/bash.d/bd-ansi.sh" ] && printf "\naborting ... ${BD_DIR}/etc/bash.d/bd-ansi.sh file not found readable\n\n" && exit 1
 
-source "${BD_DIR}/bash.d/bd-ansi.sh"
+source "${BD_DIR}/etc/bash.d/bd-ansi.sh"
 
 # may be executed or sourced
 [ "${1}" == "" ] && bd_ansi_usage

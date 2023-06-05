@@ -15,7 +15,11 @@
 # init
 #
 
-export BD_VERSION=0.40.2
+export BD_VERSION=0.41.0
+
+export BD_BAG_DEFAULT_DIR='etc/bash.d'
+
+export BD_CONFIG_FILE='.bd.conf'
 
 # prevent non-bash bourne compatible shells
 [ "${BASH_SOURCE}" == '' ] && return &> /dev/null
@@ -61,9 +65,13 @@ function bd_aliases() {
 
 # stub bd_ansi until bd-ansi.sh is loaded (for embedded bd_debug)
 if ! type -t bd_ansi &> /dev/null; then
-    function bd_ansi() {
-        return
-    }
+    if [ -r "${BD_DIR}/${BD_BAG_DEFAULT_DIR}/bd-ansi.sh" ]; then
+        source "${BD_DIR}/${BD_BAG_DEFAULT_DIR}/bd-ansi.sh"
+    else
+        function bd_ansi() {
+            return
+        }
+    fi
 fi
 
 # call bd_autoloader on an array (of directories)
@@ -95,7 +103,7 @@ function bd_autoloader() {
 
     local bd_autoloader_dir_name="${1}"
 
-    if [ -d "${bd_autoloader_dir_name}" ]; then
+    if [ -d "${bd_autoloader_dir_name}" ] && [ -r "${bd_autoloader_dir_name}" ]; then
         local bd_autoloader_file bd_autoloader_file_realpath
 
         local bd_autoloader_files=()
@@ -143,88 +151,58 @@ function bd_autoloader() {
     fi
 }
 
-# add a specific subdirectory via bd_bagger; a single 'bag' is simply a subdirectory in ${BD_PATH}
+# add unique, existing directories to the global BD_BAG_DIRS array (& preserve the natural order)
 function bd_bag() {
     bd_debug "function ${FUNCNAME}(${@})" 55
 
-    local bd_bag_name="${1}"
+    local bd_bag_dir_name="${1//\/\//\/}"
 
-    local bd_bag_dir_name bd_bag_dir_names
+    bd_bag_dir_name="${bd_bag_dir_name//\/\//\/}"
+    bd_bag_dir_name="${bd_bag_dir_name//\/\//\/}"
 
-    bd_bag_dir_names=()
+    bd_debug "1 bd_bag_dir_name = ${bd_bag_dir_name}" 6
 
-    [ "${bd_bag_name}" == 'bash.d' ] && bd_bag_dir_names+=("${BD_DIR}/${bd_bag_name}")
+    [ ${#bd_bag_dir_name} -eq 0 ] && return 1
 
-    bd_bag_dir_names+=("/${BD_BAG_DEFAULT_DIR}/${bd_bag_name}")
+    [ ! -d "${bd_bag_dir_name}" ] && return 1
 
-    [ "${BD_HOME}" != "${HOME}" ] && bd_bag_dir_names+=("${BD_HOME}/${BD_BAG_DEFAULT_DIR}/${bd_bag_name}")
-    [ ${#HOME} -gt 0 ] && [ "${HOME}" != "/" ] && bd_bag_dir_names+=("${HOME}/${BD_BAG_DEFAULT_DIR}/${bd_bag_name}")
+    bd_bag_dir_name="$(bd_realpath "${bd_bag_dir_name}")"
 
-    for bd_bag_dir_name in ${bd_bag_dir_names[@]}; do
-        bd_bag_dir_name=${bd_bag_dir_name//\/\//\/}
-        bd_debug "1 bd_bag_dir_name = ${bd_bag_dir_name} [bag]" 6
-
-        bd_bag_dir_name="$(bd_realpath "${bd_bag_dir_name}")"
-        bd_debug "2 bd_bag_dir_name = ${bd_bag_dir_name} [bag]" 6
-
-        bd_bagger "${bd_bag_dir_name}"
-    done
-
-    unset -v bd_bag_dir_name
-}
-
-# add unique, existing directories to the global BD_BAG_DIRS array (& preserve the natural order)
-function bd_bagger() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
-
-    local bd_bagger_dir_name="${1//\/\//\/}"
-
-    bd_bagger_dir_name="${bd_bagger_dir_name//\/\//\/}"
-    bd_bagger_dir_name="${bd_bagger_dir_name//\/\//\/}"
-
-    bd_debug "1 bd_bagger_dir_name = ${bd_bagger_dir_name}" 6
-
-    [ ${#bd_bagger_dir_name} -eq 0 ] && return 1
-
-    [ ! -d "${bd_bagger_dir_name}" ] && return 1
-
-    bd_bagger_dir_name="$(bd_realpath "${bd_bagger_dir_name}")"
-
-    bd_debug "2 bd_bagger_dir_name = ${bd_bagger_dir_name}" 6
+    bd_debug "2 bd_bag_dir_name = ${bd_bag_dir_name}" 6
 
     [ ${#BD_BAG_DIRS} -eq 0 ] && BD_BAG_DIRS=()
 
-    local bd_bagger_bag_dir_exists=0 # false
+    local bd_bag_bag_dir_exists=0 # false
 
-    local bd_bagger_bag_dir
-    for bd_bagger_bag_dir in ${BD_BAG_DIRS[@]}; do
-        [ ${bd_bagger_bag_dir_exists} -eq 1 ] && break
-        [ "${bd_bagger_bag_dir}" == "${bd_bagger_dir_name}" ] && bd_bagger_bag_dir_exists=1
+    local bd_bag_bag_dir
+    for bd_bag_bag_dir in ${BD_BAG_DIRS[@]}; do
+        [ ${bd_bag_bag_dir_exists} -eq 1 ] && break
+        [ "${bd_bag_bag_dir}" == "${bd_bag_dir_name}" ] && bd_bag_bag_dir_exists=1
     done
-    unset -v bd_bagger_bag_dir
+    unset -v bd_bag_bag_dir
 
-    [ ${bd_bagger_bag_dir_exists} -eq 0 ] && BD_BAG_DIRS+=("${bd_bagger_dir_name}") && bd_debug "bd_bagger_dir_name = ${bd_bagger_dir_name}" 2
+    [ ${bd_bag_bag_dir_exists} -eq 0 ] && BD_BAG_DIRS+=("${bd_bag_dir_name}") && bd_debug "bd_bag_dir_name = ${bd_bag_dir_name}" 2
 
-    unset -v bd_bagger_bag_dir_exists
+    unset -v bd_bag_bag_dir_exists
 }
 
 # add BD_BAG_DIR to BD_BAG_DIRS
 function bd_config_bag_dirs() {
     bd_debug "function ${FUNCNAME}(${@})" 55
 
-    local bd_config_bag_dir_name="${1}"
+    local bd_config_bag_dirs_name="${1}"
 
-    bd_debug "bd_config_bag_dir_name = ${bd_config_bag_dir_name}" 4
+    bd_debug "bd_config_bag_dirs_name = ${bd_config_bag_dirs_name}" 1
 
     if [ ${#BD_CONFIG_BAG_DIRS} -gt 0 ]; then
         local bd_config_bag_dir
         for bd_config_bag_dir in "${BD_CONFIG_BAG_DIRS[@]}"; do
             if [ "${bd_config_bag_dir:0:1}" == "/" ]; then
-                # fully qualified path
-                [ -d "${bd_config_bag_dir}" ] && [ -r "${bd_config_bag_dir}" ] && bd_bagger "${bd_config_bag_dir}"
+                # qualified path
+                [ -d "${bd_config_bag_dir}" ] && [ -r "${bd_config_bag_dir}" ] && bd_bag "${bd_config_bag_dir}"
             else
                 # relative path
-                [ -d "${bd_config_bag_dir_name}/${bd_config_bag_dir}" ] && [ -r "${bd_config_bag_dir_name}/${bd_config_bag_dir}" ] && bd_bagger "${bd_config_bag_dir_name}/${bd_config_bag_dir}"
+                [ -d "${bd_config_bag_dirs_name}/${bd_config_bag_dir}" ] && [ -r "${bd_config_bag_dirs_name}/${bd_config_bag_dir}" ] && bd_bag "${bd_config_bag_dirs_name}/${bd_config_bag_dir}"
             fi
         done
         unset -v bd_config_bag_dir
@@ -248,7 +226,7 @@ function bd_config_file() {
             # only BD_* variables are supported
             [[ "${bd_config_file_line}" != 'BD_'* ]] && continue
 
-            # these will break bd & are not supported in config files
+            # resetting these will break bd & are not supported in config files
             [[ "${bd_config_file_line}" == 'BD_DIR'* ]] && continue
 
             bd_debug "bd_config_file_line=${bd_config_file_line}" 20
@@ -258,6 +236,7 @@ function bd_config_file() {
             bd_debug "bd_config_file_variable_name=${bd_config_file_variable_name}" 4
 
             bd_config_file_variable_value="${bd_config_file_line#*=}"
+            bd_config_file_variable_value="${bd_config_file_variable_value/\~/~}" # replace ~
             bd_config_file_variable_value="${bd_config_file_variable_value%%'#'*}" # remove trailing comments
             bd_config_file_variable_value="${bd_config_file_variable_value%"${bd_config_file_variable_value##*[![:space:]]}"}" # remove trailing spaces
             bd_config_file_variable_value="${bd_config_file_variable_value%\"*}" # remove opening "
@@ -283,9 +262,115 @@ function bd_config_file() {
     fi
 }
 
+# load config files & bag all directories
+function bd_config_files() {
+
+    local bd_config_files_bag_dir
+
+    # ${BD_DIR}
+    if [ ${#BD_BAG_DEFAULT_DIR} -gt 0 ] && [ ${#BD_DIR} -gt 0 ]; then
+        [ -f "${BD_DIR}/${BD_CONFIG_FILE}" ] && [ -r "${BD_DIR}/${BD_CONFIG_FILE}" ] && bd_config_file "${BD_DIR}/${BD_CONFIG_FILE}" ${1}
+
+        if [ "${1}" != 'preload' ] && [ -d "${BD_DIR}/${BD_BAG_DEFAULT_DIR}" ] && [ -r "${BD_DIR}/${BD_BAG_DEFAULT_DIR}" ]; then
+            bd_bag "${BD_DIR}/${BD_BAG_DEFAULT_DIR}"
+
+            bd_config_bag_dirs "${BD_DIR}"
+        fi
+    fi
+
+    # /${BD_BAG_DEFAULT_DIR}/.. (/etc)
+    if [ ${#BD_BAG_DEFAULT_DIR} -gt 0 ] && [ "/${BD_BAG_DEFAULT_DIR}/.." != "//.." ]; then
+        [ -f "/${BD_BAG_DEFAULT_DIR}/../${BD_CONFIG_FILE/./}" ] && [ -r "/${BD_BAG_DEFAULT_DIR}/../${BD_CONFIG_FILE/./}" ] && bd_config_file "/${BD_BAG_DEFAULT_DIR}/../${BD_CONFIG_FILE/./}" ${1}
+
+        if [ "${1}" != 'preload' ] && [ -d "/${BD_BAG_DEFAULT_DIR}" ] && [ -r "/${BD_BAG_DEFAULT_DIR}" ]; then
+            bd_bag "/${BD_BAG_DEFAULT_DIR}"
+
+            # sub-directories
+            for bd_config_files_bag_dir in "/${BD_BAG_DEFAULT_DIR}"/*; do
+                [ -d "${bd_config_files_bag_dir}" ] && [ -r "${bd_config_files_bag_dir}" ] && bd_bag "${bd_config_files_bag_dir}"
+            done
+
+            bd_config_bag_dirs /
+        fi
+    fi
+
+    # ${HOME}
+    if [ ${#HOME} -gt 0 ] && [ "${HOME}" != "/" ]; then
+        [ -f "${HOME}/${BD_CONFIG_FILE}" ] && [ -r "${HOME}/${BD_CONFIG_FILE}" ] && bd_config_file "${HOME}/${BD_CONFIG_FILE}" ${1}
+
+        if [ "${1}" != 'preload' ] && [ -d "${HOME}/${BD_BAG_DEFAULT_DIR}" ] && [ -r "${HOME}/${BD_BAG_DEFAULT_DIR}" ]; then
+            bd_bag "${HOME}/${BD_BAG_DEFAULT_DIR}"
+
+            # sub-directories
+            for bd_config_files_bag_dir in "${HOME}/${BD_BAG_DEFAULT_DIR}"/*; do
+                [ -d "${bd_config_files_bag_dir}" ] && [ -r "${bd_config_files_bag_dir}" ] && bd_bag "${bd_config_files_bag_dir}"
+            done
+
+            bd_config_bag_dirs "${HOME}"
+        fi
+    fi
+
+    # ${BD_HOME}
+    if [ ${#BD_HOME} -gt 0 ] && [ "${BD_HOME}" != "/" ] && [ "${BD_HOME}" != "${HOME}" ]; then
+        [ -f "${BD_HOME}/${BD_CONFIG_FILE}" ] && [ -r "${BD_HOME}/${BD_CONFIG_FILE}" ] && bd_config_file "${BD_HOME}/${BD_CONFIG_FILE}" ${1}
+
+        if [ "${1}" != 'preload' ] && [ -d "${BD_HOME}/${BD_BAG_DEFAULT_DIR}" ] && [ -r "${BD_HOME}/${BD_BAG_DEFAULT_DIR}" ]; then
+            bd_bag "${BD_HOME}/${BD_BAG_DEFAULT_DIR}"
+
+            # sub-directories
+            for bd_config_files_bag_dir in "${BD_HOME}/${BD_BAG_DEFAULT_DIR}"/*; do
+                [ -d "${bd_config_files_bag_dir}" ] && [ -r "${bd_config_files_bag_dir}" ] && bd_bag "${bd_config_files_bag_dir}"
+            done
+
+            bd_config_bag_dirs "${BD_HOME}"
+        fi
+    fi
+
+    # ${PWD}
+    if [ ${#PWD} -gt 0 ] && [ "${PWD}" != "/etc" ] && [ "${PWD}" != "${BD_HOME}" ] && [ "${PWD}" != "${HOME}" ]; then
+        [ -f "${PWD}/${BD_CONFIG_FILE}" ] && [ -r "${PWD}/${BD_CONFIG_FILE}" ] && bd_config_file "${PWD}/${BD_CONFIG_FILE}" ${1}
+
+        if [ "${1}" != 'preload' ] && [ -d "${PWD}/${BD_BAG_DEFAULT_DIR}" ] && [ -r "${PWD}/${BD_BAG_DEFAULT_DIR}" ]; then
+            bd_bag "${PWD}/${BD_BAG_DEFAULT_DIR}"
+
+            # sub-directories
+            for bd_config_files_bag_dir in "${PWD}/${BD_BAG_DEFAULT_DIR}"/*; do
+                [ -d "${bd_config_files_bag_dir}" ] && [ -r "${bd_config_files_bag_dir}" ] && bd_bag "${bd_config_files_bag_dir}"
+            done
+
+            bd_config_bag_dirs "${PWD}"
+        fi
+    fi
+
+    unset -v bd_config_files_bag_dir
+}
+
+# return true for bd exclusive variables
+function bd_exclusive_variable() {
+    bd_debug "function ${FUNCNAME}(${@})" 55
+
+    local bd_exclusive_variable_name bd_exclusive_variable_names
+
+    bd_exclusive_variable_names=()
+    bd_exclusive_variable_names+=('BD_ANSI_SOURCED')
+    bd_exclusive_variable_names+=('BD_BAG_DEFAULT_DIR')
+    bd_exclusive_variable_names+=('BD_CONFIG_FILE')
+    bd_exclusive_variable_names+=('BD_DECLARE')
+    bd_exclusive_variable_names+=('BD_DEBUG_EXCLUSIVE')
+    bd_exclusive_variable_names+=('BD_OIFS')
+    bd_exclusive_variable_names+=('BD_VARIABLE_NAME')
+
+    for bd_exclusive_variable_name in ${bd_exclusive_variable_names[@]}; do
+        [ "${1}" == "${bd_exclusive_variable_name}" ] && return 0
+    done
+
+    unset -v bd_exclusive_variable_name bd_exclusive_variable_names
+
+    return 1
+}
+
 # formatted debug output
 function bd_debug() {
-
     [ ${#BD_DEBUG} -eq 0 ] && return 0
 
     [ ${#1} -eq 0 ] && return 0
@@ -443,7 +528,10 @@ function bd_unset() {
             if [[ "${bd_unset_variable}" == 'BD_'*'='* ]]; then
                 bd_unset_variable_name="${bd_unset_variable%%=*}"
 
-                # don't unset these
+                # don't unset exclusives
+                bd_exclusive_variable "${bd_unset_variable_name}" && continue
+
+                # don't unset these, either
                 [ "${bd_unset_variable_name}" == 'BD_BASH_INIT_FILE' ] && continue
                 [ "${bd_unset_variable_name}" == 'BD_DEBUG' ] && continue
                 [ "${bd_unset_variable_name}" == 'BD_HOME' ] && continue
@@ -452,9 +540,12 @@ function bd_unset() {
                 [ "${bd_unset_variable_name}" == 'BD_MAIN' ] && continue
                 [ "${bd_unset_variable_name}" == 'BD_SOURCE' ] && continue
                 [ "${bd_unset_variable_name}" == 'BD_USER' ] && continue
+                [ "${bd_unset_variable_name}" == 'BD_VERSION' ] && continue
+
+                [[ "${bd_unset_variable_name}" == 'BD_'*'EXPORT'* ]] && continue
 
                 if [ "${bd_unset_variable_name}" == 'BD_BAG_DIRS' ]; then
-                    if bd_true ${BD_LEARN}; then
+                    if ! bd_true ${BD_LEARN}; then
                         bd_unset_variable_names+=("${bd_unset_variable_name}")
                     fi
                 else
@@ -479,9 +570,10 @@ function bd_unset() {
         bd_unset_function_names+=(bd_autoload)
         bd_unset_function_names+=(bd_autoloader)
         bd_unset_function_names+=(bd_bag)
-        bd_unset_function_names+=(bd_bagger)
         bd_unset_function_names+=(bd_config_bag_dirs)
         bd_unset_function_names+=(bd_config_file)
+        bd_unset_function_names+=(bd_config_files)
+        bd_unset_function_names+=(bd_exclusive_variable)
         bd_unset_function_names+=(bd_realpath)
         bd_unset_function_names+=(bd_start)
         bd_unset_function_names+=(bd_upgrade)
@@ -493,10 +585,10 @@ function bd_unset() {
         unset -v bd_unset_function_name
 
         # variables
+        bd_unset_variable_names+=(BD_ANSI_SOURCED)
         bd_unset_variable_names+=(BD_BAG_DEFAULT_DIR)
         bd_unset_variable_names+=(BD_CONFIG_FILE)
         bd_unset_variable_names+=(BD_MAIN)
-
     fi
 
     for bd_unset_variable_name in ${bd_unset_variable_names[@]}; do
@@ -507,7 +599,6 @@ function bd_unset() {
 
     if [ "${bd_unset_start}" != 'start' ]; then
         # finish
-
         if bd_true ${BD_ANSI_EXPORT}; then
             export -f bd_ansi
         else
@@ -535,12 +626,14 @@ function bd_upgrade() {
     local bd_upgrade_dir_name="${1}"
 
     if type -P git &> /dev/null; then
-        if [ -d "${bd_upgrade_dir_name}" ]; then
+        if [ -d "${bd_upgrade_dir_name}" ] && [ -r "${bd_upgrade_dir_name}" ]; then
+            [ "${bd_upgrade_dir_name}" == "${BD_DIR}" ] && echo "BD_DIR = ${BD_DIR}" && echo
+
             local bd_upgrade_pwd="${PWD}"
 
             cd "${bd_upgrade_dir_name}"
 
-            if [ -d .git ]; then
+            if [ -d .git ] && [ -r .git ]; then
                 git remote -v && echo && git pull && echo
             fi
 
@@ -595,9 +688,18 @@ export BD_SOURCE="$(bd_realpath "${BASH_SOURCE}")"
 # arguments
 #
 
+# functions argument (first, otherwise functions will be unset)
+if [ "${1}" == 'functions' ]; then
+    return $?
+fi
+
 # dir/dirs arguments
 if [ "${1}" == 'dir' ] || [ "${1}" == 'dirs' ]; then
+    bd_config_files preload
+
     echo "${BD_BAG_DIRS[@]}"
+
+    bd_unset finish
 
     return 0
 fi
@@ -606,14 +708,17 @@ fi
 if [ "${1}" == 'env' ]; then
     bd_debug "${BD_SOURCE} env" 1
 
+    bd_config_files preload
+
     BD_OIFS="${IFS}"
     IFS=$'\n'
     for BD_DECLARE in $(declare -g 2> /dev/null); do
         if [[ "${BD_DECLARE}" == 'BD_'*'='* ]]; then
             BD_VARIABLE_NAME="${BD_DECLARE%%=*}"
-            [ "${BD_VARIABLE_NAME}" == 'BD_DECLARE' ] && continue
-            [ "${BD_VARIABLE_NAME}" == 'BD_OIFS' ] && continue
-            [ "${BD_VARIABLE_NAME}" == 'BD_VARIABLE_NAME' ] && continue
+
+            # don't show these
+            bd_exclusive_variable "${BD_VARIABLE_NAME}" && continue
+
             printf "%-30s" "${BD_VARIABLE_NAME}"
             printf " = "
             if [ "${BD_VARIABLE_NAME}" == 'BD_BAG_DIRS' ]; then
@@ -626,17 +731,16 @@ if [ "${1}" == 'env' ]; then
     IFS="${BD_OIFS}"
     unset -v BD_DECLARE BD_OIFS BD_VARIABLE_NAME
 
-    return $?
-fi
+    bd_unset finish
 
-# functions argument
-if [ "${1}" == 'functions' ]; then
     return $?
 fi
 
 # license argument
 if [ "${1}" == 'license' ]; then
     bd_debug "${BD_SOURCE} license" 1
+
+    bd_config_files preload
 
     # if it's readable then display the included license
     if [ -r "${BD_DIR}/bin/bd-license" ]; then
@@ -651,6 +755,8 @@ if [ "${1}" == 'license' ]; then
         return 1
     fi
 
+    bd_unset finish
+
     return 0
 fi
 
@@ -658,9 +764,13 @@ fi
 if [ "${1}" == 'pull' ] || [ "${1}" == 'update' ] || [ "${1}" == 'upgrade' ]; then
     bd_debug "${BD_SOURCE} upgrade" 1
 
+    bd_config_files preload
+
     [ ! -O "${BD_SOURCE}" ] && printf "\nrun 'bd ${1}' as the owner of ${BD_SOURCE} ...\n\n" && ls -l "${BD_SOURCE}" && echo && return 1
 
     bd_upgrade "${BD_DIR}"
+
+    bd_unset finish
 
     return $?
 fi
@@ -674,10 +784,7 @@ if [ "${1}" == '' ] || [ "${1}" == 'reload' ] || [ "${1}" == 'restart' ] || [ "$
     # do not return!
 fi
 
-#
 # prevent main loading multiple times (i.e. due to recursive links, improper sourcing, etc)
-#
-
 [ ${#BD_ID} -gt 0 ] && return 0
 
 #
@@ -697,10 +804,6 @@ bd_unset start
 #
 # (re)set BD_ config variables (after bd_unset start)
 #
-
-BD_CONFIG_FILE='.bd.conf'
-
-BD_BAG_DEFAULT_DIR='etc/bash.d'
 
 export BD_DIR="${BD_SOURCE%/*}"
 
@@ -723,34 +826,10 @@ export BD_ID
 bd_debug "BD_ID = ${BD_ID}" 2
 
 #
-# preload config file (variables) - ${BD_DIR}
+# preload config files
 #
 
-[ -f "${BD_DIR}/${BD_CONFIG_FILE}" ] && [ -r "${BD_DIR}/${BD_CONFIG_FILE}" ] && bd_config_file "${BD_DIR}/${BD_CONFIG_FILE}" preload
-
-#
-# preload config file (variables) - /${BD_BAG_DEFAULT_DIR}/.. (/etc)
-#
-
-[ ${#BD_BAG_DEFAULT_DIR} -gt 0 ] && [ "/${BD_BAG_DEFAULT_DIR}/.." != "//.." ] && [ -f "/etc/${BD_CONFIG_FILE/./}" ] && [ -r "/etc/${BD_CONFIG_FILE/./}" ] && bd_config_file "/etc/${BD_CONFIG_FILE/./}" preload
-
-#
-# preload config file (variables) - ${HOME}
-#
-
-[ ${#HOME} -gt 0 ] && [ "${HOME}" != "/" ] && [ -f "${HOME}/${BD_CONFIG_FILE}" ] && [ -r "${HOME}/${BD_CONFIG_FILE}" ] && bd_config_file "${HOME}/${BD_CONFIG_FILE}" preload
-
-#
-# preload config file (variables) - ${BD_HOME}
-#
-
-[ ${#BD_HOME} -gt 0 ] && [ "${BD_HOME}" != "/" ] && [ "${BD_HOME}" != "${HOME}" ] && [ -f "${BD_HOME}/${BD_CONFIG_FILE}" ] && [ -r "${BD_HOME}/${BD_CONFIG_FILE}" ] && bd_config_file "${BD_HOME}/${BD_CONFIG_FILE}" preload
-
-#
-# preload config file (variables) - ${PWD}
-#
-
-[ ${#PWD} -gt 0 ] && [ "${PWD}" != "/etc" ] && [ "${PWD}" != "${BD_HOME}" ] && [ "${PWD}" != "${HOME}" ] && [ -f "${PWD}/${BD_CONFIG_FILE}" ] && [ -r "${PWD}/${BD_CONFIG_FILE}" ] && bd_config_file "${PWD}/${BD_CONFIG_FILE}" && bd_config_bag_dirs "${PWD}"
+bd_config_files preload
 
 #
 # determine operating system; set BD_OS variables
@@ -789,13 +868,13 @@ if [ ${#BD_DEBUG} -gt 0 ]; then
 fi
 
 #
-# ensure BD_BAG_DIRS, BD_BASH_INIT_FILE, BD_HOME, BD_USER, & USER; (WIP)
+# ensure BD_BAG_DIRS, BD_BASH_INIT_FILE, BD_CONFIG_BAG_DIRS, BD_HOME, BD_USER, & USER; (WIP)
 #
 
 unset -v BD_CONFIG_BAG_DIRS
 
 # TODO: learn requires more testing
-bd_true ${BD_LEARN} && BD_BAG_DIRS=()
+bd_true ${BD_LEARN} || BD_BAG_DIRS=()
 
 [ "${EUID}" == '0' ] && USER=root
 
@@ -837,91 +916,10 @@ fi
 export BD_BASH_INIT_FILE
 
 #
-#  bd_bag included (bash.d) extensions
+# load config files
 #
 
-bd_bag 'bash.d'
-
-[ -f "${BD_DIR}/${BD_CONFIG_FILE}" ] && [ -r "${BD_DIR}/${BD_CONFIG_FILE}" ] && bd_config_file "${BD_DIR}/${BD_CONFIG_FILE}" && bd_config_bag_dirs "${BD_DIR}"
-
-#
-# bd_bagger /${BD_BAG_DEFAULT_DIR}/.. (/etc)
-#
-
-if [ ${#BD_BAG_DEFAULT_DIR} -gt 0 ] && [ "/${BD_BAG_DEFAULT_DIR}/.." != "//.." ]; then
-    bd_debug "BD_BAG_DEFAULT_DIR = /${BD_BAG_DEFAULT_DIR}/.." 4
-
-    [ -f "/${BD_BAG_DEFAULT_DIR}/../${BD_CONFIG_FILE/./}" ] && [ -r "/${BD_BAG_DEFAULT_DIR}/../${BD_CONFIG_FILE/./}" ] && bd_config_file "/${BD_BAG_DEFAULT_DIR}/../${BD_CONFIG_FILE/./}" && bd_config_bag_dirs /
-
-    if [ -d "/${BD_BAG_DEFAULT_DIR}" ] && [ -r "/${BD_BAG_DEFAULT_DIR}" ]; then
-        bd_bagger "/${BD_BAG_DEFAULT_DIR}"
-
-        for BD_BAGGER_DIR in "/${BD_BAG_DEFAULT_DIR}"/*; do
-            [ -d "${BD_BAGGER_DIR}" ] && [ -r "${BD_BAGGER_DIR}" ] && bd_bagger "${BD_BAGGER_DIR}"
-        done
-        unset -v BD_BAGGER_DIR
-    fi
-fi
-
-#
-# bd_bagger ${HOME}
-#
-
-# HOME may or may not be set, e.g. su & sudo preserve environment, etc
-if [ ${#HOME} -gt 0 ] && [ "${HOME}" != "/" ]; then
-    bd_debug "HOME = ${HOME}" 4
-
-    [ -f "${HOME}/${BD_CONFIG_FILE}" ] && [ -r "${HOME}/${BD_CONFIG_FILE}" ] && bd_config_file "${HOME}/${BD_CONFIG_FILE}" && bd_config_bag_dirs "${HOME}"
-
-    if [ -d "${HOME}/${BD_BAG_DEFAULT_DIR}" ] && [ -r "${HOME}/${BD_BAG_DEFAULT_DIR}" ]; then
-        bd_bagger "${HOME}/${BD_BAG_DEFAULT_DIR}"
-
-        for BD_BAGGER_DIR in "${HOME}/${BD_BAG_DEFAULT_DIR}"/*; do
-            [ -d "${BD_BAGGER_DIR}" ] && [ -r "${BD_BAGGER_DIR}" ] && bd_bagger "${BD_BAGGER_DIR}"
-        done
-        unset -v BD_BAGGER_DIR
-    fi
-fi
-
-#
-# bd_bagger ${BD_HOME}
-#
-
-if [ ${#BD_HOME} -gt 0 ] && [ "${BD_HOME}" != "/" ] && [ "${BD_HOME}" != "${HOME}" ]; then
-    bd_debug "BD_HOME = ${BD_HOME}" 4
-
-    [ -f "${BD_HOME}/${BD_CONFIG_FILE}" ] && [ -r "${BD_HOME}/${BD_CONFIG_FILE}" ] && bd_config_file "${BD_HOME}/${BD_CONFIG_FILE}" && bd_config_bag_dirs "${BD_HOME}"
-
-    if [ -d "${BD_HOME}/${BD_BAG_DEFAULT_DIR}" ] && [ -r "${BD_HOME}/${BD_BAG_DEFAULT_DIR}" ]; then
-        bd_bagger "${BD_HOME}/${BD_BAG_DEFAULT_DIR}"
-
-        for BD_BAGGER_DIR in "${BD_HOME}/${BD_BAG_DEFAULT_DIR}"/*; do
-            [ -d "${BD_BAGGER_DIR}" ] && [ -r "${BD_BAGGER_DIR}" ] && bd_bagger "${BD_BAGGER_DIR}"
-        done
-        unset -v BD_BAGGER_DIR
-    fi
-fi
-
-#
-# bd_bagger ${PWD}
-#
-
-if [ ${#PWD} -gt 0 ] && [ "${PWD}" != "/etc" ] && [ "${PWD}" != "${BD_HOME}" ] && [ "${PWD}" != "${HOME}" ]; then
-    bd_debug "PWD = ${PWD}" 4
-
-    [ -f "${PWD}/${BD_CONFIG_FILE}" ] && [ -r "${PWD}/${BD_CONFIG_FILE}" ] && bd_config_file "${PWD}/${BD_CONFIG_FILE}" && bd_config_bag_dirs "${PWD}"
-
-    if [ -d "${PWD}/${BD_BAG_DEFAULT_DIR}" ] && [ -r "${PWD}/${BD_BAG_DEFAULT_DIR}" ]; then
-        bd_bagger "${PWD}/${BD_BAG_DEFAULT_DIR}"
-
-        for BD_BAGGER_DIR in "${PWD}/${BD_BAG_DEFAULT_DIR}"/*; do
-            [ -d "${BD_BAGGER_DIR}" ] && [ -r "${BD_BAGGER_DIR}" ] && bd_bagger "${BD_BAGGER_DIR}"
-        done
-        unset -v BD_BAGGER_DIR
-    fi
-fi
-
-bd_debug "BD_BAG_DIRS = ${BD_BAG_DIRS[@]}" 1
+bd_config_files && bd_debug "BD_BAG_DIRS = ${BD_BAG_DIRS[@]}" 1
 
 #
 # set environment aliases
@@ -930,7 +928,7 @@ bd_debug "BD_BAG_DIRS = ${BD_BAG_DIRS[@]}" 1
 bd_aliases
 
 #
-# autoload all bagged directories
+# autoload bagged directories
 #
 
 bd_autoload "${BD_BAG_DIRS[@]}"

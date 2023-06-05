@@ -19,9 +19,12 @@ if [ "${0}" == "${BASH_SOURCE}" ]; then
     exit 1
 fi
 
+# prevent loading multiple times
+[ "${BD_ANSI_SOURCED}" == "1" ] && return
+
 # exit/return for terms that may not support following functions
 case "${TERM}" in
-    alacritty*|ansi*|*color|xterm)
+    alacritty*|ansi*|*color|screen*|*tmux*|*xterm*)
         ;;
     *)
         if [ "${0}" == "${BASH_SOURCE}" ]; then
@@ -295,3 +298,5 @@ function bd_ansi_chart_256_fg() {
         fi
     done
 }
+
+export BD_ANSI_SOURCED=1

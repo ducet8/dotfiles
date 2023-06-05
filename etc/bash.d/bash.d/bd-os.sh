@@ -10,7 +10,7 @@
 # bash.d: exports BD_OS_ID BD_OS_MACHINE BD_OS_NAME BD_OS_PATH BD_OS_PLATFORM_ID BD_OS_PRETTY_NAME BD_OS_VARIANT BD_OS_VARIANT_ID BD_OS_VERSION BD_OS_VERSION_ID BD_OS_VERSION_MAJOR
 
 #
-# main
+# init
 #
 
 # prevent non-sourced execution
@@ -21,6 +21,10 @@ fi
 
 # BD_OS is set in 00bd.sh; if it's not set then return
 [ ${#BD_OS} -eq 0 ] && return
+
+#
+# main
+#
 
 BD_OS_ID=""
 unset -v BD_OS_MACHINE BD_OS_NAME BD_OS_PATH BD_OS_PLATFORM_ID BD_OS_PRETTY_NAME BD_OS_VARIANT BD_OS_VARIANT_ID BD_OS_VERSION BD_OS_VERSION_ID BD_OS_VERSION_MAJOR
