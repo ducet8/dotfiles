@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.01.17 - ducet8@outlook.com
+# 2023.06.28 - ducet8@outlook.com
 
 # fif
 # find file (ff) or find in file (fif)
@@ -9,7 +9,8 @@ function fif_aborting() {
 }
 
 function fif_usage() {
-    printf "\nusage: $0 <start from|string to find> [string to find] [find flags]\n\n"
+    local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
+    printf "\nusage: ${program} <start from|string to find> [string to find] [find flags]\n\n"
 }
 
 function fif() {

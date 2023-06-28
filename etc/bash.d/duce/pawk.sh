@@ -1,9 +1,10 @@
-# 2023.02.18 - ducet8@outlook.com
+# 2023.06.28 - ducet8@outlook.com
 
 # Paragraph grep
 
 function pawk_usage() {
-    printf "usage: $0 [-hvi] <pattern> <file>\n\n"
+    local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
+    printf "usage: ${program} [-hvi] <pattern> <file>\n\n"
     
     printf 'Options:\n'
     printf '\t-h                  Print this Help\n'

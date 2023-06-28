@@ -1,12 +1,14 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.01.17 - ducet8@outlook.com
+# 2023.06.28 - ducet8@outlook.com
 
 function test_loop() {
     printf -v COMMAND "%b " "$@"
     COUNTER=0
     SEPERATOR='+--------------------------------------+'
 
-    if [ "$COMMAND" == '' ] || [ "$COMMAND" == "$0" ]; then echo "usage: $0 <command> [sleep seconds]"; return 1; fi
+    local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
+
+    if [ "$COMMAND" == '' ] || [ "$COMMAND" == "${program}" ]; then echo "usage: $0 <command> [sleep seconds]"; return 1; fi
 
     if [ "$2" != '' ]; then declare -i SLEEP="$2"; fi
 

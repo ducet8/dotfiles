@@ -3,9 +3,11 @@
 # vim: ft=sh
 
 function stail() {
-    local help opt out prefix lines out whitespace
+    local help lines opt out prefix program whitespace
 
-    help="Usage: $0 [-n LINES] [-p PREFIX] [-w] [-h]
+    program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
+
+    help="Usage: ${program} [-n LINES] [-p PREFIX] [-w] [-h]
     Continuously displays the last '-n' lines of 'stdin'.
     Parameters:
       -n         Number of lines to display (default: 5).
