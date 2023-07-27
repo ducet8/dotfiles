@@ -16,7 +16,7 @@ if [ "${0}" != "${BASH_SOURCE}" ]; then
 fi
 
 # display (cli) usage options
-function bd_ansi_usage() {
+bd_ansi_usage() {
     printf "\nusage: ${BASH_SOURCE} <code|chart[_16|_256][_fg|_bg]>\n\n"
     exit 99
 }

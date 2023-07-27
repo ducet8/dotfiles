@@ -39,7 +39,7 @@ esac
 #
 
 # echo ansi codes using common names
-function bd_ansi() {
+bd_ansi() {
     local bd_ansi="${1}"
 
     [ ${#bd_ansi} -eq 0 ] && return 0
@@ -210,7 +210,7 @@ function bd_ansi() {
 export -f bd_ansi
 
 # display ansi color chart of common names
-function bd_ansi_chart() {
+bd_ansi_chart() {
     local bd_ansi_color_name
     local bd_ansi_color_names=()
 
@@ -248,7 +248,7 @@ function bd_ansi_chart() {
 }
 
 # display full 16 color chart of echo -ne pastable strings
-function bd_ansi_chart_16() {
+bd_ansi_chart_16() {
     for bd_ansi_bg in {40..47} {100..107} 49; do
         for bd_ansi_fg in {30..37} {90..97} 39; do
             for bd_ansi_format in 0 1 2 4 5 7; do
@@ -261,26 +261,26 @@ function bd_ansi_chart_16() {
 }
 
 # display background 16 color chart of echo -ne pastable strings
-function bd_ansi_chart_16_bg() {
+bd_ansi_chart_16_bg() {
     for bd_ansi_bg in {40..47} {100..107}; do
         echo -ne "\e[${bd_ansi_bg}m \\\e[${bd_ansi_bg}m \e[0m" && echo
     done
 }
 
 # display foreground 16 color chart of echo -ne pastable strings
-function bd_ansi_chart_16_fg() {
+bd_ansi_chart_16_fg() {
     for bd_ansi_fg in {30..37} {90..97}; do
         echo -ne "\e[${bd_ansi_fg}m \\\e[${bd_ansi_fg}m \e[0m" && echo
     done
 }
 
 # display full 256 color chart of echo -ne pastable strings
-function bd_ansi_chart_256() {
+bd_ansi_chart_256() {
     bd_ansi_chart_256_fg && echo && bd_ansi_chart_256_bg
 }
 
 # display background 256 color chart of echo -ne pastable strings
-function bd_ansi_chart_256_bg() {
+bd_ansi_chart_256_bg() {
     for bd_ansi_color in {0..255}; do
         echo -ne "\e[48;5;${bd_ansi_color}m \\\e[48;5;${bd_ansi_color}m \e[0m"
         if [ $(((${bd_ansi_color} + 1) % 6)) == 4 ]; then
@@ -290,7 +290,7 @@ function bd_ansi_chart_256_bg() {
 }
 
 # display foreground 256 color chart of echo -ne pastable strings
-function bd_ansi_chart_256_fg() {
+bd_ansi_chart_256_fg() {
     for bd_ansi_color in {0..255}; do
         echo -ne "\e[38;5;${bd_ansi_color}m \\\e[38;5;${bd_ansi_color}m \e[0m"
         if [ $(((${bd_ansi_color} + 1) % 6)) == 4 ]; then

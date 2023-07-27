@@ -15,7 +15,7 @@
 # init
 #
 
-export BD_VERSION=0.41.0
+export BD_VERSION=0.42.0
 
 export BD_BAG_DEFAULT_DIR='etc/bash.d'
 
@@ -35,8 +35,8 @@ fi
 #
 
 # set bd aliases
-function bd_aliases() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_aliases() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     [ ${#BD_BASH_INIT_FILE} -gt 0 ] && [ -r "${BD_BASH_INIT_FILE}" ] && alias bd="source '${BD_BASH_INIT_FILE}'"
 
@@ -68,15 +68,15 @@ if ! type -t bd_ansi &> /dev/null; then
     if [ -r "${BD_DIR}/${BD_BAG_DEFAULT_DIR}/bd-ansi.sh" ]; then
         source "${BD_DIR}/${BD_BAG_DEFAULT_DIR}/bd-ansi.sh"
     else
-        function bd_ansi() {
+        bd_ansi() {
             return
         }
     fi
 fi
 
 # call bd_autoloader on an array (of directories)
-function bd_autoload() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_autoload() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     [ ${#1} -eq 0 ] && return 1
 
@@ -98,8 +98,8 @@ function bd_autoload() {
 }
 
 # source everything in a given directory (that ends in .sh)
-function bd_autoloader() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_autoloader() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_autoloader_dir_name="${1}"
 
@@ -152,8 +152,8 @@ function bd_autoloader() {
 }
 
 # add unique, existing directories to the global BD_BAG_DIRS array (& preserve the natural order)
-function bd_bag() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_bag() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_bag_dir_name="${1//\/\//\/}"
 
@@ -187,8 +187,8 @@ function bd_bag() {
 }
 
 # add BD_BAG_DIR to BD_BAG_DIRS
-function bd_config_bag_dirs() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_config_bag_dirs() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_config_bag_dirs_name="${1}"
 
@@ -212,8 +212,8 @@ function bd_config_bag_dirs() {
 }
 
 # export BD_ environment variables from config file
-function bd_config_file() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_config_file() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_config_file_name="${1}"
     local bd_config_file_preload="${2}"
@@ -263,7 +263,7 @@ function bd_config_file() {
 }
 
 # load config files & bag all directories
-function bd_config_files() {
+bd_config_files() {
 
     local bd_config_files_bag_dir
 
@@ -346,8 +346,8 @@ function bd_config_files() {
 }
 
 # return true for bd exclusive variables
-function bd_exclusive_variable() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_exclusive_variable() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_exclusive_variable_name bd_exclusive_variable_names
 
@@ -370,7 +370,7 @@ function bd_exclusive_variable() {
 }
 
 # formatted debug output
-function bd_debug() {
+bd_debug() {
     [ ${#BD_DEBUG} -eq 0 ] && return 0
 
     [ ${#1} -eq 0 ] && return 0
@@ -424,7 +424,7 @@ function bd_debug() {
 export -f bd_debug
 
 # colored debug output for milliseconds
-function bd_debug_ms() {
+bd_debug_ms() {
 
     [ ${#1} -eq 0 ] && return 0
 
@@ -448,8 +448,8 @@ function bd_debug_ms() {
 export -f bd_debug_ms
 
 # semi-portable readlink/realpath
-function bd_realpath() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_realpath() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_realpath_arg="${1}"
 
@@ -474,8 +474,8 @@ function bd_realpath() {
 }
 
 # unset & re-source system profile
-function bd_start() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_start() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     unset -v BD_ID
 
@@ -487,8 +487,8 @@ function bd_start() {
 }
 
 # return 0 if 1, true, or yes
-function bd_true() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_true() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     if [ "${1}" == '1' ] || [ "${1}" == 'true' ] || [ "${1}" == 'yes' ]; then
         return 0
@@ -498,8 +498,8 @@ function bd_true() {
 }
 
 # unset functions & variables
-function bd_unset() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_unset() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_unset_start="${1}"
 
@@ -620,8 +620,8 @@ function bd_unset() {
 }
 
 # upgrade to the latest version of 00bd.sh (WIP)
-function bd_upgrade() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_upgrade() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_upgrade_dir_name="${1}"
 
@@ -647,8 +647,8 @@ function bd_upgrade() {
 }
 
 # output milliseconds since uptime (used for debugging)
-function bd_uptime() {
-    bd_debug "function ${FUNCNAME}(${@})" 55
+bd_uptime() {
+    bd_debug "${FUNCNAME}(${@})" 55
 
     local bd_uptime_ms bd_uptime_t1
     if [ ${BASH_VERSINFO[0]} -ge 5 ]; then
