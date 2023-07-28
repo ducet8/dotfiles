@@ -33,6 +33,6 @@ function monitor() {
         return 0
     fi
 
-    ${1}; say "${msg}"
+    ${*}; say "${msg}"
 }
 
