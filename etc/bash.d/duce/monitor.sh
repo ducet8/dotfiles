@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.06.28 - ducet8@outlook.com
+# 2023.07.28 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
