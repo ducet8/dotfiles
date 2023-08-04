@@ -15,7 +15,7 @@
 # init
 #
 
-export BD_VERSION=0.42.0
+export BD_VERSION=0.42.2
 
 export BD_BAG_DEFAULT_DIR='etc/bash.d'
 
@@ -37,8 +37,6 @@ fi
 # set bd aliases
 bd_aliases() {
     bd_debug "${FUNCNAME}(${@})" 55
-
-    [ ${#BD_BASH_INIT_FILE} -gt 0 ] && [ -r "${BD_BASH_INIT_FILE}" ] && alias bd="source '${BD_BASH_INIT_FILE}'"
 
     if ! type -P bd-ansi &> /dev/null; then
         if [ -r "${BD_DIR}/bin/bd-ansi" ]; then
@@ -677,7 +675,7 @@ bd_uptime() {
 }
 
 #
-# boot
+# bootstrap
 #
 
 export BD_DEBUG=${BD_DEBUG:-0} # level >0 enables debugging
@@ -685,16 +683,16 @@ export BD_DEBUG=${BD_DEBUG:-0} # level >0 enables debugging
 export BD_SOURCE="$(bd_realpath "${BASH_SOURCE}")"
 
 #
-# arguments
+# options
 #
 
-# functions argument (first, otherwise functions will be unset)
-if [ "${1}" == 'functions' ]; then
+# functions argument (first, otherwise embedded functions will be unset)
+if [ "${1}" == 'f' ] || [[ "${1}" == 'function'* ]]; then
     return $?
 fi
 
-# dir/dirs arguments
-if [ "${1}" == 'dir' ] || [ "${1}" == 'dirs' ]; then
+# dir argument
+if [ "${1}" == 'd' ] || [[ "${1}" == 'dir'* ]]; then
     bd_config_files preload
 
     echo "${BD_BAG_DIRS[@]}"
@@ -705,7 +703,7 @@ if [ "${1}" == 'dir' ] || [ "${1}" == 'dirs' ]; then
 fi
 
 # env argument
-if [ "${1}" == 'env' ]; then
+if [ "${1}" == 'e' ] || [[ "${1}" == 'env'* ]]; then
     bd_debug "${BD_SOURCE} env" 1
 
     bd_config_files preload
@@ -737,7 +735,7 @@ if [ "${1}" == 'env' ]; then
 fi
 
 # license argument
-if [ "${1}" == 'license' ]; then
+if [ "${1}" == 'l' ] || [[ "${1}" == 'license'* ]]; then
     bd_debug "${BD_SOURCE} license" 1
 
     bd_config_files preload
@@ -760,8 +758,8 @@ if [ "${1}" == 'license' ]; then
     return 0
 fi
 
-# pull/update/upgrade arguments
-if [ "${1}" == 'pull' ] || [ "${1}" == 'update' ] || [ "${1}" == 'upgrade' ]; then
+# pull/up arguments
+if [ "${1}" == 'p' ] || [[ "${1}" == 'pull'* ]] || [ "${1}" == 'u' ] || [[ "${1}" == 'up'* ]]; then
     bd_debug "${BD_SOURCE} upgrade" 1
 
     bd_config_files preload
@@ -775,8 +773,8 @@ if [ "${1}" == 'pull' ] || [ "${1}" == 'update' ] || [ "${1}" == 'upgrade' ]; th
     return $?
 fi
 
-# default/reload/restart/start arguments
-if [ "${1}" == '' ] || [ "${1}" == 'reload' ] || [ "${1}" == 'restart' ] || [ "${1}" == 'start' ]; then
+# default/restart/start arguments
+if [ "${1}" == '' ] || [ "${1}" == 'restart' ] || [ "${1}" == 'start' ]; then
     bd_debug "${BD_SOURCE} reload" 1
 
     bd_start
@@ -785,7 +783,10 @@ if [ "${1}" == '' ] || [ "${1}" == 'reload' ] || [ "${1}" == 'restart' ] || [ "$
 fi
 
 # prevent main loading multiple times (i.e. due to recursive links, improper sourcing, etc)
-[ ${#BD_ID} -gt 0 ] && return 0
+if [ ${#BD_ID} -gt 0 ]; then
+    type bd &> /dev/null && bd help
+    return 0
+fi
 
 #
 # main
@@ -805,10 +806,19 @@ bd_unset start
 # (re)set BD_ config variables (after bd_unset start)
 #
 
+bd_debug "BD_SOURCE = ${BD_SOURCE}" 2
+
 export BD_DIR="${BD_SOURCE%/*}"
 
 bd_debug "BD_DIR = ${BD_DIR}" 2
-bd_debug "BD_SOURCE = ${BD_SOURCE}" 2
+
+if [ ${#BD_DIR} -gt 0 ] && [ -d "${BD_DIR}" ] && type -P git &> /dev/null; then
+    export BD_GIT_URL="$(cd "${BD_DIR}" && git remote get-url $(git remote 2> /dev/null) 2> /dev/null)"
+else
+    export BD_GIT_URL="https://github.com/bash-d/bd"
+fi
+
+bd_debug "BD_GIT_URL = ${GIT_URL}" 2
 
 BD_ID=''
 if [ ${BASH_VERSINFO[0]} -ge 4 ]; then
@@ -922,8 +932,49 @@ export BD_BASH_INIT_FILE
 bd_config_files && bd_debug "BD_BAG_DIRS = ${BD_BAG_DIRS[@]}" 1
 
 #
-# set environment aliases
+# set dynamic aliases & bd() function
 #
+
+if [ ${#BD_BASH_INIT_FILE} -gt 0 ] && [ -r "${BD_BASH_INIT_FILE}" ]; then
+    bd() { 
+        local bd_help=''
+        bd_help+="\n"
+        bd_help+="usage: bd [option]\n"
+        bd_help+="\n"
+        bd_help+="options:\n"
+        bd_help+="\n"
+        bd_help+="  ['' | restart | start]          - (default) invoke autoloader & unset bd_functions\n"
+        bd_help+="\n"
+        bd_help+="  env                             - display all declared BD_ environment variables & values\n"
+        bd_help+="\n"
+        bd_help+="  dirs                            - display only BD_BAG_DIRS array values\n"
+        bd_help+="  license                         - display license\n"
+        bd_help+="  pull                            - upgrade; pull latest version of bd from "
+        if [ ${#BD_GIT_URL} -gt 0 ]; then
+            bd_help+="${BD_GIT_URL}"
+        else
+            bd_help+="GitHub"
+        fi
+        bd_help+="\n"
+        bd_help+="\n"
+        bd_help+="  functions                       - export all bd_ functions; do not invoke autoloader\n"
+        bd_help+="                                    (e.g. for unit testing, or to use in other scripts)\n"
+        bd_help+="\n"
+        bd_help+="  [help | --help | -h]            - this message\n"
+        bd_help+="\n"
+
+        case "${1}" in 
+            help|h|--help|-h)
+                printf "${bd_help}"
+                return
+                ;;
+            *)
+                source "${BD_BASH_INIT_FILE}"
+                ;;
+        esac
+    }
+    export -f bd
+fi
 
 bd_aliases
 
