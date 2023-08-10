@@ -14,6 +14,38 @@ tc() {
         return 1
     fi
     
+    local awk_color='
+        BEGIN {
+	    OFS=" "; 
+	    green3="\033[38;5;28m"; 
+	    blue1="\033[94m"; 
+	    cyan3="\033[38;5;37m"; 
+	    yellow3="\033[38;5;178m"; 
+	    reset="\033[0m";
+        }
+        {
+            for (i=1; i<=NF; i++) {
+		if (i<4) {
+		    sub(/\[/, "[" blue1); 
+		    first_occurrence = index($0, " ");
+                    if (first_occurrence > 0) {
+		        sub(/\ /, " " yellow3); 
+                        second_occurrence = index(substr($0, first_occurrence + 1), " ");
+                        if (second_occurrence > 0) {
+                            new_string = substr($0, 1, first_occurrence + second_occurrence) blue1 substr($0, first_occurrence + second_occurrence + 1);
+                            $0 = new_string;
+                        }
+                    }
+	            sub(/\]/, reset "]");
+	        }
+                if (i>=5) { 
+		    $i=cyan3 $i reset;
+	        }
+            }
+            print;
+        }
+    '
+
     case ${1} in
 	-h|--help)
 	    printf "${usage}"
@@ -27,7 +59,7 @@ tc() {
                 return 1
             fi
     
-            sed -n "$((last_delimiter_line + 1)),$ p" "${filename}"
+            sed -n "$((last_delimiter_line + 1)),$ p" "${filename}" | awk "${awk_color}"
 	    ;;
         -e|--edit)
 	    vi "${filename}"
@@ -41,7 +73,7 @@ tc() {
                 return 1
             fi
     
-            sed -n "$((start_line + 1)),$((end_line - 1))p" "${filename}"
+            sed -n "$((start_line + 1)),$((end_line - 1))p" "${filename}" | awk "${awk_color}"
             ;;
 	*)
 	    printf "INVALID OPTION: '${{1}'\n\n"
