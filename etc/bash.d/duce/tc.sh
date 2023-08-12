@@ -1,5 +1,6 @@
 # vim: ft=sh
 # 2023.08.10 - ducet8@outlook.com
+# TODO: Copy help style from loc
 
 tc() {
     local usage="Usage: tc <option>\n\tOptions:\n\t\t-h|--help        Displays this help\n\t\t-c|--current     Displays the current week's .timecard details\n\t\t-p|--previous    Displays the previous week's .timecard details\n\t\t-e|--edit        Opens a vi session for .timecard\n\n"
