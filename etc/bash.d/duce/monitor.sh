@@ -1,11 +1,11 @@
 # vim: ft=sh
-# 2023.07.28 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
 fi
 
-function monitor() {
+monitor() {
     # TODO: Allow custom message 
     # TODO: Handle multiple word commands without quotes
     # TODO: Handle commands like sleep that take an integer
@@ -35,4 +35,3 @@ function monitor() {
 
     ${*}; say "${msg}"
 }
-

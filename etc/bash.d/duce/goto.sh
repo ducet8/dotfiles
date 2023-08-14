@@ -1,8 +1,8 @@
-# 2022.12.19 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.08.14 - ducet8@outlook.com
 
 # TODO: Add ability to accept options
-function goto() {
+goto() {
    [[ ${BD_OS,,} == "darwin" ]] && tabname ${1}
    ssh ${1}
 }
-

@@ -1,8 +1,8 @@
-# Forked from https://gist.github.com/Sidneys1/8973f8868300c8bac2e714de3d99ede4
-# 2023.02.23 - ducet8@outlook.com
 # vim: ft=sh
+# Forked from https://gist.github.com/Sidneys1/8973f8868300c8bac2e714de3d99ede4
+# 2023.08.14 - ducet8@outlook.com
 
-function stail() {
+stail() {
     local help lines opt out prefix program whitespace
 
     program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')

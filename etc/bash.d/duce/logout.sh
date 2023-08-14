@@ -1,7 +1,8 @@
+# vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2023.03.02 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
-function bash_logout() {
+bash_logout() {
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q || /usr/bin/clear
 
     if [[ "${BD_OS_ID,,}" =~ 'alpine' ]] || [[ "${BD_OS,,}" == 'darwin' ]]; then 

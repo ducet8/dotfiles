@@ -1,9 +1,10 @@
-# 2022.12.19 - ducet8@outlook.com
+# vim: ft=sh
+# 2023:08.14 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
 fi
 
-function tabname() {
+tabname() {
    printf "\e]1;$1\a"
 }

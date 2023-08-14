@@ -1,11 +1,10 @@
-# 2022.11.09 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.08.14 - ducet8@outlook.com
 
 if ! type -P tree &>/dev/null; then
     return 0
 fi
 
-function tre() {
+tre() {
 	tree -aC -I '.git' --dirsfirst "$@" | less -FRNX
 }
-
-# export -f tre

@@ -1,10 +1,11 @@
-# 2022.12.19 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.08.14 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
 fi
 
-function use() {
+use() {
     MATCHES=$(ls /Applications | grep -i "$@" | wc -l)
     if [[ MATCHES -eq 1 ]]; then
         APP=$(ls /Applications | grep -i "$@" | awk -F.app '{print $1}')

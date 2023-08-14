@@ -1,4 +1,4 @@
-# 2022.11.09 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 # Pull the latest dotfiles from Github
 
@@ -6,7 +6,7 @@ if ! type -P git &>/dev/null; then
     return 0
 fi
 
-function update_dotfiles() {
+update_dotfiles() {
     local dotowners=(duce dtate ducet8)
     local dotdir="${HOME}/dotfiles"
     if [[ (" ${dotowners[*]} " =~ " ${USER} ") && (-d ${dotdir}) ]]; then

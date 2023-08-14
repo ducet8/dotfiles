@@ -1,6 +1,7 @@
-# 2022.11.09 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.08.14 - ducet8@outlook.com
 
-function weather() {
+weather() {
   #curl "wttr.in/${1: -35209}\?F"
   local location=''
   if [ ! -z $1 ]; then
@@ -18,5 +19,3 @@ function weather() {
   done
   curl -fGsS -H "Accept-Language: ${LANG%_*}" $args --compressed "wttr.in/${location}"
 }
-
-# export -f weather

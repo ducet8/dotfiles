@@ -1,19 +1,20 @@
+# vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2023.06.28 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 # fif
 # find file (ff) or find in file (fif)
 
-function fif_aborting() {
+fif_aborting() {
     printf "\naborting ... $@\n\n"A && return 1
 }
 
-function fif_usage() {
+fif_usage() {
     local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
     printf "\nusage: ${program} <start from|string to find> [string to find] [find flags]\n\n"
 }
 
-function fif() {
+fif() {
     if [ ! "${1}" ];then
         fif_usage
         return 1
@@ -85,6 +86,6 @@ function fif() {
     fi
 }
 
-function ff() {
+ff() {
     fif "$@"
 }

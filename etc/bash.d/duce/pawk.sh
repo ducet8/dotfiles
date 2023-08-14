@@ -1,8 +1,9 @@
-# 2023.06.28 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.08.14 - ducet8@outlook.com
 
 # Paragraph grep
 
-function pawk_usage() {
+pawk_usage() {
     local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
     printf "usage: ${program} [-hvi] <pattern> <file>\n\n"
     
@@ -14,7 +15,7 @@ function pawk_usage() {
     printf '\t-x                  Disable bat parsing\n'
 }
 
-function pawk() {
+pawk() {
     [ $# -lt 2 ] && pawk_usage && return 1
 
     # Parse args

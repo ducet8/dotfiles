@@ -1,5 +1,6 @@
+# vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2023.02.10 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 # bd_ansi mapping
 # EMER - fg_red1
@@ -9,7 +10,7 @@
 # NOTICE - fg_magenta2
 # DEBUG - fg_blue2 
 
-function ssh_agent_msg () {
+ssh_agent_msg () {
     # usage: ssh_agent_msg <color> <msg> [debug_level]
     if [ $# -lt 2 ]; then
         bd_ansi reset; bd_ansi fg_red1
@@ -29,7 +30,7 @@ function ssh_agent_msg () {
     bd_ansi reset
 }
 
-function ssh_agent() {
+ssh_agent() {
     local num_of_agents=$(ps aux | grep ${USER} | grep [s]sh-agent | wc -l)
 
     # 1 running agent with no connection to an agent

@@ -1,11 +1,11 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.03.27 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 ##
-### machine learning prompt 0.1
+# machine learning prompt 0.1
 ##
 
-function bash_prompt() {
+bash_prompt() {
     #echo "${FUNCNAME}()"
 
     local bash_prompt_color_term=0 # faster than case every time
@@ -111,7 +111,7 @@ function bash_prompt() {
     unset -v bash_prompt_color_term bash_prompt_window_title bash_prompt_ps1
 }
 
-function bash_prompt_color() {
+bash_prompt_color() {
     local bash_prompt_color_name
 
     # allow setting via ~/.bash-prompt_color

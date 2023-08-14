@@ -1,7 +1,7 @@
 # vim: ft=sh
-# 2023.03.14 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
-function dexec() {
+dexec() {
     local container_shell
 
     container_shell=$(sudo docker exec nginx sh -c "which bash")

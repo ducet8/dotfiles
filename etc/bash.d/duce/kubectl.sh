@@ -1,7 +1,8 @@
+# vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2023.03.03 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
-function kubectl-events {
+kubectl-events {
     {
         echo $'TIME\tNAMESPACE\tTYPE\tREASON\tOBJECT\tSOURCE\tMESSAGE';
         kubectl get events -o json "$@" \
@@ -10,4 +11,3 @@ function kubectl-events {
         | column -s $'\t' -t \
         | less -S
 }
-

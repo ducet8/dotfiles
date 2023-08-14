@@ -1,15 +1,16 @@
+# vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2023.01.17 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 # replace in files
 
-function rif_usage() {
+rif_usage() {
     echo
     echo "${0} <from> <to>"
     echo
 }
 
-function rif() {
+rif() {
     if [ "${1}" == '' ] || [ "${2}" == '' ]; then
         rif_usage
         return 1

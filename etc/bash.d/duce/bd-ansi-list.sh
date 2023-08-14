@@ -1,10 +1,11 @@
-# 2022.11.09 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.08.14 - ducet8@outlook.com
 
 if ! declare -F | grep bd_ansi &>/dev/null; then
     return 0
 fi
 
-function bd_ansi_list {
+bd_ansi_list() {
     colors=( $(typeset -f bd_ansi | grep fg_ | grep -v '|' | grep -v default | awk -F_ '{print $2}'| rev | cut -c3- | rev | sort -u) )
     printf %9s
     for (( num=1; num<=${#colors[@]}; num++ )); do 

@@ -1,7 +1,8 @@
+# vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2023.06.28 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
-function test_loop() {
+test_loop() {
     printf -v COMMAND "%b " "$@"
     COUNTER=0
     SEPERATOR='+--------------------------------------+'

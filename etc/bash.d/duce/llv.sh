@@ -1,8 +1,7 @@
 # vim: ft=sh
-# 2023.03.08 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 # ls version sort
-function llv() {
+llv() {
     ls -lFha $@ | sort -k 9 -V
 }
-

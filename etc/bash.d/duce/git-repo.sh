@@ -1,5 +1,6 @@
+# vim: ft=sh
 # Forked from: Jess Frizelle
-# 2023.01.17 - ducet8@outlook.com
+# 2023.08.14 - ducet8@outlook.com
 
 if ! type -P git &>/dev/null; then
     return 1
@@ -7,7 +8,7 @@ fi
 
 # Call from a local repo to open the repository on github/bitbucket in browser
 # Modified version of https://github.com/zeke/ghwd
-function repo() {
+repo() {
     # Figure out github repo base URL
     local base_url
     base_url=$(git config --get remote.origin.url)
