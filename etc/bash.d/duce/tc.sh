@@ -4,7 +4,11 @@
 tc() {
     local tc_version="1.0.0-a"
 
-    local usage="$(bd_ansi fg_blue1)tc$(bd_ansi reset)\t${tc_version}\nUtility for interacting with timecard\n\n$(bd_ansi fg_yellow3)USAGE:\n$(bd_ansi reset)\ttc <option>\n$(bd_ansi fg_yellow3)OPTIONS:\n$(bd_ansi fg_blue1)\t-h|--help        $(bd_ansi reset)Displays this help\n$(bd_ansi fg_blue1)\t-c|--current     $(bd_ansi reset)Displays the current week's .timecard details\n$(bd_ansi fg_blue1)\t-p|--previous    $(bd_ansi reset)Displays the previous week's .timecard details\n$(bd_ansi fg_blue1)\t-e|--edit        $(bd_ansi reset)Opens a vi session for .timecard\n\n"
+    if type bd_ansi &>/dev/null; then
+        local usage="$(bd_ansi fg_blue1)tc$(bd_ansi reset)\t${tc_version}\nUtility for interacting with timecard\n\n$(bd_ansi fg_yellow3)USAGE:\n$(bd_ansi reset)\ttc <option>\n$(bd_ansi fg_yellow3)OPTIONS:\n$(bd_ansi fg_blue1)\t-h|--help        $(bd_ansi reset)Displays this help\n$(bd_ansi fg_blue1)\t-c|--current     $(bd_ansi reset)Displays the current week's .timecard details\n$(bd_ansi fg_blue1)\t-p|--previous    $(bd_ansi reset)Displays the previous week's .timecard details\n$(bd_ansi fg_blue1)\t-e|--edit        $(bd_ansi reset)Opens a vi session for .timecard\n\n"
+    else
+        local usage="tc\t${tc_version}\nUtility for interacting with timecard\n\nUSAGE:\n\ttc <option>\nOPTIONS:\n\t-h|--help        Displays this help\n\t-c|--current     Displays the current week's .timecard details\n\t-p|--previous    Displays the previous week's .timecard details\n\t-e|--edit        Opens a vi session for .timecard\n\n"
+    fi
 
     if [ $# -ne 1 ]; then
         printf "${usage}"

@@ -2,6 +2,10 @@
 # 2023.08.11 - ducet8@outlook.com
 
 loc() {
+    if ! type bd_ansi &>/dev/null; then
+	echo "bd_ansi missing...loc exiting"
+	return 1
+    fi
     local loc_version="1.0.0"
 
     local usage="$(bd_ansi fg_blue1)loc$(bd_ansi reset)\t${loc_version}\nCounts the lines in files of a certain type\n\n$(bd_ansi fg_yellow3)USAGE:\n$(bd_ansi reset)\tloc [-d|--directory] [-v exclude_filetypes] [-d directory] [-r] [-h] <-a|filetype>\n$(bd_ansi fg_yellow3)ARGS:\n$(bd_ansi fg_blue1)\t<filetype>                $(bd_ansi reset)Filetype to count lines in - not required if -a is passed\n$(bd_ansi fg_yellow3)OPTIONS:\n$(bd_ansi fg_blue1)\t-h|--help                 $(bd_ansi reset)Displays this help\n$(bd_ansi fg_blue1)\t-a|--all                  $(bd_ansi reset)Count lines in all filetypes\n$(bd_ansi fg_blue1)\t-d|--directory            $(bd_ansi reset)Specify the directory to search (default: current directory)\n$(bd_ansi fg_blue1)\t-r|--recursive            $(bd_ansi reset)Enable recursive searching\n$(bd_ansi fg_blue1)\t-v|--exlude <ft> <ft>     $(bd_ansi reset)Exclude specific filetypes from counting\n\n"
