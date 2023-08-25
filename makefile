@@ -5,6 +5,7 @@ AUTH_KEY_4K := "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLHD2wQOu7sV6TXpNMw5GCp5vF
 AUTH_KEY_ED := "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK1tMWGNlG03eoiyS5lmSZXZT8BDOhFy6xUcvDlvtdYv"
 AUTH_KEY_4K_M := "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/HpbrHiUvuP38I5zx3YzYOkFpbJ19FCgePilLwAE5crh/2TjdRNJiLtsn7lxWtruJQHkB6uZL3UooCjrCdfuWUjsnnJ7vJuVBMS6ZDki13qrFLkhFMIk19kPMFtIo6kgZsv7KXB0lm0vRHqpwdYZLTkOEkvZqvyiIUhn9UytGpAvD9qdDMnl7ooAHen/9cW7U189otuFVUKYmzCBdgp6VfRAHOWWqCU7oo+2Ba3LVbfHobRTX8mX9A80MHjK38vOF+i8cTDzc0rYBpp9Dt/9glZgAFiqJSa88sBXTHfQfQPnu0hjYKK1NCDXdqEFd8iC1/Dhe+QuhYAd6dLea3KeVBC/i1KCLIohn9XkEWaMi3LNLwBd0ylVTDNZ8br8nJIp4DlEf2GqO3yJO+FynCW5Zsw89N1CFPuDV30MY6noI41VlR5/7idOoyOstJcgrCpkxWg/n0fsMIMEwLvCfXsD9mdlgBg7nIvc5Oc1Fa9YfMQE667LiqWDH1OjUcO2IfiD5g4w6NJzQlsrWccIAGKHFX+uWwztHeWTuBklfB9RNA2VWFFOEYrHog+0EMDg+5zt3y+ofCtLW2Wjl8BipVI3g2//0YIQLQZHx+IpGZZOBGi3scBlcOxmpgbhmODUNU8Le3vv6jBVF4ksRsFRSJEZzNz5hU1fJwHARkr4Ywcokbw=="
 AUTH_KEY_ED_M := "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJDRITDpnnqtlWpdgmtTIt+372LKcCShjWiJUpgzViRH"
+AUTH_KEY_ED_C := "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINCeTImcLtzsjuFgmxBaiMQBwn+KR74EUZyc7SQc1a+L"
 C_CYAN := \033[36m
 C_GREEN := \033[32m
 C_MAG := \033[35m
@@ -106,6 +107,16 @@ ssh_4k_m:  ## Sets up the authorized_keys
 ssh_ed_m:  ## Sets up the authorized_keys
 	@mkdir -p $(HOMEDIR)/.ssh
 	@echo $(AUTH_KEY_ED_M) >> $(HOMEDIR)/.ssh/authorized_keys
+	@sort -u $(HOMEDIR)/.ssh/authorized_keys -o $(HOMEDIR)/.ssh/authorized_keys
+	@chmod 700 $(HOMEDIR)/.ssh
+	@chmod 600 $(HOMEDIR)/.ssh/authorized_keys
+	@echo "$(C_GREEN)Created: $(HOMEDIR)/.ssh/authorized_keys"
+
+
+.PHONY: ssh_ed_c
+ssh_ed_c:  ## Sets up the authorized_keys
+	@mkdir -p $(HOMEDIR)/.ssh
+	@echo $(AUTH_KEY_ED_C) >> $(HOMEDIR)/.ssh/authorized_keys
 	@sort -u $(HOMEDIR)/.ssh/authorized_keys -o $(HOMEDIR)/.ssh/authorized_keys
 	@chmod 700 $(HOMEDIR)/.ssh
 	@chmod 600 $(HOMEDIR)/.ssh/authorized_keys
