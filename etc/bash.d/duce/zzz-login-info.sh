@@ -1,4 +1,5 @@
-# 2023.02.18 - ducet8@outlook.com
+# vim: ft=sh
+# 2023.08.25 - ducet8@outlook.com
 
 # Display some useful information
 
@@ -27,8 +28,12 @@ if [[ ${BD_MISSING_UTIL_CHECK} != 1 ]]; then
                 if [[ "${BD_OS_ID,,}" == 'centos' ]] || [[ "${BD_OS_ID,,}" == 'rhel' ]] || [[ "${BD_OS_ID,,}" =~ 'rocky' ]]; then 
                     unavailable_utils+="${tool} "
                     continue  # bat is not available on rocky or centos
-                elif [[ "${BD_OS_ID,,}" == 'debian' ]] && (! type -P batcat &>/dev/null); then
-                    tool='batcat'  # batcat is used on debian
+                  elif ([[ "${BD_OS_ID,,}" == 'debian' ]] || [[ "${BD_OS_ID,,}" == 'ubuntu' ]]); then
+                      if (! type -P batcat &>/dev/null); then
+                          tool='batcat'  # batcat is used on debian and ubuntu
+                      else
+                          continue
+                      fi
                 fi
             fi
             missing_utils+="${tool} "

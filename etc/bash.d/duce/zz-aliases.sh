@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.02.02 - ducet8@outlook.com
+# 2023.08.25 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -51,12 +51,15 @@ alias container_ps1="echo 'export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"
 #
 if type -P bat &>/dev/null; then
     alias cat='bat --paging=never --theme="gruvbox-dark"'
-elif [[ ${BD_OS,,} == 'debian' ]] && [ type -P batcat &>/dev/null ]; then
+elif ([[ ${BD_OS_ID,,} == 'debian' ]] || [[ "${BD_OS_ID,,}" == 'ubuntu' ]]) && (type -P batcat &>/dev/null); then
     if [ ! -d "${HOME}/.local/bin" ]; then
         mkdir -p "${HOME}/.local/bin"
     fi
     if [ ! -L "${HOME}/.local/bin/bat" ]; then
         ln -s /usr/bin/batcat ~/.local/bin/bat
+    fi
+    if [[ "${PATH}" != *"${HOME}/.local/bin"* ]]; then
+        export PATH=${PATH}:${HOME}/.local/bin
     fi
     alias cat='bat --paging=never --theme="gruvbox-dark"'
 fi
