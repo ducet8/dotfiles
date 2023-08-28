@@ -3,7 +3,7 @@
 
 update_profile_version() {
     local file="${BD_HOME}/dotfiles/bash_profile"
-    local current_line="$(grep "local bash_profile_date=\"" "${file}")"
-    local new_line="local bash_profile_date=\"$(date +%Y.%m.%d), ducet8@outlook.com\""
+    local current_line="$(grep "bash_profile_date=\"" "${file}")"
+    local new_line="bash_profile_date=\"$(date +%Y.%m.%d)\""
     sed -i '' "s/${current_line}/${new_line}/" "${file}"
 }
