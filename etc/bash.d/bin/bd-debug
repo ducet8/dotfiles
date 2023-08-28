@@ -23,9 +23,9 @@ fi
 
 [ ${#BD_DIR} -eq 0 ] || [ ! -r "${BD_DIR}" ] && exit 1
 
-[ ! -r "${BD_DIR}/00bd.sh" ] && printf "\naborting ... ${BD_DIR}/00bd.sh file not found readable\n\n" && exit 1
+[ ! -r "${BD_DIR}/bd.sh" ] && printf "\naborting ... ${BD_DIR}/bd.sh file not found readable\n\n" && exit 1
 
-source "${BD_DIR}/00bd.sh" functions
+source "${BD_DIR}/bd.sh" functions
 
 BD_DEBUG_FUNCTION=0
 

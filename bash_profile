@@ -45,9 +45,9 @@ if [ -f /etc/bashrc ]; then source /etc/bashrc; fi
 #[ "${USER}" != 'root' ] && [ -r ~/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ~/etc/bash.d/00bd.sh ${@}
 #[ "${USER}" == 'root' ] && [ -r ${BD_HOME}/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && source ${BD_HOME}/etc/bash.d/00bd.sh ${@}
 if [ -z ${BD_HOME} ] || [ "${USER}" != 'root' ]; then
-    [ -r ~/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && export BD_ANSI_EXPORT=1 && source ~/etc/bash.d/00bd.sh ${@}
+    [ -r ~/etc/bash.d/bd.sh ] && export BD_DEBUG=0 && export BD_ANSI_EXPORT=1 && source ~/etc/bash.d/bd.sh ${@}
 else
-    [ -r ${BD_HOME}/etc/bash.d/00bd.sh ] && export BD_DEBUG=0 && export BD_ANSI_EXPORT=1 && source ${BD_HOME}/etc/bash.d/00bd.sh ${@}
+    [ -r ${BD_HOME}/etc/bash.d/bd.sh ] && export BD_DEBUG=0 && export BD_ANSI_EXPORT=1 && source ${BD_HOME}/etc/bash.d/bd.sh ${@}
     # If user isn't BD_USER, go home
     if [ "${BD_HOME}" != "${HOME}" ]; then
         cd ${HOME}

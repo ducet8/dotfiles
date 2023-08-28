@@ -87,7 +87,7 @@ bash_prompt() {
     fi
 
     # glyph: etc/bash.d is detected; add a symbol
-    if [ "${BD_ID}" != "" ] && [ -d etc/bash.d ]; then
+    if [ "${BD_USER}" != "" ] && [ -d etc/bash.d ]; then
         bash_prompt_glyphs+='♭'
     fi
 

@@ -1,4 +1,4 @@
-# 00bd-os.sh: set additional variables that identify the operating system details
+# bd-os.sh: set additional variables that identify the operating system details
 
 # Copyright (C) 2018-2023 Joseph Tingiris <joseph.tingiris@gmail.com>
 # https://github.com/bash-d/bd/blob/main/LICENSE.md
@@ -19,7 +19,7 @@ if [ "${0}" == "${BASH_SOURCE}" ]; then
     exit 1
 fi
 
-# BD_OS is set in 00bd.sh; if it's not set then return
+# BD_OS is set in bd.sh; if it's not set then return
 [ ${#BD_OS} -eq 0 ] && return
 
 #
