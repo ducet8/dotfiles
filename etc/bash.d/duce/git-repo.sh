@@ -1,6 +1,6 @@
 # vim: ft=sh
 # Forked from: Jess Frizelle
-# 2023.08.14 - ducet8@outlook.com
+# 2023.08.28 - ducet8@outlook.com
 
 if ! type -P git &>/dev/null; then
     return 1
@@ -31,7 +31,7 @@ repo() {
 
     # Find current directory relative to .git parent
     full_path=$(pwd)
-    git_base_path=$(cd "./$(git rev-parse --show-cdup)" || return 1; pwd)
+    git_base_path=$($(which cd) "./$(git rev-parse --show-cdup)" || return 1; pwd)
     relative_path=${full_path#$git_base_path} # remove leading git_base_path from working directory
 
     # If filename argument is present, append it
