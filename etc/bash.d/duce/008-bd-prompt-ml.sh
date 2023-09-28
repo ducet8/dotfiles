@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.08.14 - ducet8@outlook.com
+# 2023.09.28 - ducet8@outlook.com
 
 ##
 # machine learning prompt 0.1
@@ -81,9 +81,19 @@ bash_prompt() {
     fi
 
     # glyph: git is detected; do what?
+    # TODO: Is the cwd in a git structure
     if [ -d .git ]; then
-        #bash_prompt_glyphs+='♬ '
-        bash_prompt_glyphs+='♪'
+        # bash_prompt_glyphs+='♬ '
+        # bash_prompt_glyphs+='♪'
+        if [ $(git diff --exit-code &>/dev/null; echo $?) -eq 0 ]; then  # Up to date
+            bash_prompt_glyphs+="$(bd_ansi fg_green1)♪$(bd_ansi reset)"
+        else
+            if [ $(git diff --cached --exit-code &>/dev/null; echo $?) -eq 0 ]; then  # No uncommitted changes
+                bash_prompt_glyphs+="$(bd_ansi fg_yellow1)♪$(bd_ansi reset)"
+            else  # Uncommitted changes
+                bash_prompt_glyphs+="$(bd_ansi fg_red1)♪$(bd_ansi reset)"
+            fi
+        fi
     fi
 
     # glyph: etc/bash.d is detected; add a symbol
