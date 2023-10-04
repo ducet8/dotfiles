@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.08.25 - ducet8@outlook.com
+# 2023.10.04 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -178,6 +178,7 @@ fi
 
 # alias pip3_upgrade_all="pip3 install --upgrade $(pip3 list | awk '{print $1}' | grep -v Package |grep -v \-)"
 alias me="source ${BD_HOME}/.bash_profile"
+alias myip='curl -s ipinfo.io | jq -r '\''.ip'\'
 
 alias sal='ps -ef | grep [s]sh-agent; echo && env | grep -i ssh | sort -V; echo; ssh-add -l'
 alias scpo='scp -o IdentitiesOnly=yes'
