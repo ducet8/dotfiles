@@ -85,6 +85,7 @@ bash_prompt() {
     if [ -d .git ]; then
         # bash_prompt_glyphs+='♬ '
         # bash_prompt_glyphs+='♪'
+        # TODO: This is turning green if committed but not pushed
         if [ $(git diff --exit-code &>/dev/null; echo $?) -eq 0 ]; then  # Up to date
             bash_prompt_glyphs+="$(bd_ansi fg_green1)♪$(bd_ansi reset)"
         else
