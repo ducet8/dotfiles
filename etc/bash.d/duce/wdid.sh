@@ -53,22 +53,27 @@ wdid() {
     }
 
     if [ ! -e "${accomplishments}" ]; then
-        echo "The file {$accomplishments} does not exist. Use 'did' to add daily accomplishments."
+        echo "The file ${accomplishments} does not exist. Use 'did' to add daily accomplishments."
         return 1
+    fi
+
+    local bat_opt=""
+    if type -P bat &>/dev/null; then
+        bat_opt="-pl md"
     fi
 
     case "${1}" in
         -a|--all)
-            cat "${accomplishments}"
+            cat ${bat_opt} "${accomplishments}"
             ;;
         -p|--previous)
             local today=$(date '+%Y-%m-%d')
             local yesterday=$(date -d "${today} - 1 day" '+%Y-%m-%d' 2>>/dev/null || date -j -v -1d -f "%Y-%m-%d" "${today}" '+%Y-%m-%d')
-            sed -n "/## ${yesterday}/,/## ${today}/ p" "${accomplishments}"
+            cat "${accomplishments}" | awk "/## ${yesterday}/,/## ${today}/" | cat ${bat_opt}
             ;;
         -c|--current)
             local today=$(date '+%Y-%m-%d')
-            sed -n "/## ${today}/,/## $(date -d "${today} + 1 day" '+%Y-%m-%d' 2>>/dev/null || date -j -v -1d -f "%Y-%m-%d" "${today}" '+%Y-%m-%d')/ p" "${accomplishments}"
+            cat "${accomplishments}" | awk "/## ${today}/,/## $(date -d "${today} + 1 day" '+%Y-%m-%d' 2>>/dev/null || date -j -v -1d -f "%Y-%m-%d" "${today}" '+%Y-%m-%d')/" | cat ${bat_opt}
             ;;
         -h|--help)
             print_help
