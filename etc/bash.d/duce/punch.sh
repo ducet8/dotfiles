@@ -1,6 +1,10 @@
 # vim: ft=sh
 # 2023.07.26 - ducet8@outlook.com
 
+if [[ ${BD_OS,,} != "darwin" ]]; then
+    return 0
+fi
+
 punch() {
     if [ ! "${1}" ]; then
 	echo "punch must be run with an argument to be used as the note"
