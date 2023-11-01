@@ -1,22 +1,72 @@
 # vim: ft=sh
-# 2023.08.14 - ducet8@outlook.com
+# 2023.11.01 - ducet8@outlook.com
 
 # Paragraph grep
-
-pawk_usage() {
-    local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
-    printf "usage: ${program} [-hvi] <pattern> <file>\n\n"
-    
-    printf 'Options:\n'
-    printf '\t-h                  Print this Help\n'
-    printf '\t-d                  Debug - print the command\n'
-    printf '\t-i                  Case insensitive\n'
-    printf '\t-v                  Exclude pattern\n'
-    printf '\t-x                  Disable bat parsing\n'
-}
-
 pawk() {
-    [ $# -lt 2 ] && pawk_usage && return 1
+    local version='1.0.0-a'
+
+    print_help() {
+        local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
+        if type bd_ansi &>/dev/null; then
+            bd_ansi fg_blue1
+            printf "${program}"
+            bd_ansi reset
+            printf "\t${version}\n"
+            printf "Print the paragraph containing the grepped result\n\n"
+            bd_ansi fg_yellow3
+            printf "USAGE:\n"
+            bd_ansi reset
+            printf "\t${program} [OPTIONS] <pattern> <file>\n"
+            bd_ansi fg_yellow3
+            printf "ARGUMENTS:\n"
+            bd_ansi fg_blue1
+            printf "\t<pattern>"
+            bd_ansi reset
+            printf "           The pattern to grep\n"
+            bd_ansi fg_blue1
+            printf "\t<file>"
+            bd_ansi reset
+            printf "              The file to search\n"
+            bd_ansi fg_yellow3
+            printf "OPTIONS:\n"
+            bd_ansi fg_blue1
+            printf "\t-d|--debug"
+            bd_ansi reset
+            printf "          Debug - print the command\n"
+            bd_ansi fg_blue1
+            printf "\t-i|--insensitive"
+            bd_ansi reset
+            printf "    Case insensitive\n"
+            bd_ansi fg_blue1
+            printf "\t-x|--exclude"
+            bd_ansi reset
+            printf "        Exclude pattern\n"
+            bd_ansi fg_blue1
+            printf "\t-x|--no-bat"
+            bd_ansi reset
+            printf "         Disable bat parsing\n"
+            bd_ansi fg_blue1
+            printf "\t-h|--help"
+            bd_ansi reset
+            printf "           Display this help\n"
+        else
+            printf "${program}\t${version}\n"
+            printf "Read and print daily accomplishments from ${accomplishments}\n\n"
+            printf "USAGE:\n"
+            printf "\t${program} [OPTIONS]\n"
+            printf "ARGUMENTS:\n"
+            printf "\t<pattern>           The pattern to grep\n"
+            printf "\t<file>              The file to search\n"
+            printf "OPTIONS:\n"
+            printf "\t-d|--debug          Debug - print the command\n"
+            printf "\t-i|--insensitive    Case insensitive\n"
+            printf "\t-v|--exclude        Exclude pattern\n"
+            printf "\t-x|--no-bat         Disable bat parsing\n"
+            printf "\t-h|--help           Display this help\n"
+        fi
+    }
+
+    [ $# -lt 2 ] && print_help && return 1
 
     # Parse args
     while :; do
@@ -24,12 +74,12 @@ pawk() {
             break
         elif [[ $1 =~ ^- ]]; then
             case $1 in
-                -d)      local pawk_debug=1                           ;;
-                -h)      pawk_usage && return 0                       ;;
-                -i)      local pawk_case_insensitive=1                ;;
-                -v)      local pawk_exclude=1                         ;;
-                -x)      local skip_bat=1                             ;;
-                *)       echo 'Error: Invalid option' && return 1     ;;
+                -d|--debug)            local pawk_debug=1                                                 ;;
+                -h|--help)             print_help && return 0                                             ;;
+                -i|--insensitive)      local pawk_case_insensitive=1                                      ;;
+                -v|--exclude)          local pawk_exclude=1                                               ;;
+                -x|--no-bat)           local skip_bat=1                                                   ;;
+                *)                     echo 'Error: Invalid option' && echo && print_help && return 1     ;;
             esac
             shift
         else
