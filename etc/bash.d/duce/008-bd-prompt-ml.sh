@@ -84,15 +84,20 @@ bash_prompt() {
     if $(git rev-parse --is-inside-work-tree 2>/dev/null); then
         # bash_prompt_glyphs+='♬ '
         # bash_prompt_glyphs+='♪'
-        git_glyph='♪'
-        if [ $(git diff --exit-code &>/dev/null; echo $?) -eq 0 ]; then  # Up to date
+        local git_glyph='♪'
+
+        # Uncommitted changes
+        if [ $(git status --porcelain | wc -l) -ne 0 ]; then
+            bash_prompt_glyphs+="$(bd_ansi fg_magenta1)${git_glyph}$(bd_ansi reset)"
+        # Unpushed changes
+        elif [ $(git log @{u}.. | wc -l) -ne 0 ]; then
+            bash_prompt_glyphs+="$(bd_ansi fg_yellow1)${git_glyph}$(bd_ansi reset)"
+        # Committed and pushed
+        elif [ $(git status --porcelain | wc -l) -eq 0 ] && [ $(git log @{u}.. | wc -l) -eq 0 ]; then
             bash_prompt_glyphs+="$(bd_ansi fg_green1)${git_glyph}$(bd_ansi reset)"
+        # Unknown
         else
-            if [ $(git diff --cached --exit-code &>/dev/null; echo $?) -eq 0 ]; then  # No uncommitted changes
-                bash_prompt_glyphs+="$(bd_ansi fg_yellow1)${git_glyph}$(bd_ansi reset)"
-            else  # Uncommitted changes
-                bash_prompt_glyphs+="$(bd_ansi fg_red1)${git_glyph}$(bd_ansi reset)"
-            fi
+            bash_prompt_glyphs+="$(bd_ansi reset)${git_glyph}"
         fi
     fi
 
