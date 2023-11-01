@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.10.05 - ducet8@outlook.com
+# 2023.11.01 - ducet8@outlook.com
 
 ##
 # Opener Aliases
