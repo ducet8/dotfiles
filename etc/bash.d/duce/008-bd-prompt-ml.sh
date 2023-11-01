@@ -1,8 +1,8 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.09.28 - ducet8@outlook.com
+# 2023.11.01 - ducet8@outlook.com
 
 ##
-# machine learning prompt 0.1
+# machine learning prompt 0.3
 ##
 
 bash_prompt() {
@@ -10,7 +10,7 @@ bash_prompt() {
 
     local bash_prompt_color_term=0 # faster than case every time
 
-    # set window title; TODO check terms that support this
+    # set window title; TODO: check terms that support this
     case "${TERM}" in
         alacritty*|ansi*|*color|screen*|*tmux*|*xterm*)
             # enable ansi sequences PS1
@@ -80,19 +80,18 @@ bash_prompt() {
         bash_prompt_ps1+="\[$(bd_ansi reset)\]"
     fi
 
-    # glyph: git is detected; do what?
-    # TODO: Is the cwd in a git structure
-    if [ -d .git ]; then
+    # glyph: git is detected
+    if $(git rev-parse --is-inside-work-tree 2>/dev/null); then
         # bash_prompt_glyphs+='♬ '
         # bash_prompt_glyphs+='♪'
-        # TODO: This is turning green if committed but not pushed
+        git_glyph='♪'
         if [ $(git diff --exit-code &>/dev/null; echo $?) -eq 0 ]; then  # Up to date
-            bash_prompt_glyphs+="$(bd_ansi fg_green1)♪$(bd_ansi reset)"
+            bash_prompt_glyphs+="$(bd_ansi fg_green1)${git_glyph}$(bd_ansi reset)"
         else
             if [ $(git diff --cached --exit-code &>/dev/null; echo $?) -eq 0 ]; then  # No uncommitted changes
-                bash_prompt_glyphs+="$(bd_ansi fg_yellow1)♪$(bd_ansi reset)"
+                bash_prompt_glyphs+="$(bd_ansi fg_yellow1)${git_glyph}$(bd_ansi reset)"
             else  # Uncommitted changes
-                bash_prompt_glyphs+="$(bd_ansi fg_red1)♪$(bd_ansi reset)"
+                bash_prompt_glyphs+="$(bd_ansi fg_red1)${git_glyph}$(bd_ansi reset)"
             fi
         fi
     fi
