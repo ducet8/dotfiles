@@ -40,6 +40,12 @@ if [[ ${BD_OS,,} == 'darwin' ]]; then
 fi
 
 
+##
+# az Aliases
+##
+alias az_aks_creds="az aks list | jq '.[] | \"az aks get-credentials --name \(.name) --resource-group \(.resourceGroup)\"' | sed -e 's/\"//g'"
+
+
 alias bell="echo -e '\a'"
 alias binds="bind -P | grep 'can be'"
 alias container_me="echo 'alias ll=\"ls -l\"; export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
@@ -48,7 +54,7 @@ alias container_ps1="echo 'export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"
 
 ##
 # cat Aliases
-#
+##
 if type -P bat &>/dev/null; then
     alias cat='bat --paging=never --theme="gruvbox-dark"'
 elif ([[ ${BD_OS_ID,,} == 'debian' ]] || [[ "${BD_OS_ID,,}" == 'ubuntu' ]]) && (type -P batcat &>/dev/null); then
