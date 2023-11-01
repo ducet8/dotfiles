@@ -7,12 +7,13 @@ pawk() {
 
     print_help() {
         local program=$(echo "${BASH_SOURCE}" | awk -F/ '{print $NF}' | awk -F. '{print $1}')
+        local description="Print the paragraph containing the grepped result"
         if type bd_ansi &>/dev/null; then
             bd_ansi fg_blue1
             printf "${program}"
             bd_ansi reset
             printf "\t${version}\n"
-            printf "Print the paragraph containing the grepped result\n\n"
+            printf "${description}\n\n"
             bd_ansi fg_yellow3
             printf "USAGE:\n"
             bd_ansi reset
@@ -51,9 +52,9 @@ pawk() {
             printf "           Display this help\n"
         else
             printf "${program}\t${version}\n"
-            printf "Read and print daily accomplishments from ${accomplishments}\n\n"
+            printf "${description}\n\n"
             printf "USAGE:\n"
-            printf "\t${program} [OPTIONS]\n"
+            printf "\t${program} [OPTIONS] <pattern> <file>\n"
             printf "ARGUMENTS:\n"
             printf "\t<pattern>           The pattern to grep\n"
             printf "\t<file>              The file to search\n"
