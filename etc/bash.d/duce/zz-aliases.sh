@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.11.01 - ducet8@outlook.com
+# 2023.12.15 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -126,6 +126,7 @@ fi
 if type -P kubectl &>/dev/null; then
     alias kc='kubectl'
     alias false-claims='kubectl get managed -L crossplane.io/claim-name | grep cspire-com-3 | grep False'
+    alias deprecated-api-use='kubectl get --raw /metrics | grep apiserver_requested_deprecated_apis'
 fi
 if type -P oc &>/dev/null; then
     alias oc-csr-approve='oc get csr -o name | xargs oc adm certificate approve'
