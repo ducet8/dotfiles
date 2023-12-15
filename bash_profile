@@ -1,6 +1,6 @@
 # vim: ft=sh
 # .bash_profile
-bash_profile_date="2023.10.11"
+bash_profile_date="2023.12.15"
 BASH_PROFILE_VERSION="${bash_profile_date}, ducet8@outlook.com"
 unset bash_profile_date
 
