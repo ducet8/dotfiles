@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.08.11 - ducet8@outlook.com
+# 2024.03.12 - ducet8@outlook.com
 
 loc() {
     if ! type bd_ansi &>/dev/null; then
@@ -34,14 +34,14 @@ loc() {
 
             -a|--all)
                 find_command="find ${directory}"
-		ft_supplied=0
+            		ft_supplied=0
                 [ -n "${recursive}" ] && find_command+=" -name '*'"
                 find_command+=' -type f'
-		shift
+		            shift
                 ;;
 
             -v|--exclude)
-		shift
+		            shift
                 while [ $# -gt 0 ] && [ "${1:0:1}" != '-' ]; do
                     exclude_filetypes+=("$1")
                     shift
@@ -65,8 +65,8 @@ loc() {
                 ;;
 
             *)
-		if [ ${ft_supplied} -eq 1 ]; then
-		    ft_supplied=0
+		            if [ ${ft_supplied} -eq 1 ]; then
+		                ft_supplied=0
 
                     local find_command="find ${directory}"
                     [ -n "${recursive}" ] && find_command+=" -name '*'"
@@ -77,7 +77,7 @@ loc() {
                         return 1
                     fi
                 fi
-		shift
+		            shift
                 ;;
         esac
     done
@@ -88,7 +88,7 @@ loc() {
     fi
 
     if [ -z "${exclude_filetypes}" ] || ! [[ " ${exclude_filetypes[@]} " =~ " ${1} " ]]; then
-	local lines
+	      local lines
         while IFS= read -r file; do
             lines=$(wc -l < "${file}")
             total_lines=$((total_lines + lines))
@@ -97,11 +97,11 @@ loc() {
             filename_length=${#file}
             [ "${filename_length}" -gt "${max_filename_length}" ] && max_filename_length=${filename_length}
         done < <(eval "${find_command}")
-	unset file
+	      unset file
     fi
 
     for ((i = 0; i < ${#filenames[@]}; i++)); do
-	    printf "$(bd_ansi fg_blue1)%-${max_filename_length}s  $(bd_ansi fg_yellow3)%d\n$(bd_ansi reset)" "${filenames[i]}" "${line_counts[i]}"
+	      printf "$(bd_ansi fg_blue1)%-${max_filename_length}s  $(bd_ansi fg_yellow3)%d\n$(bd_ansi reset)" "${filenames[i]}" "${line_counts[i]}"
     done
 
     printf "Total Lines:\t$(bd_ansi fg_yellow3)%d\n$(bd_ansi reset)" "${total_lines}"
