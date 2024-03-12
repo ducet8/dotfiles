@@ -1,8 +1,12 @@
 # vim: ft=sh
-# 2023.12.01 - ducet8@outlook.com
+# 2024.03.12 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
+fi
+
+if ! type -P git &>/dev/null; then
+    return 1
 fi
 
 git-renew() {
