@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.12.15 - ducet8@outlook.com
+# 2024.03.13 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -44,6 +44,7 @@ fi
 # az Aliases
 ##
 alias az_aks_creds="az aks list | jq '.[] | \"az aks get-credentials --name \(.name) --resource-group \(.resourceGroup)\"' | sed -e 's/\"//g'"
+alias az_vault_ip='for name in $(az keyvault list --query "[].name" --output tsv); do az keyvault network-rule add --ip $(ip) --name "$name" | jq; done'
 
 
 alias bell="echo -e '\a'"
