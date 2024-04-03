@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.03.12 - ducet8@outlook.com
+# 2024.04.03 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
@@ -86,7 +86,7 @@ hq() {
                 fi
                 ;;
             *)
-                printf "INVALID OPTION: '${{1}'\n\n"
+                printf "INVALID OPTION: '${1}'\n\n"
                 print_help
                 return 1
                 ;;
