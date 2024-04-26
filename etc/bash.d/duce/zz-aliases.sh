@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.03.13 - ducet8@outlook.com
+# 2024.04.26 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -51,6 +51,7 @@ alias bell="echo -e '\a'"
 alias binds="bind -P | grep 'can be'"
 alias container_me="echo 'alias ll=\"ls -l\"; export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
 alias container_ps1="echo 'export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
+alias c_me="container_me | pbcopy"
 
 
 ##
