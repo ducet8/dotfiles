@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.07.26 - ducet8@outlook.com
+# 2024.06.03 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
@@ -9,4 +9,5 @@ if ! type -P brew &>/dev/null && ! type -P $(brew --prefix)/opt/gnu-sed/libexec/
     return 0
 fi
 
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+#export PATH="/opt/homebrew/Cellar/gnu-sed/4.9/bin:$PATH"
+export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
