@@ -106,5 +106,4 @@ venv.bak/
 
 .DS_Store
 
-etc/bash.d/.bd
 etc/bash.d/duce/*local*
