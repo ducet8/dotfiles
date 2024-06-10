@@ -53,7 +53,7 @@ diff-last(){
                     shift
                 else
                     echo 'Error: -f flag requires a history number argument.'
-                    exit 1
+                    return 1
                 fi
                 ;;
             -l|--last)
@@ -63,17 +63,17 @@ diff-last(){
                     shift
                 else
                     echo 'Error: -l flag requires a history number argument.'
-                    exit 1
+                    return 1
                 fi
                 ;;
             -h|--help)
                 print_help
-                exit 0
+                return 0
                 ;;
             *)
                 echo 'Invalid option' && echo
                 print_help
-                exit 1
+                return 1
                 ;;
         esac
     done
