@@ -1,4 +1,4 @@
--- 2022.08.18 - ducet8@outlook.com
+-- 2024.06.12 - ducet8@outlook.com
 
 local status_ok, indent_blankline = pcall(require, "indent_blankline")
 if not status_ok then
@@ -59,14 +59,9 @@ vim.wo.colorcolumn = "99999"
 -- vim.opt.listchars:append "space:"
 -- vim.opt.listchars:append "eol:↴"
 
-indent_blankline.setup({
-	-- show_end_of_line = true,
-	-- space_char_blankline = " ",
-	show_current_context = true,
-	-- show_current_context_start = true,
-	-- char_highlight_list = {
-	--   "IndentBlanklineIndent1",
-	--   "IndentBlanklineIndent2",
-	--   "IndentBlanklineIndent3",
-	-- },
-})
+require("ibl").setup()
+
+--version 2 init
+--indent_blankline.setup({
+	--show_current_context = true,
+--})
