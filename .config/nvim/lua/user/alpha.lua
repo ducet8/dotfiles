@@ -1,4 +1,4 @@
--- 2022.08.18 - ducet8@outlook.com
+-- 2024.06.12 - ducet8@outlook.com
 
 local status_ok, alpha = pcall(require, "alpha")
 if not status_ok then
@@ -30,7 +30,8 @@ local function footer()
 	-- local fortune = handle:read("*a")
 	-- handle:close()
 	-- return fortune
-	return "chrisatmachine.com"
+	--return "chrisatmachine.com"
+  return os.getenv("USER") .. "@" .. vim.fn.hostname()
 end
 
 dashboard.section.footer.val = footer()
