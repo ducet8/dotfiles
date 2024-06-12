@@ -113,7 +113,7 @@ ssh_ed_c:  ## Sets up the authorized_keys
 
 
 .PHONY: ssh_ed_cb
-ssh_ed_c:b  ## Sets up the authorized_keys
+ssh_ed_cb:  ## Sets up the authorized_keys
 	@mkdir -p $(HOMEDIR)/.ssh
 	@echo $(AUTH_KEY_ED_CB) >> $(HOMEDIR)/.ssh/authorized_keys
 	@sort -u $(HOMEDIR)/.ssh/authorized_keys -o $(HOMEDIR)/.ssh/authorized_keys
