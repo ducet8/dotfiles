@@ -1,4 +1,4 @@
--- 2023.01.11 - ducet8@outlook.com
+-- 2024.06.12 - ducet8@outlook.com
 
 local status_ok, configs = pcall(require, "nvim-treesitter.configs")
 if not status_ok then
@@ -26,7 +26,6 @@ configs.setup {
     disable = { "" }
   },
   context_commentstring = {
-    enable = true,
     enable_autocmd = false,
   },
   rainbow = {

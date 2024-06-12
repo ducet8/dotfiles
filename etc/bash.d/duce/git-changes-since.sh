@@ -1,12 +1,12 @@
 # vim: ft=sh
-# 2024.05.15 - ducet8@outlook.com
+# 2024.06.10 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
 fi
 
 if ! type -P git &>/dev/null; then
-    return 1
+    return 0
 fi
 
 git-changes-since() {
@@ -28,7 +28,7 @@ git-changes-since() {
             bd_ansi fg_blue1
             printf "\t[DATE]"
             bd_ansi reset
-            printf "        Date to search from (YYYY-MM-DD|MM/DD/YYYY|X days ago)"
+            printf "        Date to search from (YYYY-MM-DD|MM/DD/YYYY|X days ago)\n"
             bd_ansi fg_yellow3
             printf "OPTIONS:\n"
             bd_ansi fg_blue1
@@ -40,7 +40,7 @@ git-changes-since() {
             printf "git-changes-since\t${git_changes_since_version}\n"
             printf "Display the unique files that have changed since the supplied date\n\n"
             printf "ARGUMENTS:\n"
-            printf "\t[DATE]        Date to search from (YYYY-MM-DD|MM/DD/YYYY|X days ago)"
+            printf "\t[DATE]        Date to search from (YYYY-MM-DD|MM/DD/YYYY|X days ago)\n"
             printf "USAGE:\n"
             printf "\tgit-changes-since [OPTIONS]\n"
             printf "OPTIONS:\n"

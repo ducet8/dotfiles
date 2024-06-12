@@ -1,4 +1,4 @@
--- 2022.11.28 - ducet8@outlook.com
+-- 2024.06.12 - ducet8@outlook.com
 
 local fn = vim.fn
 
@@ -50,7 +50,11 @@ return packer.startup(function(use)
   use "numToStr/Comment.nvim" -- Easily comment stuff
   use "kyazdani42/nvim-web-devicons"
   use "kyazdani42/nvim-tree.lua"
-  use "akinsho/bufferline.nvim"
+  use { 
+    "akinsho/bufferline.nvim",
+    branch = "main",
+    requires = "nvim-tree/nvim-web-devicons"
+  }
   use "moll/vim-bbye"
   use "nvim-lualine/lualine.nvim"
   use "akinsho/toggleterm.nvim"
