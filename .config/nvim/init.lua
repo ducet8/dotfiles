@@ -1,6 +1,8 @@
--- 2023.01.11 - ducet8@outlook.com
-
+-- 2024.06.12 - ducet8@outlook.com
 -- https://github.com/LunarVim/Neovim-from-scratch
+
+-- Require plugins first in case some plugins do not yet exist locally
+require "user.plugins"
 require "user.alpha"
 require "user.autocommands"
 require "user.autopairs"
@@ -17,7 +19,6 @@ require "user.lsp"
 require "user.lualine"
 require "user.nvim-tree"
 require "user.options"
-require "user.plugins"
 require "user.project"
 require "user.telescope"
 require "user.treesitter"
