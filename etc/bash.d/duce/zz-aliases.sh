@@ -109,6 +109,10 @@ if type -P git &>/dev/null; then
     # alias ggpush="git push origin $(command git name-rev --name-only --no-undefined --always HEAD)"
     alias ghash='git log -1 --format="%h"'
     alias gi='echo "Latest commit hash: " $(git log -1 --format="%h") && echo "Latest git release tag: " $(git describe --tags --abbrev=0)'
+    alias gir='echo "Latest local commit hash:" $(git log -1 --format="%h") \
+      && echo "Latest local git release tag: " $(git describe --tags --abbrev=0) \
+      && echo "Latest remote commit hash:" $(git log -1 --format="%h" --remotes=origin) \
+      && echo "Latest remote release tag:" $(git ls-remote --tags --sort=-v:refname origin | grep -v "\^" | grep "main-v" | awk '"'"'{print $2}'"'"' | awk -F/ '"'"'{print $3}'"'"' | head -1)'
     alias gl='git pull'
     alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
     alias gm='git merge'
