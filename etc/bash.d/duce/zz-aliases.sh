@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.04.26 - ducet8@outlook.com
+# 2024.06.27 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -107,6 +107,7 @@ if type -P git &>/dev/null; then
     alias gcam='git commit -am'
     alias gco='git checkout'
     # alias ggpush="git push origin $(command git name-rev --name-only --no-undefined --always HEAD)"
+    alias ghash='git log -1 --format="%h"'
     alias gl='git pull'
     alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
     alias gm='git merge'
