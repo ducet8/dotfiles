@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.04.26 - ducet8@outlook.com
+# 2024.08.02 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -38,13 +38,6 @@ if [[ ${BD_OS,,} == 'darwin' ]]; then
     alias showdesktop='defaults write com.apple.finder CreateDesktop -bool true && killfinder'
     alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killfinder'
 fi
-
-
-##
-# az Aliases
-##
-alias az_aks_creds="az aks list | jq '.[] | \"az aks get-credentials --name \(.name) --resource-group \(.resourceGroup)\"' | sed -e 's/\"//g'"
-alias az_vault_ip='for name in $(az keyvault list --query "[].name" --output tsv); do az keyvault network-rule add --ip $(myip) --name "$name" | jq; done'
 
 
 alias bell="echo -e '\a'"
@@ -107,8 +100,9 @@ if type -P git &>/dev/null; then
     alias gcam='git commit -am'
     alias gco='git checkout'
     # alias ggpush="git push origin $(command git name-rev --name-only --no-undefined --always HEAD)"
-    alias gl='git pull'
+    alias ghash='git log -1 --format="%h"'
     alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
+    alias gtree='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
     alias gm='git merge'
     alias gp='git push'
     alias git-personal='git config user.name "Duce Tate" && git config user.email "ducet8@outlook.com"'

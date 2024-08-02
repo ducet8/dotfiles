@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.06.10 - ducet8@outlook.com
+# 2024.06.27 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
@@ -39,10 +39,10 @@ git-changes-since() {
         else
             printf "git-changes-since\t${git_changes_since_version}\n"
             printf "Display the unique files that have changed since the supplied date\n\n"
+            printf "USAGE:\n"
+            printf "\tgit-changes-since [OPTIONS] [ARGUMENTS]\n"
             printf "ARGUMENTS:\n"
             printf "\t[DATE]        Date to search from (YYYY-MM-DD|MM/DD/YYYY|X days ago)\n"
-            printf "USAGE:\n"
-            printf "\tgit-changes-since [OPTIONS]\n"
             printf "OPTIONS:\n"
             printf "\t-h|--help     Show this help message and exit\n"
         fi
