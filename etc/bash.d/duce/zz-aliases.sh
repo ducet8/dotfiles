@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.06.27 - ducet8@outlook.com
+# 2024.08.02 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -38,13 +38,6 @@ if [[ ${BD_OS,,} == 'darwin' ]]; then
     alias showdesktop='defaults write com.apple.finder CreateDesktop -bool true && killfinder'
     alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killfinder'
 fi
-
-
-##
-# az Aliases
-##
-alias az_aks_creds="az aks list | jq '.[] | \"az aks get-credentials --name \(.name) --resource-group \(.resourceGroup)\"' | sed -e 's/\"//g'"
-alias az_vault_ip='for name in $(az keyvault list --query "[].name" --output tsv); do az keyvault network-rule add --ip $(myip) --name "$name" | jq; done'
 
 
 alias bell="echo -e '\a'"
