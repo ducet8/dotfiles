@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.03.08 - ducet8@outlook.com
+# 2024.08.02 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -175,15 +175,21 @@ if [ "${TERM}" != "${TPUT_TERM}" ] || [ ${#TPUT_TERM} -eq 0 ]; then
 fi
 
 ##
+# Uname Exports
+##
+export Uname_I=$(uname -i 2> /dev/null)
+
+##
 # Weather (WTTR) Exports
 ##
 export WTTR_PARAMS=Fu
 export WTTR_LOCATION=35209
 
 ##
-# Uname Exports
+# Work Exports
 ##
-export Uname_I=$(uname -i 2> /dev/null)
+export LD_AZURE_DEV_SUB_ID="f60babca-e1aa-4d01-9b4e-8c0ece828a1a"
+export LD_AZURE_PROD_SUB_ID="efe25833-7fd6-4958-af0e-520f85156d10"
 
 ##
 # Local Exports
