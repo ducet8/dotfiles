@@ -1,4 +1,4 @@
--- 2022.08.18 - ducet8@outlook.com
+-- 2024.08.02 - ducet8@outlook.com
 
 local status_ok, which_key = pcall(require, "which-key")
 if not status_ok then
