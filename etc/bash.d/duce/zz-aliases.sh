@@ -192,3 +192,10 @@ alias ssho='ssh -o IdentitiesOnly=yes'
 if type -P systemctl &>/dev/null; then
     alias sc='systemctl'
 fi
+
+##
+# Local Aliases
+##
+if  [[ -r ${HOME}/.local-aliases.sh ]] && [[ -f ${HOME}/.local-aliases.sh ]]; then
+    source ${HOME}/.local-aliases.sh
+fi

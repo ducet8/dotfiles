@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.08.02 - ducet8@outlook.com
+# 2024.08.12 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -194,6 +194,6 @@ export LD_AZURE_PROD_SUB_ID="efe25833-7fd6-4958-af0e-520f85156d10"
 ##
 # Local Exports
 ##
-if  [[ -r ${HOME}/exports_local ]] && [[ -f ${HOME}/exports_local ]]; then
-    source ${HOME}/exports_local
+if  [[ -r ${HOME}/.local-exports.sh ]] && [[ -f ${HOME}/.local-exports.sh ]]; then
+    source ${HOME}/.local-exports.sh
 fi
