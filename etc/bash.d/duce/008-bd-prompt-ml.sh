@@ -18,11 +18,22 @@ bash_prompt() {
 
             local bash_prompt_window_title=''
             bash_prompt_window_title+="${USER}@"
-            # TODO: Alter if connection is SSH
-            bash_prompt_window_title+="${HOSTNAME}"
-            bash_prompt_window_title+=":${PWD}"
+            if [ -z ${SSH_TTY} ]; then
+                bash_prompt_window_title+="local"
+            else
+                bash_prompt_window_title+="${HOSTNAME^^}"
+            fi
 
-            echo -ne "\[\e]0;${bash_prompt_window_title}\a\]" # e = 033 (ESC), a = 007 (BEL)
+            local path=${PWD/#$HOME/\~}  # Replace $HOME with ~
+            if [ ${#path} -le 30 ]; then
+                bash_prompt_window_title+=":${path}"
+            else
+                local truncated="...${path: -27}"
+                local remaining_path="${truncated#*/}"
+                bash_prompt_window_title+=":->/${remaining_path}"
+            fi
+
+            echo -ne "\e]0;${bash_prompt_window_title}\a" # e = 033 (ESC), a = 007 (BEL)
             ;;
         *)
             echo "TERM=${TERM}"
