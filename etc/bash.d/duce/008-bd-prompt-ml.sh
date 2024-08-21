@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2023.11.01 - ducet8@outlook.com
+# 2024.08.21 - ducet8@outlook.com
 
 ##
 # machine learning prompt 0.3
@@ -18,10 +18,11 @@ bash_prompt() {
 
             local bash_prompt_window_title=''
             bash_prompt_window_title+="${USER}@"
+            # TODO: Alter if connection is SSH
             bash_prompt_window_title+="${HOSTNAME}"
             bash_prompt_window_title+=":${PWD}"
 
-            echo -ne "\e]0;${bash_prompt_window_title}\a" # e = 033 (ESC), a = 007 (BEL)
+            echo -ne "\[\e]0;${bash_prompt_window_title}\a\]" # e = 033 (ESC), a = 007 (BEL)
             ;;
         *)
             echo "TERM=${TERM}"
@@ -88,16 +89,16 @@ bash_prompt() {
 
         # Uncommitted changes
         if [ $(git status --porcelain | wc -l) -ne 0 ]; then
-            bash_prompt_glyphs+="$(bd_ansi fg_magenta1)${git_glyph}$(bd_ansi reset)"
+            bash_prompt_glyphs+="\[$(bd_ansi fg_magenta1)\]${git_glyph}\[$(bd_ansi reset)\]"
         # Unpushed changes
         elif [ $(git log @{u}.. | wc -l) -ne 0 ]; then
-            bash_prompt_glyphs+="$(bd_ansi fg_yellow1)${git_glyph}$(bd_ansi reset)"
+            bash_prompt_glyphs+="\[$(bd_ansi fg_yellow1)\]${git_glyph}\[$(bd_ansi reset)\]"
         # Committed and pushed
         elif [ $(git status --porcelain | wc -l) -eq 0 ] && [ $(git log @{u}.. | wc -l) -eq 0 ]; then
-            bash_prompt_glyphs+="$(bd_ansi fg_green1)${git_glyph}$(bd_ansi reset)"
+            bash_prompt_glyphs+="\[$(bd_ansi fg_green1)\]${git_glyph}\[$(bd_ansi reset)\]"
         # Unknown
         else
-            bash_prompt_glyphs+="$(bd_ansi reset)${git_glyph}"
+            bash_prompt_glyphs+="\[$(bd_ansi reset)\]${git_glyph}"
         fi
     fi
 
