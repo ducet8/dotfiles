@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.08.02 - ducet8@outlook.com
+# 2024.09.12 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -39,6 +39,8 @@ if [[ ${BD_OS,,} == 'darwin' ]]; then
     alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killfinder'
 fi
 
+alias :{q,wq,x}{,!}='echo "This is $SHELL:t and not Vi(m)" && sleep 2 && exit'
+alias :w{,!}='history -a'
 
 alias bell="echo -e '\a'"
 alias binds="bind -P | grep 'can be'"
@@ -102,6 +104,7 @@ if type -P git &>/dev/null; then
     # alias ggpush="git push origin $(command git name-rev --name-only --no-undefined --always HEAD)"
     alias ghash='git log -1 --format="%h"'
     alias glog='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
+    # git log --graph --decorate --oneline --all --topo-order
     alias gtree='git log --pretty=format:"%an - %ar -- %h -- %s" --graph'
     alias gm='git merge'
     alias gp='git push'
