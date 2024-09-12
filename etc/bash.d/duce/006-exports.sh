@@ -5,7 +5,7 @@
 # Bash Exports
 ##
 if [[ ${BD_OS,,} == "darwin" ]]; then
-    export SHELL=/usr/local/bin/bash  # Brew's bash
+    export SHELL=/opt/homebrew/bin/bash  # Brew's bash
     export BASH_SILENCE_DEPRECATION_WARNING=1  # hide macos' 'default shell is now ZSH message on root login'
 else
     export SHELL=$(which bash)
@@ -66,9 +66,9 @@ fi
 # Go Exports
 ##
 if [[ ${BD_OS,,} == "darwin" ]]; then
-    export SHELL=/usr/local/bin/bash
+    export SHELL=/opt/homebrew/bin/bash  # Brew's bash
     export GOPATH=${HOME}/projects/go
-    export GOROOT=/usr/local/opt/go/libexec
+    export GOROOT=/usr/local/opt/go/libexec  # TODO: Verify this
     export PATH=${PATH}:${GOROOT}/bin
 else
     export GOPATH=${HOME}/go
@@ -92,7 +92,7 @@ export QT_DEVICE_PIXEL_RATIO=2
 ##
 export HISTSIZE=50000000;
 export HISTFILESIZE=${HISTSIZE};
-export HISTIGNORE=" *:ls:cd:cd -:cd ~:pwd:exit:date:* --help:* -h:clear:man *:df -*:history *";
+export HISTIGNORE=" *:ls:ll:ll *:la:la *:cd:cd -:cd ~:pwd:exit:date:* --help:* -h:clear:man *:df -*:history *:systemctl status *:git push:git pull:git status:brew list*:docker ps:punch *:tc -*:fat *";
 export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT="[%Y-%m-%d %H:%M:%S] "
 
