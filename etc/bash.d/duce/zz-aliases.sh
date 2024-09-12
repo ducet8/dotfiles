@@ -39,7 +39,7 @@ if [[ ${BD_OS,,} == 'darwin' ]]; then
     alias hidedesktop='defaults write com.apple.finder CreateDesktop -bool false && killfinder'
 fi
 
-alias :{q,wq,x}{,!}='echo "This is $SHELL:t and not Vi(m)" && sleep 2 && exit'
+alias :{q,wq,x}{,!}='printf "This is ${SHELL}:\t and not Vi(m)\n" && sleep 2 && exit'
 alias :w{,!}='history -a'
 
 alias bell="echo -e '\a'"
