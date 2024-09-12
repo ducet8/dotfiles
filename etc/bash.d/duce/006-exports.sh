@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.08.12 - ducet8@outlook.com
+# 2024.09.12 - ducet8@outlook.com
 
 ##
 # Bash Exports
