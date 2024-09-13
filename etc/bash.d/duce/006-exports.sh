@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.09.12 - ducet8@outlook.com
+# 2024.09.13 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -90,9 +90,9 @@ export QT_DEVICE_PIXEL_RATIO=2
 ##
 # History Exports
 ##
-export HISTSIZE=50000000;
-export HISTFILESIZE=${HISTSIZE};
-export HISTIGNORE=" *:ls:ll:ll *:la:la *:cd:cd -:cd ~:pwd:exit:date:* --help:* -h:clear:man *:df -*:history *:systemctl status *:git push:git pull:git status:brew list*:docker ps:punch *:tc -*:fat *";
+export HISTSIZE=50000000
+export HISTFILESIZE=${HISTSIZE}
+export HISTIGNORE=' *:* --help:* -h:man *:\:q:\:w:\:wq:\:x:brew list*:brew update*:brew upgrade*:cd:cd -:cd ~:clear:date:df -*:docker ps:exit:fat *:git pull:git push:git status:history:history *:ls:ll:ll *:la:la *:me:punch *:tc -*:pwd:systemctl status *:_dummy_pattern_to_avoid_last_pattern_bug_'
 export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT="[%Y-%m-%d %H:%M:%S] "
 
