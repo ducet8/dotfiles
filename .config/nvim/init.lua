@@ -1,26 +1,14 @@
--- 2024.06.12 - ducet8@outlook.com
+-- 2024.10.02 - ducet8@outlook.com
 -- https://github.com/LunarVim/Neovim-from-scratch
 
 -- Require plugins first in case some plugins do not yet exist locally
-require "user.plugins"
-require "user.alpha"
+require("user.lazy")
 require "user.autocommands"
-require "user.autopairs"
-require "user.bufferline"
 require "user.colorscheme"
-require "user.comment"
 require "user.cmp"
-require "user.ft_indents"
-require "user.gitsigns"
-require "user.impatient"
-require "user.indentline"
-require "user.keymaps"
-require "user.lsp"
-require "user.lualine"
-require "user.nvim-tree"
-require "user.options"
-require "user.project"
-require "user.telescope"
-require "user.treesitter"
-require "user.toggleterm"
-require "user.whichkey"
+--require "user.ft_indents"
+--require "user.indentline"
+--require "user.keymaps"
+--require "user.lsp"
+--require "user.options"
+--require "user.project"

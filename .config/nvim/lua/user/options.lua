@@ -1,4 +1,4 @@
--- 2023.01.13 - ducet8@outlook.com
+-- 2024.10.03 - ducet8@outlook.com
 
 local options = {
   clipboard = "unnamedplus",               -- allows neovim to access the system clipboard
@@ -10,6 +10,7 @@ local options = {
   guifont = "monospace:h17",               -- the font used in graphical neovim applications
   hlsearch = true,                         -- highlight all matches on previous search pattern
   ignorecase = true,                       -- ignore case in search patterns
+  lazyvim_picker = "telescope",
   mouse = "a",                             -- allow the mouse to be used in neovim
   number = true,                           -- set numbered lines
   pumheight = 10,                          -- pop up menu height
