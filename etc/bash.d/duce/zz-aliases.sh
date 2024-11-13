@@ -47,6 +47,7 @@ alias binds="bind -P | grep 'can be'"
 alias container_me="echo 'alias ll=\"ls -l\"; export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
 alias container_ps1="echo 'export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
 alias c_me="container_me | pbcopy"
+# iTerm2 hotkey: alias ll="ls -l"; export PS1="\\[\\e[1;35m\\]\\w \\[\\e[1;33m\\]$ \\[\\e[0m\\]"\n
 
 
 ##
