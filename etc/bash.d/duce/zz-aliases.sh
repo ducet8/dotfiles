@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.09.12 - ducet8@outlook.com
+# 2025.04.25 - ducet8@outlook.com
 
 ##
 # Opener Aliases
