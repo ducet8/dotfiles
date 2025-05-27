@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2025.04.25 - ducet8@outlook.com
+# 2025.05.27 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -41,7 +41,7 @@ fi
 
 alias :{wq,x}{,!}='printf "This is ${SHELL}:\t and not Vi(m)\n" && sleep 1 && exit'
 alias :q{,!}='printf "This is ${SHELL}:\t and not Vi(m)\n\nNOT SAVING HISTORY\n" && export HISTSIZE=0 && unset HISTSIZE && history -c && sleep 2 && exit'
-alias :w{,!}='history -a'
+alias :w{,!}='history -a && printf "History written\n\n"'
 
 alias bell="echo -e '\a'"
 alias binds="bind -P | grep 'can be'"
