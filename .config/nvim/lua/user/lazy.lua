@@ -1,4 +1,4 @@
--- 2024.10.03 - ducet8@outlook.com
+-- 2025.05.27 - ducet8@outlook.com
 
 local fn = vim.fn
 
@@ -26,16 +26,28 @@ vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
   spec = {
-    { 
-      "LazyVim/LazyVim", 
-      opts = { 
-        defaults = { 
-          leader = false 
-        }, 
-        colorscheme = "gruvbox" 
-      },
-      dependencies = { "ellisonleao/gruvbox.nvim" }
-    },
+    -- Import all plugins from user.plugins
     { import = "user.plugins" },
+  },
+  defaults = {
+    lazy = false, -- should plugins be lazy-loaded?
+    version = false, -- always use the latest git commit
+  },
+  install = { colorscheme = { "gruvbox", "habamax" } },
+  checker = { enabled = true }, -- automatically check for plugin updates
+  performance = {
+    rtp = {
+      -- disable some rtp plugins
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
   },
 })

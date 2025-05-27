@@ -1,4 +1,4 @@
--- 2024.10.02 - ducet8@outlook.com
+-- 2025.05.27 - ducet8@outlook.com
 -- https://github.com/nvim-telescope/telescope.nvim
 
 -- Bugfix for: https://github.com/neovim/neovim/issues/29900
@@ -11,10 +11,10 @@ return {
     {
       "nvim-telescope/telescope-live-grep-args.nvim",
       event = "VeryLazy",
-      config = function(_, _)
-        require("lazyvim.util").on_load("telescope.nvim", function()
-          require("telescope").load_extension("live_grep_args")
-        end)
+      config = function()
+        -- Load the extension after telescope is loaded
+        local telescope = require("telescope")
+        telescope.load_extension("live_grep_args")
       end,
       keys = { { "<leader>/", ":Telescope live_grep_args<CR>", desc = "Live Grep" } },
     },
