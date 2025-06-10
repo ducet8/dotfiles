@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2024.08.21 - ducet8@outlook.com
+# 2025.06.10 - ducet8@outlook.com
 
 ##
 # machine learning prompt 0.3
@@ -72,7 +72,7 @@ bash_prompt() {
         [ -z ${SSH_TTY} ] && bash_prompt_ps1+="\[$(bd_ansi fg_gray3)\]" || bash_prompt_ps1+="\[$(bd_ansi fg_green3)\]"
     fi
 
-    bash_prompt_ps1+="\H"
+    bash_prompt_ps1+="\h"
 
     if [ ${bash_prompt_color_term} -eq 1 ]; then
         bash_prompt_ps1+="\[$(bash_prompt_color 1)\]"
@@ -94,9 +94,8 @@ bash_prompt() {
 
     # glyph: git is detected
     if $(git rev-parse --is-inside-work-tree 2>/dev/null); then
-        # bash_prompt_glyphs+='♬ '
-        # bash_prompt_glyphs+='♪'
-        local git_glyph='♪'
+        local git_glyph='◆'
+        local git_glyph_unknown='◇'
 
         # Uncommitted changes
         if [ $(git status --porcelain | wc -l) -ne 0 ]; then
@@ -109,7 +108,7 @@ bash_prompt() {
             bash_prompt_glyphs+="\[$(bd_ansi fg_green1)\]${git_glyph}\[$(bd_ansi reset)\]"
         # Unknown
         else
-            bash_prompt_glyphs+="\[$(bd_ansi reset)\]${git_glyph}"
+            bash_prompt_glyphs+="\[$(bd_ansi reset)\]${git_glyph_unknown}"
         fi
     fi
 

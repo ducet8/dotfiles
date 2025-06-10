@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.09.13 - ducet8@outlook.com
+# 2025.06.10 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -95,7 +95,9 @@ export HISTIGNORE=' *:* --help:* -h:man *:\:q:\:w:\:wq:\:x:brew list*:brew updat
 export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT="[%Y-%m-%d %H:%M:%S] "
 
-export TZ="America/Chicago"
+if [[ ${BD_OS,,} == 'darwin' ]];  then
+  export HOSTNAME="$(scutil --get LocalHostName)"
+fi
 
 ##
 # Language Exports - Prefer US English and use UTF-8
@@ -172,6 +174,8 @@ if [ "${TERM}" != "${TPUT_TERM}" ] || [ ${#TPUT_TERM} -eq 0 ]; then
     export TPUT_BOLD="$(tput bold 2>/dev/null)"
   fi
 fi
+
+export TZ="America/Chicago"
 
 ##
 # Uname Exports
