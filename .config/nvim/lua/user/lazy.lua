@@ -1,4 +1,4 @@
--- 2025.05.27 - ducet8@outlook.com
+-- 2025.06.10 - ducet8@outlook.com
 
 local fn = vim.fn
 
@@ -34,7 +34,13 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
   },
   install = { colorscheme = { "gruvbox", "habamax" } },
-  checker = { enabled = true }, -- automatically check for plugin updates
+  checker = {
+    enabled = true, -- automatically check for plugin updates
+    notify = false, -- This disables the annoying notification
+  },
+  change_detection = {
+    notify = false,  -- This disables file change notifications
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins
