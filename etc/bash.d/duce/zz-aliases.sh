@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2025.05.27 - ducet8@outlook.com
+# 2025.07.09 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -43,6 +43,7 @@ alias :{wq,x}{,!}='printf "This is ${SHELL}:\t and not Vi(m)\n" && sleep 1 && ex
 alias :q{,!}='printf "This is ${SHELL}:\t and not Vi(m)\n\nNOT SAVING HISTORY\n" && export HISTSIZE=0 && unset HISTSIZE && history -c && sleep 2 && exit'
 alias :w{,!}='history -a && printf "History written\n\n"'
 
+alias az-billing='az billing invoice list --period-start-date "$(date -j -v-3m -u '+%Y-%m-01')" --period-end-date "$(date -j -u '+%Y-%m-01')" --account-name "48cd6316-f61e-5fe4-0db1-e3f206991022:8ef0e3b9-f05c-4335-8fb8-dbffca8fab0a_2019-05-31" --query "[].{Invoice:name, Status:status, InvoiceDate:invoiceDate, DueDate:dueDate, PeriodStart:invoicePeriodStartDate, PeriodEnd:invoicePeriodEndDate}" -o table'
 alias bell="echo -e '\a'"
 alias binds="bind -P | grep 'can be'"
 alias container_me="echo 'alias ll=\"ls -l\"; export PS1=\"\[\e[1;35m\]\w \[\e[1;33m\]$ \[\e[0m\]\"'"
