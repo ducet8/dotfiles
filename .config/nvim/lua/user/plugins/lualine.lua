@@ -60,6 +60,15 @@ local spaces = function()
   return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 end
 
+-- IDE mode indicator function
+local ide_mode = function()
+  local ok, ide = pcall(require, "user.ide")
+  if ok then
+    return ide.get_mode_indicator()
+  end
+  return "󰅂 MIN"
+end
+
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -77,7 +86,7 @@ return {
         lualine_a = { branch, diagnostics },
         lualine_b = { mode },
         lualine_c = {},
-        lualine_x = { diff, spaces, "encoding", filetype },
+        lualine_x = { diff, spaces, "encoding", filetype, ide_mode },
         lualine_y = { location },
         lualine_z = { progress },
       },

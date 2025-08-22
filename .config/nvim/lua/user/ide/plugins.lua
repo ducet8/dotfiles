@@ -1,90 +1,62 @@
--- 2024.10.03 - ducet8@outlook.com
--- Enhanced with IDE mode conditional loading - 2025.01.08
-
--- IDE plugins are lazy-loaded and activated via :ide command
--- No conditional loading needed - all IDE plugins start as lazy = true
+-- IDE Mode Plugins
+-- 2025.01.08 - Enhanced IDE plugin configuration for dynamic loading
+-- These plugins are loaded only when :ide command is executed
 
 return {
-  -- Core plugins (always loaded)
-  "nvim-lua/popup.nvim", -- An implementation of the Popup API from vim in Neovim
-  "kyazdani42/nvim-web-devicons",
-  "moll/vim-bbye",
-  "lukas-reineke/indent-blankline.nvim",
-  "antoinemadec/FixCursorHold.nvim", -- This is needed to fix lsp doc highlight
-
-  -- Colorschemes
-  "lunarvim/darkplus.nvim",
-  "ellisonleao/gruvbox.nvim",
-
-  -- cmp plugins (always loaded for basic completion)
-  "hrsh7th/nvim-cmp", -- The completion plugin
-  "hrsh7th/cmp-buffer", -- buffer completions
-  "hrsh7th/cmp-path", -- path completions
-  "hrsh7th/cmp-cmdline", -- cmdline completions
-  "saadparwaiz1/cmp_luasnip", -- snippet completions
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-nvim-lua",
-
-  -- Basic snippets (always loaded)
-  "L3MON4D3/LuaSnip", --snippet engine
-  "rafamadriz/friendly-snippets", -- a bunch of snippets to use
-
-  -- Basic LSP (always loaded)
-  "neovim/nvim-lspconfig", -- enable LSP
-  "williamboman/mason.nvim", -- simple to use language server installer
-  "williamboman/mason-lspconfig.nvim", -- simple to use language server installer
-  
-  -- Basic treesitter
-  "p00f/nvim-ts-rainbow",
-  "JoosepAlviste/nvim-ts-context-commentstring",
-
-  -- Utility
-  "ojroques/vim-oscyank",
-
-  -- IDE MODE PLUGINS (lazy-loaded, activated via :ide command)
-  
   -- Enhanced LSP and Language Support
   {
-    "tamago324/nlsp-settings.nvim",
-    lazy = true,
-  },
-  {
-    "nvimtools/none-ls.nvim",
-    lazy = true,
-  },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    lazy = true,
-  },
-  {
-    "b0o/schemastore.nvim",
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "jay-babu/mason-null-ls.nvim",
+      "jose-elias-alvarez/null-ls.nvim",
+    },
     lazy = true,
   },
 
-  -- Project Management
+  -- Advanced Language Servers for your tech stack
   {
-    "ahmedkhalf/project.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
+      ensure_installed = {
+        -- Python
+        "pyright",
+        "pylsp",
+        -- Shell
+        "bashls",
+        -- YAML
+        "yamlls",
+        -- JSON
+        "jsonls",
+        -- Terraform
+        "terraformls",
+        "tflint",
+        -- Markdown
+        "marksman",
+        -- JavaScript/TypeScript
+        "tsserver",
+        "eslint",
+        -- Lua (for nvim config)
+        "lua_ls",
+      },
+    },
     lazy = true,
-    config = function()
-      require("project_nvim").setup({
-        detection_methods = { "lsp", "pattern" },
-        patterns = { ".git", "Makefile", "package.json", "requirements.txt", "Cargo.toml", "go.mod" },
-        exclude_dirs = { "*/node_modules/*" },
-      })
-    end,
   },
 
   -- Debugging Support
   {
     "mfussenegger/nvim-dap",
-    lazy = true,
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
+      -- Python debugging
       "mfussenegger/nvim-dap-python",
+      -- JavaScript/Node debugging  
       "mxsdev/nvim-dap-vscode-js",
     },
+    lazy = true,
   },
 
   -- Enhanced Git Integration
@@ -94,12 +66,11 @@ return {
   },
   {
     "sindrets/diffview.nvim",
-    lazy = true,
     dependencies = "nvim-lua/plenary.nvim",
+    lazy = true,
   },
   {
     "lewis6991/gitsigns.nvim",
-    lazy = true,
     config = function()
       require("gitsigns").setup({
         signs = {
@@ -116,12 +87,25 @@ return {
         },
       })
     end,
+    lazy = true,
+  },
+
+  -- Project Management
+  {
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("project_nvim").setup({
+        detection_methods = { "lsp", "pattern" },
+        patterns = { ".git", "Makefile", "package.json", "requirements.txt", "Cargo.toml", "go.mod" },
+        exclude_dirs = { "*/node_modules/*" },
+      })
+    end,
+    lazy = true,
   },
 
   -- Code Navigation and Diagnostics
   {
     "folke/trouble.nvim",
-    lazy = true,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("trouble").setup({
@@ -131,12 +115,12 @@ return {
         use_diagnostic_signs = true,
       })
     end,
+    lazy = true,
   },
 
   -- Code Refactoring
   {
     "ThePrimeagen/refactoring.nvim",
-    lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -144,18 +128,21 @@ return {
     config = function()
       require("refactoring").setup()
     end,
+    lazy = true,
   },
 
   -- Testing Framework
   {
     "nvim-neotest/neotest",
-    lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
+      -- Python testing
       "nvim-neotest/neotest-python",
+      -- JavaScript testing
       "nvim-neotest/neotest-jest",
+      -- Shell testing  
       "rcasia/neotest-bash",
     },
     config = function()
@@ -173,12 +160,12 @@ return {
         },
       })
     end,
+    lazy = true,
   },
 
   -- Advanced Terminal Management
   {
     "akinsho/toggleterm.nvim",
-    lazy = true,
     version = "*",
     config = function()
       require("toggleterm").setup({
@@ -193,18 +180,22 @@ return {
         float_opts = {
           border = "curved",
           winblend = 0,
+          highlights = {
+            border = "Normal",
+            background = "Normal",
+          },
         },
       })
     end,
+    lazy = true,
   },
 
   -- Task Runner
   {
     "stevearc/overseer.nvim",
-    lazy = true,
     config = function()
       require("overseer").setup({
-        templates = { "builtin" },
+        templates = { "builtin", "user.python", "user.shell", "user.terraform" },
         task_list = {
           direction = "bottom",
           min_height = 25,
@@ -213,12 +204,12 @@ return {
         },
       })
     end,
+    lazy = true,
   },
 
   -- Documentation Generation
   {
     "danymat/neogen",
-    lazy = true,
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = function()
       require("neogen").setup({
@@ -242,12 +233,43 @@ return {
         },
       })
     end,
+    lazy = true,
   },
+
+  -- Enhanced Snippets
+  {
+    "L3MON4D3/LuaSnip",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "honza/vim-snippets",
+    },
+    config = function()
+      local luasnip = require("luasnip")
+      -- Load snippets for IDE mode
+      require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_snipmate").lazy_load()
+    end,
+    lazy = true,
+  },
+
+  -- AI Code Assistance (Optional - uncomment if you use these services)
+  -- {
+  --   "github/copilot.vim",
+  --   lazy = true,
+  -- },
+  -- {
+  --   "jackMort/ChatGPT.nvim",
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim"
+  --   },
+  --   lazy = true,
+  -- },
 
   -- Enhanced File Explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
-    lazy = true,
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -260,6 +282,7 @@ return {
         popup_border_style = "rounded",
         enable_git_status = true,
         enable_diagnostics = true,
+        sort_case_insensitive = false,
         filesystem = {
           filtered_items = {
             visible = false,
@@ -271,34 +294,98 @@ return {
           },
           use_libuv_file_watcher = true,
         },
+        buffers = {
+          follow_current_file = {
+            enabled = true,
+          },
+        },
+        git_status = {
+          symbols = {
+            added = "✚",
+            modified = "",
+            deleted = "✖",
+            renamed = "",
+            untracked = "",
+            ignored = "",
+            unstaged = "",
+            staged = "",
+            conflict = "",
+          },
+        },
       })
     end,
+    lazy = true,
   },
 
-  -- Enhanced Buffer Management
+  -- Advanced Buffer Management
   {
     "famiu/bufdelete.nvim",
+    lazy = true,
+  },
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = "nvim-tree/nvim-web-devicons",
     lazy = true,
   },
 
   -- Language-Specific Enhancements
   {
     "hashivim/vim-terraform",
-    lazy = true,
     ft = { "terraform", "hcl" },
     config = function()
       vim.g.terraform_align = 1
       vim.g.terraform_fmt_on_save = 1
     end,
+    lazy = true,
   },
   {
     "towolf/vim-helm",
-    lazy = true,
     ft = "helm",
+    lazy = true,
   },
   {
     "pearofducks/ansible-vim",
-    lazy = true,
     ft = { "yaml", "yml" },
+    lazy = true,
+  },
+
+  -- Code Formatting and Linting
+  {
+    "nvimtools/none-ls.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    lazy = true,
+  },
+  {
+    "jay-babu/mason-null-ls.nvim",
+    opts = {
+      ensure_installed = {
+        -- Python
+        "black",
+        "isort", 
+        "flake8",
+        "mypy",
+        -- Shell
+        "shfmt",
+        "shellcheck",
+        -- YAML
+        "yamllint",
+        "yamlfix",
+        -- JSON
+        "jq",
+        "fixjson",
+        -- Terraform
+        "terraform_fmt",
+        "tflint",
+        -- Markdown
+        "markdownlint",
+        -- JavaScript/TypeScript
+        "prettier",
+        "eslint_d",
+        -- General
+        "codespell",
+      },
+    },
+    lazy = true,
   },
 }

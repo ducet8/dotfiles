@@ -10,7 +10,6 @@ local options = {
   guifont = "monospace:h17",               -- the font used in graphical neovim applications
   hlsearch = true,                         -- highlight all matches on previous search pattern
   ignorecase = true,                       -- ignore case in search patterns
-  lazyvim_picker = "telescope",
   mouse = "a",                             -- allow the mouse to be used in neovim
   number = true,                           -- set numbered lines
   pumheight = 10,                          -- pop up menu height
@@ -35,6 +34,13 @@ local options = {
 
 vim.opt.shortmess:append "c"
 
+-- Set options with error protection
 for k, v in pairs(options) do
-  vim.opt[k] = v
+  local ok, err = pcall(function()
+    vim.opt[k] = v
+  end)
+  if not ok then
+    -- Some options might not be settable in certain contexts, just skip them
+    vim.notify("Warning: Could not set option " .. k .. ": " .. err, vim.log.levels.WARN)
+  end
 end
