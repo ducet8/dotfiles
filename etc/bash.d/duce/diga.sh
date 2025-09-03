@@ -1,8 +1,9 @@
 # vim: ft=sh
-# DNS lookup utility - shows all record types for a domain
 # Forked from: Jess Frizelle
-# 2023.08.14 - ducet8@outlook.com
+# 2025.09.01 - ducet8@outlook.com
 
+# DNS lookup utility - shows all record types for a domain
+#
 if ! type -P dig &>/dev/null; then
     return 0
 fi
