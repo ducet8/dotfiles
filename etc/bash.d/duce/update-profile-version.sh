@@ -1,11 +1,11 @@
 # vim: ft=sh
 # 2025.09.04 - ducet8@outlook.com
 
-update_profile_version() {
+update-profile-version() {
     local version="1.1.0"
     
     print_help() {
-        local program="update_profile_version"
+        local program="update-profile-version"
         
         if type bd_ansi &>/dev/null; then
             bd_ansi fg_blue1

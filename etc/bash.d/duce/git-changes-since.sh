@@ -48,30 +48,41 @@ git-changes-since() {
         fi
     }
 
-    if [ $# -ne 1 ]; then
-        print_help
+    abort_with_message() {
+        if type bd_ansi &>/dev/null; then
+            bd_ansi fg_red1
+            printf "\n✗ %s\n\n" "$*"
+            bd_ansi reset
+        else
+            printf "\n✗ %s\n\n" "$*"
+        fi
         return 1
-    fi
+    }
 
-    if [ "${1}" == "-h" ] || [ "${1}" == "--help" ]; then
-        print_help
-        return 0
-    fi
+    # Handle help flags and validate arguments
+    case "${1}" in
+        -h|--help)
+            print_help
+            return 0
+            ;;
+        "")
+            print_help
+            return 1
+            ;;
+    esac
 
     if ! $(git rev-parse --is-inside-work-tree 2>/dev/null); then
-        printf "Not in a git repository.\n\n"
-        print_help
+        abort_with_message "Not in a git repository."
         return 1
     fi
 
     if type bd_ansi &>/dev/null; then
         bd_ansi fg_green1
-        git log --since="${1}" --name-only --pretty=format: | sort | uniq
+        LC_ALL=C git log --since="${1}" --name-only --pretty=format: | sort | uniq
         bd_ansi reset
-        echo
     else
-        git log --since="${1}" --name-only --pretty=format: | sort | uniq
-        echo
+        LC_ALL=C git log --since="${1}" --name-only --pretty=format: | sort | uniq
     fi
+    echo
 }
 
