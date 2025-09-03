@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2024.06.27 - ducet8@outlook.com
+# 2025.09.03 - ducet8@outlook.com
 
 if [[ ${BD_OS,,} != "darwin" ]]; then
     return 0
@@ -10,7 +10,7 @@ if ! type -P git &>/dev/null; then
 fi
 
 git-changes-since() {
-    local git_changes_since_version="1.0.0-a"
+    local git_changes_since_version="1.1.0"
 
     print_help() {
         if type bd_ansi &>/dev/null; then
