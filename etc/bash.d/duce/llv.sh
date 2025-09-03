@@ -22,6 +22,8 @@ llv() {
             printf "DESCRIPTION:\n"
             bd_ansi reset
             printf "\tCombines 'ls -lFha' with version-aware sorting (-V)\n"
+            printf "\tVersion sort handles numbers naturally: file1, file2, file10\n"
+            printf "\t(instead of alphabetical: file1, file10, file2)\n"
             printf "\tAutomatically enables colors when available\n\n"
             bd_ansi fg_yellow3
             printf "OPTIONS:\n"
@@ -42,6 +44,8 @@ llv() {
             printf "\t%s [ls options] [path...]\n" "${program}"
             printf "DESCRIPTION:\n"
             printf "\tCombines 'ls -lFha' with version-aware sorting (-V)\n"
+            printf "\tVersion sort handles numbers naturally: file1, file2, file10\n"
+            printf "\t(instead of alphabetical: file1, file10, file2)\n"
             printf "\tAutomatically enables colors when available\n\n"
             printf "OPTIONS:\n"
             printf "\t-h|--help\t\tShow this help\n"
@@ -75,12 +79,12 @@ llv() {
     # Default to showing colors unless explicitly disabled
     if [[ ${NO_COLOR:-} == "1" ]]; then
         # Colors explicitly disabled
-        ls -lFha "${@}" | sort -k 9 -V
+        ls -lFha "${@}" | (read total; echo "$total"; sort -k 9 -V)
     elif [[ ${BD_OS,,} == "darwin" ]]; then
         # macOS: Use CLICOLOR variables just for this command
-        env CLICOLOR_FORCE=1 CLICOLOR=1 ls -lFha "${@}" | sort -k 9 -V
+        env CLICOLOR_FORCE=1 CLICOLOR=1 ls -lFha "${@}" | (read total; echo "$total"; sort -k 9 -V)
     else
         # Linux uses --color flag
-        ls -lFha --color=always "${@}" | sort -k 9 -V
+        ls -lFha --color=always "${@}" | (read total; echo "$total"; sort -k 9 -V)
     fi
 }
