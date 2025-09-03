@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2023.08.14 - ducet8@outlook.com
+# 2025.09.03 - ducet8@outlook.com
 
 if ! type -P tree &>/dev/null; then
     return 0
