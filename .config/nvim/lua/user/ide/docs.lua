@@ -1,5 +1,5 @@
 -- IDE Mode Documentation System
--- 2025.01.08 - Built-in help and documentation for IDE features
+-- 2025.09.12 - Built-in help and documentation for IDE features
 -- Provides interactive help accessible via :idehelp command
 
 local M = {}
@@ -146,7 +146,8 @@ Welcome to your enhanced Neovim IDE! This system provides two modes:
 ┌─ UTILITIES & QUICK ACTIONS ─────────────────────────────────────────────────┐
 │ <leader>w   - Save file                                                    │
 │ <leader>q   - Quit                                                         │
-│ <leader>fm  - Format document                                              │
+│ <leader>f   - Format document (works with YAML, JSON, Python, etc.)        │
+│ <leader>fm  - Format document (IDE mode)                                   │
 │ <leader>nh  - Clear search highlight                                       │
 │ <leader>ln  - Toggle line numbers                                          │
 │ <leader>tw  - Toggle word wrap                                             │
@@ -275,6 +276,7 @@ local keybinding_reference = {
     ["K"] = "Hover Documentation",
     ["<leader>ca"] = "Code Actions",
     ["<leader>rn"] = "Rename",
+    ["<leader>f"] = "Format Document",
   },
   ["Git"] = {
     ["<leader>gs"] = "Git Status",

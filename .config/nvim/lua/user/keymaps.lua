@@ -1,4 +1,4 @@
--- 2022.08.18 - ducet8@outlook.com
+-- 2025.09.12 - ducet8@outlook.com
 
 local opts = { noremap = true, silent = true }
 
@@ -55,6 +55,10 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
+
+-- Formatting
+keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
+keymap("v", "<leader>f", "<cmd>lua vim.lsp.buf.format()<CR>", opts)
 
 -- Terminal --
 -- Better terminal navigation
