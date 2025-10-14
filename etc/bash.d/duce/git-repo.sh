@@ -114,13 +114,17 @@ repo() {
 
     # Convert to HTTPS URL
     local base_url=""
-    if [[ "${remote_url}" =~ ^git@([^:]+):(.+)(\.git)?$ ]]; then
+    if [[ "${remote_url}" =~ ^git@([^:]+):(.+)$ ]]; then
         local host="${BASH_REMATCH[1]}"
         local repo_path="${BASH_REMATCH[2]}"
+        # Strip .git suffix if present
+        repo_path="${repo_path%.git}"
         base_url="https://${host}/${repo_path}"
-    elif [[ "${remote_url}" =~ ^https://([^/]+)/(.+)(\.git)?$ ]]; then
+    elif [[ "${remote_url}" =~ ^https://([^/]+)/(.+)$ ]]; then
         local host="${BASH_REMATCH[1]}"
         local repo_path="${BASH_REMATCH[2]}"
+        # Strip .git suffix if present
+        repo_path="${repo_path%.git}"
         base_url="https://${host}/${repo_path}"
     else
         abort_with_message "Unsupported remote URL format: ${remote_url}"
