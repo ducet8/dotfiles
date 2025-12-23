@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2025.09.04 - ducet8@outlook.com
+# 2025.12.23 - ducet8@outlook.com
 
 update-profile-version() {
     local version="1.1.0"
@@ -82,9 +82,18 @@ update-profile-version() {
     
     local file="${BD_HOME}/dotfiles/bash_profile"
     local new_date="$(date +%Y.%m.%d)"
-    local old_pattern="bash_profile_date=\"[^\"]*\""
+
+    # Extract the current date from the file
+    local old_date="$(grep -o 'bash_profile_date="[^"]*"' "${file}" | cut -d'"' -f2)"
+
+    if [[ -z "${old_date}" ]]; then
+        abort_with_message "Could not find bash_profile_date in ${file}"
+        return 1
+    fi
+
+    local old_pattern="bash_profile_date=\"${old_date}\""
     local new_pattern="bash_profile_date=\"${new_date}\""
-    
-    # Use rif to replace the date pattern in the specific file
+
+    # Use rif to replace the date with literal text
     rif -f "${file}" "${old_pattern}" "${new_pattern}"
 }
