@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2025.08.22 - ducet8@outlook.com
+# 2025.12.10 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -26,6 +26,9 @@ unset opener
 if [[ ${BD_OS,,} == 'darwin' ]]; then
     alias catpwd='cat ~/Desktop/password'
     alias cd='2cd'
+    if type -P claude &>/dev/null; then
+        alias claude='claude --allow-dangerously-skip-permissions'
+    fi
     alias console='remote-viewer ~/Downloads/console.vv &'
     #alias cookbook='open ~/Documents/work/Docs/Cookbook/BCBSAL_Midrange_Cookbook.pdf'
     alias flushdns='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
