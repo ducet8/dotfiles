@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2025.06.10 - ducet8@outlook.com
+# 2026.01.12 - ducet8@outlook.com
 
 ##
 # Bash Exports
@@ -27,6 +27,16 @@ fi
 ##
 if [[ ${BD_OS,,} == "darwin" ]]; then
   export HOMEBREW_NO_ANALYTICS=1 # Disable homebrew analytics
+fi
+
+##
+# iTerm2 Exports
+##
+if [[ ${BD_OS,,} == "darwin" ]]; then
+  # Enable shell integration with tmux -CC integration mode
+  if [[ -n "${ITERM_SESSION_ID}" ]] || [[ -n "${ITERM_PROFILE}" ]] || [[ "${TERM_PROGRAM}" == "iTerm.app" ]]; then
+    export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=1
+  fi
 fi
 
 ##
@@ -73,7 +83,7 @@ else
   export GOPATH=${HOME}/go
 fi
 export GOBIN=${GOPATH}/bin
-export PATH=${PATH}:${GOPATH}/bin
+export PATH="${PATH}:${GOPATH}/bin"
 
 # if it's an ssh session export GPG_TTY
 if [[ -n "${SSH_CLIENT}" ]] || [[ -n "${SSH_TTY}" ]]; then
@@ -107,6 +117,13 @@ fi
 #    export LC_ALL="en_US.UTF-8";
 #fi
 export LC_COLLATE=POSIX
+
+##
+# .local/ Exports
+#
+#if [[ -d ${BD_HOME}/.local/bin ]]; then
+#  export PATH="${PATH}:${BD_HOME}/.local/bin"
+#fi
 
 ##
 # Man Exports

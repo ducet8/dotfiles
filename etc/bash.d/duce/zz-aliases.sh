@@ -1,5 +1,5 @@
 # vim: ft=sh
-# 2025.12.10 - ducet8@outlook.com
+# 2026.01.12 - ducet8@outlook.com
 
 ##
 # Opener Aliases
@@ -197,6 +197,14 @@ alias myip='curl -s ipinfo.io | jq -r '\''.ip'\'
 alias sal='ps -ef | grep [s]sh-agent; echo && env | grep -i ssh | sort -V; echo; ssh-add -l'
 alias scpo='scp -o IdentitiesOnly=yes'
 alias ssho='ssh -o IdentitiesOnly=yes'
+
+
+##
+# tmux Aliases
+##
+if type -t tmux-cc &>/dev/null; then
+    alias tmux='tmux-cc'
+fi
 
 
 if type -P systemctl &>/dev/null; then
