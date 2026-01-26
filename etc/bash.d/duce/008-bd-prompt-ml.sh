@@ -1,5 +1,5 @@
 # Forked from: joseph.tingiris@gmail.com
-# 2025.06.10 - ducet8@outlook.com
+# 2026.01.26 - ducet8@outlook.com
 
 ##
 # machine learning prompt 0.3
@@ -33,7 +33,8 @@ bash_prompt() {
                 bash_prompt_window_title+=":->/${remaining_path}"
             fi
 
-            echo -ne "\e]0;${bash_prompt_window_title}\a" # e = 033 (ESC), a = 007 (BEL)
+            # skip title setting in tmux -CC (iTerm2 integration) - let tmux handle it
+            [[ -z "${TMUX}" || -z "${ITERM_SESSION_ID}" ]] && echo -ne "\e]0;${bash_prompt_window_title}\a" # e = 033 (ESC), a = 007 (BEL)
             ;;
         *)
             echo "TERM=${TERM}"
