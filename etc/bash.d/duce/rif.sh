@@ -1,6 +1,6 @@
 # vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2025.09.03 - ducet8@outlook.com
+# 2026.02.09 - ducet8@outlook.com
 
 # replace in file(s)
 
@@ -174,8 +174,12 @@ rif() {
         found_files="${target_file}"
     else
         # Recursive search mode
+        local xargs_args='-0'
+        if [[ "${BD_OS}" != 'darwin' ]]; then
+            xargs_args='-0 -r'
+        fi
         found_files=$(find . -type f ! -wholename "*.git*" -and ! -wholename "*.svn*" -print0 | \
-                      xargs -0 -r grep -l "${1}" 2>/dev/null)
+                      xargs ${xargs_args} grep -l "${1}" 2>/dev/null)
         
         if [[ -z "${found_files}" ]]; then
             return 0
@@ -211,14 +215,17 @@ rif() {
         
         # Perform replacement based on sed type
         local sed_result
+        local sed_rc
         if [[ "${sed_type}" == "gnu" ]]; then
             sed_result=$(sed -i "s/${replace_from}/${replace_to}/g" "${file}" 2>&1)
+            sed_rc=$?
         else
             # BSD sed requires backup extension, we use empty string for no backup
             sed_result=$(sed -i '' "s/${replace_from}/${replace_to}/g" "${file}" 2>&1)
+            sed_rc=$?
         fi
-        
-        if [[ $? -eq 0 ]]; then
+
+        if [[ ${sed_rc} -eq 0 ]]; then
             ((files_modified++))
             if type bd_ansi &>/dev/null; then
                 bd_ansi fg_green1
