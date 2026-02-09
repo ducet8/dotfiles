@@ -1,6 +1,6 @@
 # vim: ft=sh
 # Forked from: joseph.tingiris@gmail.com
-# 2025.09.03 - ducet8@outlook.com
+# 2026.02.09 - ducet8@outlook.com
 
 # find file (ff) or find in file (fif)
 
@@ -129,7 +129,7 @@ fif() {
     # Set up platform-specific tools
     if [[ "${BD_OS}" == 'darwin' ]]; then
         local readlink_cmd='greadlink'
-        local xargs_args='-0 -r'
+        local xargs_args='-0'
     else
         local readlink_cmd='readlink'
         local xargs_args='-0 -r --max-args=64 --max-procs=16'
@@ -144,12 +144,17 @@ fif() {
         fi
     done
 
+    # Save and set noglob to prevent glob expansion of * in find patterns
+    local noglob_was_set=0
+    if [[ -o noglob ]]; then
+        noglob_was_set=1
+    fi
     set -o noglob
 
     # Build exclusions
     local find_excludes=('.git' '.svn')
-    
-    local basename="${0##*/}"
+
+    local basename="${FUNCNAME[0]}"
     local find_exclude_files=(".${basename}-exclude" ".find-exclude")
     for find_exclude_file in "${find_exclude_files[@]}"; do
         if [[ -r "${find_exclude_file}" ]]; then
@@ -178,6 +183,7 @@ fif() {
     local resolved_from
     resolved_from=$(${readlink_cmd} -e "${from}") || {
         abort_with_message "cannot resolve path: ${from}"
+        [[ ${noglob_was_set} -eq 0 ]] && set +o noglob
         return 1
     }
 
@@ -202,6 +208,11 @@ fif() {
         fi
         LC_ALL=C find ${find_flags} "${resolved_from}"/ ${find_exclude_args} -type f -print0 2> /dev/null | \
             xargs ${xargs_args} grep ${grep_flags} "${string}" 2> /dev/null
+    fi
+
+    # Restore noglob to original state
+    if [[ ${noglob_was_set} -eq 0 ]]; then
+        set +o noglob
     fi
 }
 
